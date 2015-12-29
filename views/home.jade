@@ -1,15 +1,44 @@
 doctype html
 html
   head
-    link(rel='stylesheet' href="/vendor/semantic/dist/semantic.min.css")
-    link(rel='stylesheet' href='/stylesheets/style.css')
     title Quest Explorer
+    link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    h1 Hello Brent
-    .ui.three.buttons
-      button.ui.button One
-      button.ui.button Two
-      button.ui.button Three
+    .ui.four.column.centered.grid
+      .sixteen.wide.column
+        .ui.masthead.vertical.segment
+          .ui.container
+            .introduction
+              h1.ui.header Advanced Quest Search
+        .ui.main.container.medium-margin-top
+          form#questForm.ui.form(action="/", method="POST")
+            .field
+              label(for="term") Term
+              select.ui.fluid.dropdown(name="term")
+                for term in terms
+                  option(value=term.id) #{term.name}
+            .field
+              label(for="campus") Campus
+              select.ui.fluid.dropdown(name="campus")
+                option - -
+                option(value="UW U") Waterloo
+                option(value="ONLN ONLINE") Online
+                option(value="OFF ABROAD") Abroad
+            .field
+              label(for="term") Days
+              select.ui.fluid.dropdown(name="days")
+                option - -
+                option(value="MWF") MWF
+                option(value="TTh") TTh
+                option(value="MW") MW
+                option(value="WF") WF
+                option(value="W") W
+            button.ui.button(type="submit") Search
+          .ui.container.medium-margin-top
+            #response
 
-  script(src="/vendor/jquery/dist/jquery.min.js")
-  script(src="/vendor/semantic/dist/semantic.min.js")
+  script(src='/vendor/jquery/dist/jquery.min.js')
+  script(src='/js/formHandler.js')
+  script(src='/js/home.js')
+  script(src='/vendor/semantic/dist/semantic.min.js')

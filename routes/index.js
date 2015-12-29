@@ -1,11 +1,10 @@
 var express = require('express');
+var questLoad = require('./questLoad');
 var questSearch = require('./questSearch');
 var router = express.Router();
 
-router.get('/api/uw', questSearch);
+router.post('/', questSearch);
 
-router.get('*', function (req, res) {
-  res.render('home');
-});
+router.get('*', questLoad);
 
 module.exports = router;
