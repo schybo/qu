@@ -17,7 +17,7 @@ html
               label(for="term") Term
               select.ui.fluid.dropdown(name="term")
                 for term in terms
-                  option(value=term.id) #{term.name}
+                  option(value=term.id, selected=currentTerm == term.id) #{term.name}
             .field
               label(for="campus") Campus
               select.ui.fluid.dropdown(name="campus")
