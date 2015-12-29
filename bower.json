@@ -1,13 +1,13 @@
 {
-  "name": "Roadmunk",
+  "name": "QuestSearch",
   "version": "0.0.0",
   "authors": [
     "Brent Scheibelhut <brent@roadmunk.com>"
   ],
-  "description": "Roadmunk Consumer Facing Site",
+  "description": "Better Quest Searching",
   "main": "server.js",
   "license": "MIT",
-  "homepage": "http://roadmunk.com",
+  "homepage": "http://questsearch.com",
   "private": true,
   "dependencies": {
     "semantic": "semantic-ui#~2.1.7",
