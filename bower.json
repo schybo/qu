@@ -1,0 +1,16 @@
+{
+  "name": "Roadmunk",
+  "version": "0.0.0",
+  "authors": [
+    "Brent Scheibelhut <brent@roadmunk.com>"
+  ],
+  "description": "Roadmunk Consumer Facing Site",
+  "main": "server.js",
+  "license": "MIT",
+  "homepage": "http://roadmunk.com",
+  "private": true,
+  "dependencies": {
+    "semantic": "semantic-ui#~2.1.7",
+    "jquery": "~2.1.4"
+  }
+}

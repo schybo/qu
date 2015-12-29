@@ -1,0 +1,278 @@
+/**
+ * Various cross-browser mixins.
+ */
+.border-radius (@value) {
+  border-radius: @value;
+  -o-border-radius: @value;
+  -ms-border-radius: @value;
+  -moz-border-radius: @value;
+  -webkit-border-radius: @value;
+}
+
+.display (@value) {
+	display: ~"-webkit-@{value}";
+	display:    ~"-moz-@{value}";
+	display:            @value;
+}
+
+.user-select(@value) {
+  -webkit-user-select: @value;
+  -khtml-user-select: @value;
+  -moz-user-select: moz-@value;
+  -ms-user-select: @value;
+  -o-user-select: @value;
+  user-select: @value;
+}
+.user-modify(@value) {
+	-webkit-user-modify: @value;
+	 -khtml-user-modify: @value;
+	   -moz-user-modify: @value;
+	    -ms-user-modify: @value;
+	        user-modify: @value;
+}
+.transform(@value) {
+  -webkit-transform : @value;
+  -moz-transform    : @value;
+  -ms-transform     : @value;
+  -o-transform      : @value;
+  transform         : @value;
+}
+.transform-origin(@value) {
+  -webkit-transform-origin : @value;
+  -moz-transform-origin    : @value;
+  -ms-transform-origin     : @value;
+  -o-transform-origin      : @value;
+  transform-origin         : @value;
+}
+.box-shadow(@value) {
+  -webkit-box-shadow : @value;
+  -moz-box-shadow    : @value;
+  -ms-box-shadow     : @value;
+  -o-box-shadow      : @value;
+  box-shadow         : @value;
+}
+
+.perspective(@value) {
+  -webkit-perspective : @value;
+  -moz-perspective    : @value;
+  -ms-perspective     : @value;
+  -o-perspective      : @value;
+  perspective         : @value;
+}
+
+.transform-style(@value) {
+  -webkit-transform-style : @value;
+  -moz-transform-style    : @value;
+  -ms-transform-style     : @value;
+  -o-transform-style      : @value;
+  transform-style         : @value;
+}
+
+.transition(@value) {
+	-webkit-transition : @value;
+	   -moz-transition : @value;
+      -ms-transition : @value;
+       -o-transition : @value;
+	        transition : @value;
+}
+
+.box-sizing(@value) {
+  -webkit-box-sizing : @value;
+  -moz-box-sizing    : @value;
+  -ms-box-sizing     : @value;
+  -o-box-sizing      : @value;
+  box-sizing         : @value;
+}
+
+.border-image(@value) {
+  -webkit-border-image : @value;
+  -moz-border-image    : @value;
+  -ms-border-image     : @value;
+  -o-border-image      : @value;
+  border-image         : @value;
+}
+
+// --------------------------------------------------
+// Flexbox LESS mixins
+// The spec: http://www.w3.org/TR/css3-flexbox
+// --------------------------------------------------
+
+// Flexbox display
+// flex or inline-flex
+.flex-display(@display: flex) {
+	display: ~"-webkit-@{display}";
+	display: ~"-moz-@{display}";
+	display: ~"-ms-@{display}box"; // IE10 uses -ms-flexbox
+	display: ~"-ms-@{display}"; // IE11
+	display: @display;
+}
+
+// The 'flex' shorthand
+// - applies to: flex items
+// <positive-number>, initial, auto, or none
+.flex(@columns: initial) {
+  -webkit-flex: @columns;
+     -moz-flex: @columns;
+      -ms-flex: @columns;
+          flex: @columns;
+}
+
+// Flex Flow Direction
+// - applies to: flex containers
+// row | row-reverse | column | column-reverse
+.flex-direction(@direction: row) {
+  -webkit-flex-direction: @direction;
+     -moz-flex-direction: @direction;
+      -ms-flex-direction: @direction;
+          flex-direction: @direction;
+}
+
+// Flex Line Wrapping
+// - applies to: flex containers
+// nowrap | wrap | wrap-reverse
+.flex-wrap(@wrap: nowrap) {
+  -webkit-flex-wrap: @wrap;
+     -moz-flex-wrap: @wrap;
+      -ms-flex-wrap: @wrap;
+          flex-wrap: @wrap;
+}
+
+// Flex Direction and Wrap
+// - applies to: flex containers
+// <flex-direction> || <flex-wrap>
+.flex-flow(@flow) {
+  -webkit-flex-flow: @flow;
+     -moz-flex-flow: @flow;
+      -ms-flex-flow: @flow;
+          flex-flow: @flow;
+}
+
+// Display Order
+// - applies to: flex items
+// <integer>
+.order(@order: 0) {
+  -webkit-order: @order;
+     -moz-order: @order;
+      -ms-order: @order;
+          order: @order;
+}
+
+// Flex grow factor
+// - applies to: flex items
+// <number>
+.flex-grow(@grow: 0) {
+  -webkit-flex-grow: @grow;
+     -moz-flex-grow: @grow;
+      -ms-flex-grow: @grow;
+          flex-grow: @grow;
+}
+
+// Flex shr
+// - applies to: flex itemsink factor
+// <number>
+.flex-shrink(@shrink: 1) {
+  -webkit-flex-shrink: @shrink;
+     -moz-flex-shrink: @shrink;
+      -ms-flex-shrink: @shrink;
+          flex-shrink: @shrink;
+}
+
+// Flex basis
+// - the initial main size of the flex item
+// - applies to: flex itemsnitial main size of the flex item
+// <width>
+.flex-basis(@width: auto) {
+  -webkit-flex-basis: @width;
+     -moz-flex-basis: @width;
+      -ms-flex-basis: @width;
+          flex-basis: @width;
+}
+
+// Axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | space-between | space-around
+.justify-content(@justify: flex-start) {
+  -webkit-justify-content: @justify;
+     -moz-justify-content: @justify;
+      -ms-justify-content: @justify;
+          justify-content: @justify;
+}
+
+// Packing Flex Lines
+// - applies to: multi-line flex containers
+// flex-start | flex-end | center | space-between | space-around | stretch
+.align-content(@align: stretch) {
+  -webkit-align-content: @align;
+     -moz-align-content: @align;
+      -ms-align-content: @align;
+          align-content: @align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex containers
+// flex-start | flex-end | center | baseline | stretch
+.align-items(@align: stretch) {
+  -webkit-align-items: @align;
+     -moz-align-items: @align;
+      -ms-align-items: @align;
+          align-items: @align;
+}
+
+// Cross-axis Alignment
+// - applies to: flex items
+// auto | flex-start | flex-end | center | baseline | stretch
+.align-self(@align: auto) {
+  -webkit-align-self: @align;
+     -moz-align-self: @align;
+      -ms-align-self: @align;
+          align-self: @align;
+}
+
+// animation
+.animation(@value) {
+  -webkit-animation : @value;
+     -moz-animation : @value;
+      -ms-animation : @value;
+       -o-animation : @value;
+//          animation : @value;  // Chrome complains about this currently
+}
+
+.animation-delay(@value) {
+  -webkit-animation-delay : @value;
+     -moz-animation-delay : @value;
+      -ms-animation-delay : @value;
+       -o-animation-delay : @value;
+//          animation-delay : @value;  // Chrome complains about this currently
+}
+
+.animation-name(@value) {
+  -webkit-animation-name : @value;
+     -moz-animation-name : @value;
+      -ms-animation-name : @value;
+       -o-animation-name : @value;
+//          animation-name : @value;  // Chrome complains about this currently
+}
+
+.animation-duration(@value) {
+  -webkit-animation-duration : @value;
+     -moz-animation-duration : @value;
+      -ms-animation-duration : @value;
+       -o-animation-duration : @value;
+//          animation-duration : @value;  // Chrome complains about this currently
+}
+
+.animation-iteration-count(@value) {
+  -webkit-animation-iteration-count : @value;
+     -moz-animation-iteration-count : @value;
+      -ms-animation-iteration-count : @value;
+       -o-animation-iteration-count : @value;
+//          animation-iteration-count : @value;  // Chrome complains about this currently
+}
+
+.animation-direction(@value) {
+  -webkit-animation-direction : @value;
+     -moz-animation-direction : @value;
+      -ms-animation-direction : @value;
+       -o-animation-direction : @value;
+//          animation-direction : @value;  // Chrome complains about this currently
+}
