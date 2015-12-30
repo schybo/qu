@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "semantic": "semantic-ui#~2.1.7",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "lodash": "~3.10.1"
   }
 }

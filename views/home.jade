@@ -21,24 +21,34 @@ html
             .field
               label(for="campus") Campus
               select.ui.fluid.dropdown(name="campus")
-                option - -
+                option(value='') Any Campus
                 option(value="UW U") Waterloo
                 option(value="ONLN ONLINE") Online
                 option(value="OFF ABROAD") Abroad
             .field
-              label(for="term") Days
+              label(for="days") Days
               select.ui.fluid.dropdown(name="days")
-                option - -
+                option(value='') Any Day
                 option(value="MWF") MWF
                 option(value="TTh") TTh
                 option(value="MW") MW
                 option(value="WF") WF
                 option(value="W") W
+            .field
+              label(for="time") Time
+              select.ui.fluid.dropdown(name="time")
+                option(value='') Any Time
+                option(value="08:30-09:50") 8:30-9:50
+                option(value="10:00-11:20") 10:00-11:20
+                option(value="11:30-12:50") 11:30-12:50
+                option(value="13:00-14:20") 1:00-2:20
+                option(value="14:30-15:50") 2:30-3:50
             button.ui.button(type="submit") Search
           .ui.container.medium-margin-top
-            #response
+            .ui.relaxed.divided.list#courseList
 
   script(src='/vendor/jquery/dist/jquery.min.js')
+  //- script(src='/vendor/lodash/lodash.min.js')
   script(src='/js/formHandler.js')
   script(src='/js/home.js')
   script(src='/vendor/semantic/dist/semantic.min.js')
