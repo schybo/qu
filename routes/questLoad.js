@@ -10,6 +10,7 @@ exports = module.exports = function(req, res) {
 			termOptions.push(term);
 		});
 	});
+	console.log(terms);
 	// console.log(termOptions);
-	res.render('home', {'terms': termOptions, 'currentTerm': terms.current_term});
+	res.render('home', {'terms': termOptions, 'nextTerm': terms.next_term});
 };

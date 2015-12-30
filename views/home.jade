@@ -17,37 +17,56 @@ html
               label(for="term") Term
               select.ui.fluid.dropdown(name="term")
                 for term in terms
-                  option(value=term.id, selected=currentTerm == term.id) #{term.name}
+                  option(value=term.id, selected=nextTerm == term.id) #{term.name}
             .field
-              label(for="campus") Campus
-              select.ui.fluid.dropdown(name="campus")
+              label(for="campus") Campus/Online
+              select.ui.fluid.dropdown(name="campus", data-bind="value: campus")
                 option(value='') Any Campus
                 option(value="UW U") Waterloo
                 option(value="ONLN ONLINE") Online
                 option(value="OFF ABROAD") Abroad
             .field
               label(for="days") Days
-              select.ui.fluid.dropdown(name="days")
+              select.ui.fluid.dropdown(name="days", data-bind="value: days, attr: { 'disabled' : onlineAbroad }")
                 option(value='') Any Day
                 option(value="MWF") MWF
                 option(value="TTh") TTh
                 option(value="MW") MW
                 option(value="WF") WF
                 option(value="W") W
-            .field
+                option(value="T") T
+            .field(data-bind="if: !shortCourse() && !superLongCourse()")
               label(for="time") Time
-              select.ui.fluid.dropdown(name="time")
+              select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                 option(value='') Any Time
-                option(value="08:30-09:50") 8:30-9:50
-                option(value="10:00-11:20") 10:00-11:20
-                option(value="11:30-12:50") 11:30-12:50
-                option(value="13:00-14:20") 1:00-2:20
-                option(value="14:30-15:50") 2:30-3:50
+                option(value="08:30-09:50") 8:30am-9:50am
+                option(value="10:00-11:20") 10:00am-11:20am
+                option(value="11:30-12:50") 11:30am-12:50pm
+                option(value="13:00-14:20") 1:00pm-2:20pm
+                option(value="14:30-15:50") 2:30pm-3:50pm
+            .field(data-bind="if: shortCourse")
+              label(for="time") Time
+              select.ui.fluid.dropdown(name="time", data-bind="if: shortCourse, value: dayTime, attr: { 'disabled': onlineAbroad }")
+                option(value='') Any Time
+                option(value="08:30-09:20") 8:30am-9:20am
+                option(value="09:30-10:20") 9:30am-10:20am
+                option(value="10:30-11:20") 10:30am-11:20am
+                option(value="11:30-12:20") 11:30am-12:20pm
+                option(value="12:30-13:20") 12:30pm-1:20pm
+                option(value="13:30-14:20") 1:30pm-2:20pm
+                option(value="14:30-15:20") 2:30pm-3:20pm
+                option(value="15:30-16:20") 3:30pm-4:20pm
+            .field(data-bind="if: superLongCourse")
+              label(for="time") Time
+              select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                option(value='') Any Time
+                option(value="19:00-21:50") 7:00pm-9:50pm
             button.ui.button(type="submit") Search
           .ui.container.medium-margin-top
             .ui.relaxed.divided.list#courseList
 
   script(src='/vendor/jquery/dist/jquery.min.js')
+  script(src='/vendor/knockout/dist/knockout.js')
   //- script(src='/vendor/lodash/lodash.min.js')
   script(src='/js/formHandler.js')
   script(src='/js/home.js')

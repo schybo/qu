@@ -6,7 +6,7 @@ var data = require('../cronjobs/1151.json');
 exports = module.exports = function(req, res) {
 	var options = req.body;
 	console.log(options);
-	var returnData = {};
+	var returnData = data;
 	var onlineCourse = false;
 	var start_time = '';
 	var end_time = '';
@@ -54,6 +54,6 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-	// console.log(returnData);
+	console.log(returnData);
 	res.json(returnData);
 };

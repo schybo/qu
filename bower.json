@@ -12,6 +12,7 @@
   "dependencies": {
     "semantic": "semantic-ui#~2.1.7",
     "jquery": "~2.1.4",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "knockout": "~3.4.0"
   }
 }
