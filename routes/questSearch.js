@@ -1,11 +1,14 @@
 require('dotenv').load();
 var uwapi = require('uwapi')(process.env.UW_API_TOKEN);
 var _ = require('lodash');
-var data = require('../data/1151.json');
+
+//We also want to let people make schedules
 
 exports = module.exports = function(req, res) {
 	var options = req.body;
 	console.log(options);
+
+	var data = require('../data/' + options.term + '.json');
 	var returnData = data;
 	var onlineCourse = false;
 	var start_time = '';
@@ -63,6 +66,6 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-	// console.log(returnData);
+	console.log(returnData);
 	res.json(returnData);
 };

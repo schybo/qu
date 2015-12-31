@@ -11,6 +11,8 @@ html
           .ui.container
             .introduction
               h1.ui.header Advanced Quest Search
+              span Created by Brent Scheibelhut | 
+              span Send features requests and bug reports to #[a(href="mailto:brent@scheibelhut.com") brent@scheibelhut.com]
         .ui.main.container.medium-margin-top
           form#questForm.ui.form(action="/", method="POST")
             .field
@@ -21,8 +23,7 @@ html
             .field
               label(for="campus") Campus/Online
               select.ui.fluid.dropdown(name="campus", data-bind="value: campus")
-                option(value='') Any Campus
-                option(value="UW U") Waterloo
+                option(value="UW U" selected) Waterloo
                 option(value="ONLN ONLINE") Online
                 option(value="OFF ABROAD") Abroad
             .field

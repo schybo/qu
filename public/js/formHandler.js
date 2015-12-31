@@ -1,4 +1,4 @@
-function createCourse(list, course, section, online) {
+function createCourse(list, course, section, online, abroad) {
     var li = $('<div/>')
     .addClass('item')
     .appendTo(list);
@@ -20,6 +20,9 @@ function createCourse(list, course, section, online) {
     if (online) {
         description = section.instructors[0] + " | Online";
         time = 'Online';
+    } else if (abroad) {
+        description = "Not Applicable | Abroad";
+        time = 'Abroad';
     } else {
         description = section.instructors[0] + " | " + section.location.building + " " + section.location.room;
 
@@ -58,6 +61,8 @@ function printResults(data) {
         course = data[course];
         if (course.campus == 'ONLN ONLINE') {
             createCourse(list, course, course.classes[0], true);
+        } else if (course.campus == 'OFF ABROAD') {
+            createCourse(list, course, course.classes[0], false, true);
         } else {
             $.each(course.filteredClasses, function (section) {
                 section = course.filteredClasses[section];
