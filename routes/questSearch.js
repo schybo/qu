@@ -1,7 +1,7 @@
 require('dotenv').load();
 var uwapi = require('uwapi')(process.env.UW_API_TOKEN);
 var _ = require('lodash');
-var data = require('../cronjobs/1151.json');
+var data = require('../data/1151.json');
 
 exports = module.exports = function(req, res) {
 	var options = req.body;
@@ -10,6 +10,7 @@ exports = module.exports = function(req, res) {
 	var onlineCourse = false;
 	var start_time = '';
 	var end_time = '';
+	var subjects = options.subjects.split(',');
 
 	if (options.campus == 'ONLN ONLINE') {
 		onlineCourse = true;
@@ -20,10 +21,18 @@ exports = module.exports = function(req, res) {
 		start_time = time[0];
 		end_time = time[1];
 	}
-	//Currently have options.term, options.campus, options.days
+
+	//Filter by campus
 	if (options.campus) {
 		returnData = _.filter(data, function (course) {
 			return course.campus == options.campus;
+		});
+	}
+
+		//Filter by course code
+	if (options.subjects) {
+		returnData = _.filter(returnData, function (course) {
+			return subjects.indexOf(course.subject) > -1;
 		});
 	}
 
@@ -54,6 +63,6 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-	console.log(returnData);
+	// console.log(returnData);
 	res.json(returnData);
 };

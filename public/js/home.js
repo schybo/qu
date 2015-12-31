@@ -3,6 +3,7 @@ $(document).ready(function () {
         submitHandler("#questForm", $(this).attr('action'));
         return false;
     });
+    $('.ui.search.dropdown').dropdown();
 });
 
 var ViewModel = function() {

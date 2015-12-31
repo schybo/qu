@@ -61,6 +61,17 @@ html
               select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                 option(value='') Any Time
                 option(value="19:00-21:50") 7:00pm-9:50pm
+            .field
+              label Specific Subject:
+              .ui.fluid.multiple.search.selection.dropdown
+                input(type='hidden', name='subjects')
+                i.dropdown.icon
+                .default.text Select Subject
+                .menu
+                  for subject in subjects
+                    .item(data-value=subject.subject, data-text=subject.subject)
+                      i.large.github.middle.aligned.icon
+                      span #{subject.subject} - #{subject.description}
             button.ui.button(type="submit") Search
           .ui.container.medium-margin-top
             .ui.relaxed.divided.list#courseList
@@ -69,5 +80,5 @@ html
   script(src='/vendor/knockout/dist/knockout.js')
   //- script(src='/vendor/lodash/lodash.min.js')
   script(src='/js/formHandler.js')
-  script(src='/js/home.js')
   script(src='/vendor/semantic/dist/semantic.min.js')
+  script(src='/js/home.js')

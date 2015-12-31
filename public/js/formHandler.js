@@ -81,10 +81,10 @@ function submitHandler(form, action, msgClass, msg) {
     });
 
     if (isFormValid) {
-        // $("#loading").fadeIn(500);
+        $("form").addClass('loading');
         $.post(action, $(form).serialize())
         .done(function (data) {
-            // $("#loading").fadeOut(500);
+            $("form").removeClass('loading');
             printResults(data);
             // if (data == "Success") {
             //     successMsg(msg, msgClass);
@@ -93,8 +93,8 @@ function submitHandler(form, action, msgClass, msg) {
             // }
         })
         .fail(function (data) {
+            $("form").removeClass('loading');
             console.log(data);
-            // $("#loading").fadeOut(500);
             // errorMsg(data.responseText, msgClass || "white");
         })
     }

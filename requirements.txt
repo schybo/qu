@@ -1,0 +1,2 @@
+APScheduler==3.0.0
+uwaterlooapi==0.3.0
