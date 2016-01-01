@@ -75,17 +75,19 @@ html
                       span #{subject.subject} - #{subject.description}
             .ui.button(data-bind="click: function () { submit() }") Search
           .ui.container.medium-margin-top
+            h4.ui.horizontal.divider.header(data-bind="if: courses().length")
+              i.bullseye.icon
+              | Course Matches
             .ui.relaxed.divided.list(data-bind="foreach: courses")
               .item
-                i.large.github.middle.aligned.icon
+                i.large.cube.middle.aligned.icon
                 .content
-                  a.header(data-bind="text: $data.titleText") ACTSC 991 - Topics in Actuarial Science
-                  .description(data-bind="text: $data.profLocationText") Li,Bin | M3 3103
-                  .descriptionMW(data-bind="text: $data.timeText") 11:30 - 12:50
+                  a.header(data-bind="text: $data.titleText")
+                  .description(data-bind="text: $data.profLocationText")
+                  .descriptionMW(data-bind="text: $data.timeText")
 
   script(src='/vendor/jquery/dist/jquery.min.js')
   script(src='/vendor/knockout/dist/knockout.js')
   //- script(src='/vendor/lodash/lodash.min.js')
-  script(src='/js/formHandler.js')
   script(src='/vendor/semantic/dist/semantic.min.js')
   script(src='/js/home.js')
