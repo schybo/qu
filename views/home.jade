@@ -16,18 +16,21 @@ html
         .ui.main.container.medium-margin-top
           form#questForm.ui.form(action="/", method="POST")
             .field
-              label(for="term") Term
+              i.student.icon
+              label.inline(for="term") Term
               select.ui.fluid.dropdown(name="term")
                 for term in terms
                   option(value=term.id, selected=nextTerm == term.id) #{term.name}
             .field
-              label(for="campus") Campus/Online
+              i.location.arrow.icon
+              label.inline(for="campus") Campus/Online
               select.ui.fluid.dropdown(name="campus", data-bind="value: campus")
                 option(value="UW U" selected) Waterloo
                 option(value="ONLN ONLINE") Online
                 option(value="OFF ABROAD") Abroad
             .field
-              label(for="days") Days
+              i.calendar.icon
+              label.inline(for="days") Days
               select.ui.fluid.dropdown(name="days", data-bind="value: days, attr: { 'disabled' : onlineAbroad }")
                 option(value='') Any Day
                 option(value="MWF") MWF
@@ -37,7 +40,8 @@ html
                 option(value="W") W
                 option(value="T") T
             .field(data-bind="if: !shortCourse() && !superLongCourse()")
-              label(for="time") Time
+              i.clock.icon
+              label.inline(for="time") Time
               select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                 option(value='') Any Time
                 option(value="08:30-09:50") 8:30am-9:50am
@@ -46,7 +50,8 @@ html
                 option(value="13:00-14:20") 1:00pm-2:20pm
                 option(value="14:30-15:50") 2:30pm-3:50pm
             .field(data-bind="if: shortCourse")
-              label(for="time") Time
+              i.clock.icon
+              label.inline(for="time") Time
               select.ui.fluid.dropdown(name="time", data-bind="if: shortCourse, value: dayTime, attr: { 'disabled': onlineAbroad }")
                 option(value='') Any Time
                 option(value="08:30-09:20") 8:30am-9:20am
@@ -58,12 +63,14 @@ html
                 option(value="14:30-15:20") 2:30pm-3:20pm
                 option(value="15:30-16:20") 3:30pm-4:20pm
             .field(data-bind="if: superLongCourse")
-              label(for="time") Time
+              i.clock.icon
+              label.inline(for="time") Time
               select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                 option(value='') Any Time
                 option(value="19:00-21:50") 7:00pm-9:50pm
             .field
-              label Specific Subject:
+              i.book.icon
+              label.inline Specific Subject:
               .ui.fluid.multiple.search.selection.dropdown
                 input(type='hidden', name='subjects')
                 i.dropdown.icon
@@ -71,7 +78,7 @@ html
                 .menu
                   for subject in subjects
                     .item(data-value=subject.subject, data-text=subject.subject)
-                      i.large.github.middle.aligned.icon
+                      i.large.book.middle.aligned.icon
                       span #{subject.subject} - #{subject.description}
             .ui.button(data-bind="click: function () { submit() }") Search
           .ui.container.medium-margin-top
