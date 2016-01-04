@@ -4,7 +4,6 @@
 .env
 *.log
 *~
-cronjobs
 node_modules
 bower_components
 test/bower_components
