@@ -89,6 +89,8 @@ html
               .item
                 i.large.cube.middle.aligned.icon
                 .content
+                  .right.floated.content
+                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
                   a.header(data-bind="text: $data.titleText")
                   .description(data-bind="text: $data.profLocationText")
                   .descriptionMW(data-bind="text: $data.timeText")

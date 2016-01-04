@@ -58,6 +58,8 @@ var ViewModel = function() {
                    section.date.end_time;
         }
 
+        newCourse.full = course.enrollment_total >= course.enrollment_capacity;
+
         return newCourse;
     }
 
