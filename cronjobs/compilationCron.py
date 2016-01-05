@@ -13,7 +13,7 @@ uw = UWaterlooAPI(api_key=os.environ['UW_API_TOKEN'])
 
 subjects = uw.subject_codes()
 allTermInfo = uw.terms()
-terms = allTerms['listings']
+terms = allTermInfo['listings']
 
 # Cronjob for current term courses
 @sched.scheduled_job('cron', day_of_week='mon-sat', hour=17)

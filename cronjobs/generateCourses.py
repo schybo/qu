@@ -14,7 +14,7 @@ uw = UWaterlooAPI(api_key=os.environ['UW_API_TOKEN'])
 
 subjects = uw.subject_codes()
 allTermInfo = uw.terms()
-terms = allTerms['listings']
+terms = allTermInfo['listings']
 
 # You kind want to update the coming term more than the other ones right?
 print terms
