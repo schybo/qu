@@ -22,5 +22,5 @@ exports = module.exports = function(req, res) {
 	// You should probably scrape the times too!
 
 	// console.log(termOptions);
-	res.render('home', {'terms': termOptions, 'subjects': subjects, 'nextTerm': terms.next_term});
+	res.render('home', {'terms': termOptions, 'subjects': subjects, 'nextTerm': terms.current_term});
 };

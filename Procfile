@@ -1,2 +1,2 @@
 web: node server.js
-clock: python cronjobs/clock.py
+clock: python cronjobs/compilationCron.py
