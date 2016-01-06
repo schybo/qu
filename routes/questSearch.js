@@ -1,5 +1,5 @@
 require('dotenv').load();
-var uwapi = require('uwapi')(process.env.UW_API_TOKEN);
+// var uwapi = require('uwapi')(process.env.UW_API_TOKEN);
 var _ = require('lodash');
 
 //We also want to let people make schedules
