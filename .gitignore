@@ -4,6 +4,7 @@
 .env
 *.log
 *~
+data
 node_modules
 bower_components
 test/bower_components
