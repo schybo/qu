@@ -22,7 +22,7 @@ def generateCoursesForCurrentTerm():
 	courseMatches = []
 	term = str(allTermInfo.current_term)
 	for subject in subjects:
-		courses = uw.term_subject_schedule(allTermInfo.current_term, subject['subject'])
+		courses = uw.term_subject_schedule(allTermInfo['current_term'], subject['subject'])
 		for course in courses:
 			courseMatches.append(course)
 	f = open('../data/' + term + '.json', 'w')
