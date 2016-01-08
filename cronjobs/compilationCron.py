@@ -61,4 +61,5 @@ def generateTerms():
 	f.write(dumps(terms))
 	print "Finished generating terms"
 
+generateCoursesForCurrentTerm()
 sched.start()
