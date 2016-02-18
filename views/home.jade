@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Quest Explorer
+    title Advanced Quest Search
     link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     include ./partials/favicon
@@ -11,9 +11,11 @@ html
         .ui.masthead.vertical.segment
           .ui.container
             .introduction
-              h1.ui.header Advanced Quest Search
-              span Created by Brent Scheibelhut | 
-              span Send features requests and bug reports to #[a(href="mailto:brent@scheibelhut.com") brent@scheibelhut.com]
+              img(src="/images/favicon.png" width="60px")
+              .space-left.inline
+                h1.ui.header Advanced Quest Search
+                span Created by Brent Scheibelhut | 
+                span Send features requests and bug reports to #[a(href="mailto:brent@scheibelhut.com") brent@scheibelhut.com]
         .ui.main.container.medium-margin-top
           form#questForm.ui.form(action="/", method="POST")
             .ui.two.column.stackable.grid.container
@@ -118,9 +120,14 @@ html
               .item
                 i.large.cube.middle.aligned.icon
                 .content
-                  .right.floated.content
-                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                  a.header(data-bind="text: $data.titleText")
+                  .right.floated.content.align-middle
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }")
+                      i.mail.icon
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }")
+                      i.heart.icon
+                  a.inline.header(data-bind="text: $data.titleText")
+                  span &nbsp;-&nbsp;
+                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
                   .description(data-bind="text: $data.profLocationText")
                   .descriptionMW(data-bind="text: $data.timeText")
             h4.ui.horizontal.divider.header(data-bind="ifnot: courses().length")

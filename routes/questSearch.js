@@ -1,6 +1,7 @@
 require('dotenv').load();
 // var uwapi = require('uwapi')(process.env.UW_API_TOKEN);
 var _ = require('lodash');
+var pg = require('pg');
 
 //We also want to let people make schedules
 
@@ -76,6 +77,24 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-	// console.log(returnData);
+	// try {
+	// 	pg.connect(process.env.DATABASE_URL + '?ssl=true', function(err, client) {
+	// 		if (err) throw err;
+	// 		console.log('Connected to postgres!');
+	// 		_.each(returnData, function (course, index) {
+	// 			client.query(
+	// 				'SELECT Likes FROM Likes WHERE Subject = $1 AND CatalogNumber = $2;',
+	// 				[course.subject, course.catalog_number])
+	// 				.on('row', function(row) {
+	// 					console.log(row);
+	// 					returnData[index].likes = row.likes || 0;
+	// 				});
+	// 		})
+	// 	});
+	// } catch (err) {
+	// 	console.log("Could not load likes");
+	// }
+
+	console.log(returnData);
 	res.json(returnData);
 };

@@ -60,6 +60,7 @@ var ViewModel = function() {
         }
 
         newCourse.full = course.enrollment_total >= course.enrollment_capacity;
+        newCourse.classNumber = course.class_number;
 
         return newCourse;
     }
@@ -82,8 +83,24 @@ var ViewModel = function() {
         self.courses(tempCourseList);
     }
 
+    self.like = function(data, event) {
+        $(event.currentTarget).addClass('red');
+    }
+
+    self.subscribe = function(data, event) {
+        $(event.currentTarget).addClass('green');
+        console.log(data);
+        console.log(event);
+        $.post( "/sub", { 'classNumber': data.classNumber, email: "brent.scheibelhut@gmail.com" } )
+        .done(function (data) {
+            console.log(data);
+        })
+        .fail(function (err) {
+            console.log(err);
+        })
+    }
+
     self.submit = function () {
-        console.log("Hello");
         var form = $("#questForm");
         var action = form.attr('action');
 
