@@ -61,6 +61,8 @@ var ViewModel = function() {
 
         newCourse.full = course.enrollment_total >= course.enrollment_capacity;
         newCourse.classNumber = course.class_number;
+        newCourse.subject = course.subject;
+        newCourse.catalogNumber = course.catalog_number
 
         return newCourse;
     }
@@ -81,21 +83,47 @@ var ViewModel = function() {
             }
         })
         self.courses(tempCourseList);
+        $('.ui.icon.button.compact').popup({
+            position: 'top right',
+            delay: {
+              show: 600,
+              hide: 0
+            },
+        })
     }
 
     self.like = function(data, event) {
         $(event.currentTarget).addClass('red');
     }
 
+    self.closeSuccessModal = function() {
+        $('#successModal').modal('hide');
+    }
+
+    self.closeFailureModal = function() {
+        $('#failureModal').modal('hide');
+    }
+
     self.subscribe = function(data, event) {
         $(event.currentTarget).addClass('green');
-        console.log(data);
-        console.log(event);
-        $.post( "/sub", { 'classNumber': data.classNumber, email: "brent.scheibelhut@gmail.com" } )
+        $('#subscriptionHeader').text(data.subject + ' ' +  data.catalogNumber + ' ' + 'Class Opening');
+        $('#classNumber').val(data.classNumber);
+        $('#subscriptionModal').modal('show');
+    }
+
+    self.subscribeSubmit = function(data, event) {
+        var form = $("#subscriptionForm");
+        var action = form.attr('action');
+
+        $.post(action, $(form).serialize())
         .done(function (data) {
+            $('#subscriptionModal').modal('hide');
+            $('#successModal').modal('show');
             console.log(data);
         })
         .fail(function (err) {
+            $('#subscriptionModal').modal('hide');
+            $('#failureModal').modal('show');
             console.log(err);
         })
     }

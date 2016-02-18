@@ -1,0 +1,19 @@
+.ui.basic.modal#subscriptionModal
+  i.close.icon
+  .header#subscriptionHeader
+  .image.content
+    .image
+      i.mail.icon
+    .description
+      p If you would like to receive an email when this class opens up please enter your email below and we'll notify you promptly when it does.
+      p This service runs every 15 minutes and is not guranteed to find you a spot. It's a best effort solution.
+  form#subscriptionForm.ui.form(action="/sub", method="POST")
+    .ui.two.column.stackable.grid.container
+      input#classNumber(type="hidden", name="classNumber")
+      .column.centered
+        .field
+          input(name="email", type="email", placeholder="Please enter email here...")
+  .actions
+    .ui.green.basic.inverted.button(data-bind="click: subscribeSubmit")
+      i.checkmark.icon 
+      span Submit

@@ -1,0 +1,13 @@
+.ui.basic.modal#failureModal
+  i.close.icon
+  .header Failure :(
+  .image.content
+    .image
+      i.close.icon
+    .description
+      p Unfortunately you have not subscribed sucessfully :(
+      p Please close this dialogue box and try again. If this persists be sure to bug a developer.
+  .actions
+    .ui.green.basic.inverted.button(data-bind="click: closeFailureModal")
+      i.checkmark.icon
+      span Close

@@ -14,16 +14,16 @@ exports = module.exports = function(req, res) {
 			  [req.body.classNumber, req.body.email],
 			  function(err, result) {
 			  	if (err) {
-			  		console.log(err);
+			  		res.json({"error" : err, "status" : 500})
 			  	} else {
 			  		console.log('row inserted with id: ' + result.rows[0].id);
 			  	}
 			  });
 		});
 	} catch (err) {
-		console.log(err);
+		res.json({"error" : err, "status" : 500});
 	}
-	return true;
+	res.json({"success" : "Updated Successfully", "status" : 200});
 }
 
 // _.each(terms.listings, function (termYear) {
