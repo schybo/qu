@@ -39,6 +39,16 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
+	if (options.level) {
+		returnData = _.filter(returnData, function (course) {
+			if (options.level == '6') {
+				return course.academic_level == 'graduate';
+			} else {
+				return course.catalog_number.charAt(0) == options.level;
+			}
+		});
+	}
+
 	// console.log(returnData);
 	//Filter by day
 	if (options.days && !onlineCourse) {
@@ -66,6 +76,6 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-	console.log(returnData);
+	// console.log(returnData);
 	res.json(returnData);
 };

@@ -9,6 +9,7 @@ var ViewModel = function() {
     self.days = ko.observable('');
     self.dayTime = ko.observable('');
     self.courses = ko.observableArray();
+    self.level = ko.observable('');
 
     self.onlineAbroad = ko.pureComputed(function() {
         if (self.campus() == 'ONLN ONLINE' || self.campus() == 'OFF ABROAD') {
