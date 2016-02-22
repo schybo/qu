@@ -20,6 +20,7 @@ exports = module.exports = function(req, res) {
 		onlineCourse = true;
 	}
 
+	console.log(options.time);
 	if (options.time) {
 		time = options.time.split('-');
 		start_time = time[0];
@@ -33,7 +34,7 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-		//Filter by course code
+	//Filter by course code
 	if (options.subjects) {
 		returnData = _.filter(returnData, function (course) {
 			return subjects.indexOf(course.subject) > -1;
@@ -50,32 +51,33 @@ exports = module.exports = function(req, res) {
 		});
 	}
 
-	// console.log(returnData);
 	//Filter by day
-	if (options.days && !onlineCourse) {
-		//We should be able to do this in one pass - just not sure how with lodash yet
+	//We should be able to do this in one pass - just not sure how with lodash yet
 
-		//For each course, search if any of it's classes match
-		_.each(returnData, function (course, index) {
-			returnData[index].filteredClasses = _.filter(returnData[index].classes, function (section) {
-				if (section.date.weekdays == options.days) {
-					if (options.time) {
-						if (section.date.start_time == start_time && section.date.end_time == end_time) {
-							return true;
-						}
-					} else {
+	//For each course, search if any of it's classes match
+	_.each(returnData, function (course, index) {
+		returnData[index].filteredClasses = _.filter(returnData[index].classes, function (section) {
+			if (onlineCourse) {
+				return true;
+			} else if (!options.days || section.date.weekdays == options.days) {
+				if (options.time) {
+					if (options.range == 'true' && section.date.start_time >= start_time && section.date.end_time <= end_time) {
+						return true;
+					} else if (options.range == 'false' && section.date.start_time == start_time && section.date.end_time == end_time) {
 						return true;
 					}
+				} else {
+					return true;
 				}
-				return false;
-			});
+			}
+			return false;
 		});
+	});
 
-		//Remove all courses that have no classes
-		returnData = _.filter(returnData, function (course) {
-			return course.filteredClasses.length != 0;
-		});
-	}
+	//Remove all courses that have no classes
+	returnData = _.filter(returnData, function (course) {
+		return course.filteredClasses.length != 0;
+	});
 
 	// try {
 	// 	pg.connect(process.env.DATABASE_URL + '?ssl=true', function(err, client) {
@@ -95,6 +97,6 @@ exports = module.exports = function(req, res) {
 	// 	console.log("Could not load likes");
 	// }
 
-	console.log(returnData);
+	// console.log(returnData);
 	res.json(returnData);
 };

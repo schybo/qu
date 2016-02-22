@@ -21,6 +21,7 @@ html
                 span Send features requests and bug reports to #[a(href="mailto:brent@scheibelhut.com") brent@scheibelhut.com]
         .ui.main.container.medium-margin-top
           form#questForm.ui.form(action="/", method="POST")
+            input(type="hidden" name="range" data-bind="value: timeRange")
             .ui.two.column.stackable.grid.container
               .column
                 .field
@@ -49,7 +50,7 @@ html
                     option(value="WF") WF
                     option(value="W") W
                     option(value="T") T
-              <!-- ko if: !shortCourse() && !superLongCourse() -->
+              <!-- ko if: !shortCourse() && !superLongCourse() && !timeRange() -->
               .column
                 .field
                   i.clock.icon
@@ -63,7 +64,7 @@ html
                     option(value="14:30-15:50") 2:30pm-3:50pm
                     option(value="16:00-15:20") 4:00pm-5:20pm
               <!-- /ko -->
-              <!-- ko if: shortCourse -->
+              <!-- ko if: shortCourse() && !timeRange() -->
               .column
                 .field
                   i.clock.icon
@@ -80,7 +81,7 @@ html
                     option(value="15:30-16:20") 3:30pm-4:20pm
                     option(value="16:30-17:20") 4:30pm-5:20pm
               <!-- /ko -->
-              <!-- ko if: superLongCourse -->
+              <!-- ko if: superLongCourse() && !timeRange() -->
               .column
                 .field
                   i.clock.icon
@@ -89,6 +90,21 @@ html
                     option(value='') Any Time
                     option(value="19:00-21:50") 7:00pm-9:50pm
               <!-- /ko -->
+              <!-- ko if: timeRange() -->
+              .column
+                .two.fields
+                  .field
+                    i.clock.icon
+                    label.inline(for="startRange") Start Range
+                    input(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange")
+                  .field
+                    i.clock.icon
+                    label.inline(for="endRange") End Range
+                    input(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange")
+              <!-- /ko -->
+              .range-button
+                button.circular.ui.icon.button.compact(type="button" data-bind="click: initTimeRange")
+                  i.icon.resize.horizontal
               .column
                 .field
                   i.book.icon

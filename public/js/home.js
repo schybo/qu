@@ -10,6 +10,9 @@ var ViewModel = function() {
     self.dayTime = ko.observable('');
     self.courses = ko.observableArray();
     self.level = ko.observable('');
+    self.timeRange = ko.observable(false);
+    self.startRange = ko.observable('');
+    self.endRange = ko.observable('');
 
     self.onlineAbroad = ko.pureComputed(function() {
         if (self.campus() == 'ONLN ONLINE' || self.campus() == 'OFF ABROAD') {
@@ -96,6 +99,19 @@ var ViewModel = function() {
         $(event.currentTarget).addClass('red');
     }
 
+    self.initTimeRange = function (data, event) {
+        var icon = $(event.currentTarget).find("i");
+        if (icon.hasClass('resize')) {
+            icon.removeClass('resize horizontal');
+            icon.addClass('list layout');
+            self.timeRange(true);
+        } else {
+            icon.removeClass('list layout');
+            icon.addClass('resize horizontal');
+            self.timeRange(false);
+        }
+    }
+
     self.closeSuccessModal = function() {
         $('#successModal').modal('hide');
     }
@@ -109,6 +125,27 @@ var ViewModel = function() {
         $('#subscriptionHeader').text(data.subject + ' ' +  data.catalogNumber + ' ' + 'Class Opening');
         $('#classNumber').val(data.classNumber);
         $('#subscriptionModal').modal('show');
+    }
+
+    //Thank you SO: http://stackoverflow.com/questions/15083548/convert-12-hour-hhmm-am-pm-to-24-hour-hhmm
+    function convertTo24Hour(time) {
+        time = time.toLowerCase();
+        var hours = parseInt(time.substr(0, 2));
+        if(time.indexOf('am') != -1 && hours == 12) {
+            time = time.replace('12', '0');
+        }
+        if(time.indexOf('pm')  != -1 && hours < 12) {
+            time = time.replace(hours, (hours + 12));
+        }
+        return time.replace(/(am|pm)/, '');
+    }
+
+    var parseTime = function () {
+        var startTime = convertTo24Hour(self.startRange());
+        var endTime = convertTo24Hour(self.endRange());
+
+        console.log(startTime + '-' + endTime);
+        return startTime + '-' + endTime;
     }
 
     self.subscribeSubmit = function(data, event) {
@@ -131,6 +168,13 @@ var ViewModel = function() {
     self.submit = function () {
         var form = $("#questForm");
         var action = form.attr('action');
+
+        //Get correct time depending
+        if (self.timeRange()) {
+            $('<input>').attr({'type': 'hidden', 'name': 'time'}).val(parseTime()).appendTo(form);
+        } else {
+            $('input[name="time"]').remove();
+        }
 
         $("form").addClass('loading');
         $.post(action, $(form).serialize())
