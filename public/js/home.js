@@ -121,10 +121,14 @@ var ViewModel = function() {
     }
 
     self.subscribe = function(data, event) {
-        $(event.currentTarget).addClass('green');
-        $('#subscriptionHeader').text(data.subject + ' ' +  data.catalogNumber + ' ' + 'Class Opening');
-        $('#classNumber').val(data.classNumber);
-        $('#subscriptionModal').modal('show');
+        if (data.full) {
+            $(event.currentTarget).addClass('green');
+            $('#subscriptionHeader').text(data.subject + ' ' +  data.catalogNumber + ' ' + 'Class Opening');
+            $('#classNumber').val(data.classNumber);
+            $('#subscriptionModal').modal('show');
+        } else {
+            $(event.currentTarget).prev().fadeIn().delay( 3000 ).fadeOut( 500 );
+        }
     }
 
     //Thank you SO: http://stackoverflow.com/questions/15083548/convert-12-hour-hhmm-am-pm-to-24-hour-hhmm
@@ -141,6 +145,7 @@ var ViewModel = function() {
     }
 
     var parseTime = function () {
+        //Error if entered incorrectly?
         var startTime = convertTo24Hour(self.startRange());
         var endTime = convertTo24Hour(self.endRange());
 
