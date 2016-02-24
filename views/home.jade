@@ -143,9 +143,9 @@ html
                     span.no-subscribe.red-text.space-right Course is already open
                     .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
                       i.mail.icon
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                    data-content="Show some love for the courses you've enjoyed!")
-                      i.heart.icon
+                    //- .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                    //- data-content="Show some love for the courses you've enjoyed!")
+                    //-   i.heart.icon
                   a.inline.header(data-bind="text: $data.titleText")
                   span &nbsp;-&nbsp;
                   span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")

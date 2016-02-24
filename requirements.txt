@@ -1,3 +1,5 @@
 APScheduler==3.0.0
 python-dotenv==0.3.0
 uwaterlooapi==0.3.0
+mandrill==1.0.57
+psycopg2==2.6.1

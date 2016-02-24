@@ -14,6 +14,8 @@ var ViewModel = function() {
     self.startRange = ko.observable('');
     self.endRange = ko.observable('');
 
+    self.currentSub = null;
+
     self.onlineAbroad = ko.pureComputed(function() {
         if (self.campus() == 'ONLN ONLINE' || self.campus() == 'OFF ABROAD') {
             self.days('');
@@ -122,7 +124,7 @@ var ViewModel = function() {
 
     self.subscribe = function(data, event) {
         if (data.full) {
-            $(event.currentTarget).addClass('green');
+            self.currentSub = event.currentTarget;
             $('#subscriptionHeader').text(data.subject + ' ' +  data.catalogNumber + ' ' + 'Class Opening');
             $('#classNumber').val(data.classNumber);
             $('#subscriptionModal').modal('show');
@@ -159,6 +161,7 @@ var ViewModel = function() {
 
         $.post(action, $(form).serialize())
         .done(function (data) {
+            $(self.currentSub).addClass('green');
             $('#subscriptionModal').modal('hide');
             $('#successModal').modal('show');
             console.log(data);
