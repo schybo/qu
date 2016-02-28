@@ -98,7 +98,24 @@ var ViewModel = function() {
     }
 
     self.like = function(data, event) {
-        $(event.currentTarget).addClass('red');
+        if (!$(event.currentTarget).hasClass('red')) {
+            var data = {
+                'catalogNumber': data.catalogNumber,
+                'subject': data.subject
+            }
+
+            $.post('/like', data)
+            .done(function (data) {
+                $(event.currentTarget).addClass('red');
+                console.log(data);
+            })
+            .fail(function (err) {
+                $(event.currentTarget).prev().prev().prev().prev().fadeIn().delay( 3000 ).fadeOut( 500 );
+                console.log(err);
+            })
+        } else {
+            $(event.currentTarget).prev().prev().prev().fadeIn().delay( 3000 ).fadeOut( 500 );
+        }
     }
 
     self.initTimeRange = function (data, event) {

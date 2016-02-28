@@ -6,6 +6,7 @@ var router = express.Router();
 
 router.post('/', questSearch);
 router.post('/sub', subscriptions);
+router.post('/like', like);
 
 router.get('*', questLoad);
 

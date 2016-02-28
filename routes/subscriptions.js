@@ -1,7 +1,7 @@
-var mandrill = require('mandrill-api/mandrill');
-var mandrill_client = new mandrill.Mandrill('hZ0uqN6TtFEI4v6v7J35iA');
+// var mandrill = require('mandrill-api/mandrill');
+// var mandrill_client = new mandrill.Mandrill('hZ0uqN6TtFEI4v6v7J35iA');
 var pg = require('pg');
-var terms = require('../data/terms.json');
+// var terms = require('../data/terms.json');
 var _ = require('lodash');
 
 exports = module.exports = function(req, res) {
