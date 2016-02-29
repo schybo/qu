@@ -60,7 +60,7 @@ def generateCoursesForAllTerms():
 				courses = uw.term_subject_schedule(term, subject['subject'])
 				for course in courses:
 					courseMatches.append(course)
-			f = open('../data/' + term + '.json', 'w')
+			f = open('data/' + term + '.json', 'w')
 			f.write(dumps(courseMatches))
 	print "Finished generating courses for all terms"
 
@@ -68,7 +68,7 @@ def generateCoursesForAllTerms():
 def generateSubjects():
 	print "Generating subjects"
 	subjects = uw.subject_codes()
-	f = open('../data/subjects.json', 'w')
+	f = open('data/subjects.json', 'w')
 	f.write(dumps(subjects))
 	print "Finished generating subjects"
 
@@ -76,7 +76,7 @@ def generateSubjects():
 def generateTerms():
 	print "Generating terms"
 	terms = uw.terms()
-	f = open('../data/terms.json', 'w')
+	f = open('data/terms.json', 'w')
 	f.write(dumps(terms))
 	print "Finished generating terms"
 
