@@ -28,7 +28,7 @@ conn = psycopg2.connect(
 )
 
 # Connect to mandrill
-mandrill_client = mandrill.Mandrill('hZ0uqN6TtFEI4v6v7J35iA')
+mandrill_client = mandrill.Mandrill(os.environ["MANDRILL_API_TOKEN"])
 
 subjects = uw.subject_codes()
 allTermInfo = uw.terms()

@@ -5,10 +5,6 @@ import urlparse
 
 from uwaterlooapi import UWaterlooAPI
 
-# For local. Just don't store here
-os.environ["UW_API_TOKEN"] = "294d50dbcdbd23e09069c1656baa0aaf"
-os.environ["DATABASE_URL"] = "postgres://ngndzviyttjnwl:4cpewCb0hqlGUYw-PWD1q9e8T2@ec2-107-20-153-141.compute-1.amazonaws.com/d5hq8rfs6clqki"
-
 # Setup Waterloo connection
 uw = UWaterlooAPI(api_key=os.environ['UW_API_TOKEN'])
 
@@ -27,9 +23,6 @@ conn = psycopg2.connect(
     host=url.hostname,
     port=url.port
 )
-
-# Connect to mandrill
-mandrill_client = mandrill.Mandrill('hZ0uqN6TtFEI4v6v7J35iA')
 
 cur = conn.cursor()
 try:
