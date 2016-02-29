@@ -44,7 +44,7 @@ def generateCoursesForCurrentTerm():
 		courses = uw.term_subject_schedule(term, subject['subject'])
 		for course in courses:
 			courseMatches.append(course)
-	f = open('../data/' + term + '.json', 'w')
+	f = open('data/' + term + '.json', 'w')
 	f.write(dumps(courseMatches))
 	print "Finished generating courses for current term"
 
