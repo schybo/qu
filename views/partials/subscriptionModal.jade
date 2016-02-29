@@ -10,6 +10,7 @@
   form#subscriptionForm.ui.form(action="/sub", method="POST")
     .ui.two.column.stackable.grid.container
       input#classNumber(type="hidden", name="classNumber")
+      input#classTitle(type="hidden", name="classTitle")
       .column.centered
         .field
           input(name="email", type="email", placeholder="Please enter email here...")

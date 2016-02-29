@@ -10,8 +10,8 @@ exports = module.exports = function(req, res) {
 			if (err) throw err;
 			console.log('Connected to postgres!');
 			client
-			  .query('INSERT into Subscriptions (ClassNumber, Email) VALUES ($1, $2) RETURNING id',
-			  [req.body.classNumber, req.body.email],
+			  .query('INSERT into Subscriptions (ClassNumber, ClassTitle, Email) VALUES ($1, $2, $3) RETURNING id',
+			  [req.body.classNumber, req.body.classTitle, req.body.email],
 			  function(err, result) {
 			  	if (err) {
 			  		res.json({"error" : err, "status" : 500})

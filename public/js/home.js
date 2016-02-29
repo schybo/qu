@@ -144,6 +144,7 @@ var ViewModel = function() {
             self.currentSub = event.currentTarget;
             $('#subscriptionHeader').text(data.subject + ' ' +  data.catalogNumber + ' ' + 'Class Opening');
             $('#classNumber').val(data.classNumber);
+            $('#classTitle').val(data.titleText);
             $('#subscriptionModal').modal('show');
         } else {
             $(event.currentTarget).prev().fadeIn().delay( 3000 ).fadeOut( 500 );

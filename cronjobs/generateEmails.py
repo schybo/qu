@@ -50,10 +50,10 @@ for row in rows:
 		    message = {
 		     'from_email': 'info@uwcourses.com',
 		     'from_name': 'UW Courses',
-		     'html': '<p>Hey!</p><p>You know that course you subscribed to with course number ' + str(row[1]) + '?</p><p>Well it has opened up!</p><p>Best of luck getting it!</p>',
+		     'html': '<p>Hey!</p><p>You know that course you subscribed to: ' + str(row[2]) + '?</p><p>Well it has opened up!</p><p>Best of luck getting it!</p>',
 		     'metadata': {'website': 'www.uwcourses.com'},
-		     'to': [{'email': row[2],'type': 'to'}],
-		     'text': 'Hey! You know that course you subscribed to with course number ' + str(row[1]) + '? Well it has opened up! Best of luck getting it!',
+		     'to': [{'email': row[3],'type': 'to'}],
+		     'text': 'Hey! You know that course you subscribed to with course number ' + str(row[2]) + '? Well it has opened up! Best of luck getting it!',
 		     'subject': str(row[1]) + ' Course Opening'
 		    }
 		    result = mandrill_client.messages.send(message=message)
@@ -65,10 +65,13 @@ for row in rows:
 
 		#Remove from list
 		try:
-			cur.execute("DELETE from Subscriptions WHERE ClassNumber = %s AND Email = %s", (row[1], row[2]))
+			cur.execute("DELETE FROM Subscriptions WHERE ClassNumber = %s AND Email = %s", (row[1], row[3]))
 			print "Deleted the item from Subscriptions"
 		except Exception as e:
 			print e
+
+	# Commit changes to DB
+	conn.commit()
 
 
 
