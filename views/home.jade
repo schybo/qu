@@ -5,17 +5,11 @@ html
     link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     include ./partials/favicon
-
-    //- Including first so we don't get the weird flash of the observables
-    script(src='/vendor/jquery/dist/jquery.min.js')
-    script(src='/vendor/knockout/dist/knockout.js')
-    script(src='/vendor/semantic/dist/semantic.min.js')
-    script(src='/js/home.js')
   body
     include ./partials/subscriptionModal
     include ./partials/successModal
     include ./partials/failureModal
-    .ui.four.column.centered.grid
+    .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
       .sixteen.wide.column
         .ui.masthead.vertical.segment
           .ui.container
@@ -163,7 +157,11 @@ html
               i.bullseye.icon
               | No Matches
 
+  script(src='/vendor/jquery/dist/jquery.min.js')
+  script(src='/vendor/knockout/dist/knockout.js')
   //- script(src='/vendor/lodash/lodash.min.js')
+  script(src='/vendor/semantic/dist/semantic.min.js')
+  script(src='/js/home.js')
   include ./partials/ga
 
 
