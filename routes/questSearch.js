@@ -2,6 +2,7 @@ require('dotenv').load();
 // var uwapi = require('uwapi')(process.env.UW_API_TOKEN);
 var _ = require('lodash');
 var pg = require('pg');
+var terms = require('../data/terms.json');
 
 //We also want to let people make schedules
 
@@ -33,6 +34,7 @@ exports = module.exports = function(req, res) {
 			return course.campus == options.campus;
 		});
 	}
+	// console.log(returnData);
 
 	//Filter by course code
 	if (options.subjects) {
@@ -40,6 +42,7 @@ exports = module.exports = function(req, res) {
 			return subjects.indexOf(course.subject) > -1;
 		});
 	}
+	// console.log(returnData);
 
 	if (options.level) {
 		returnData = _.filter(returnData, function (course) {
@@ -50,6 +53,7 @@ exports = module.exports = function(req, res) {
 			}
 		});
 	}
+	// console.log(returnData);
 
 	//Filter by day
 	//We should be able to do this in one pass - just not sure how with lodash yet
@@ -57,7 +61,8 @@ exports = module.exports = function(req, res) {
 	//For each course, search if any of it's classes match
 	_.each(returnData, function (course, index) {
 		returnData[index].filteredClasses = _.filter(returnData[index].classes, function (section) {
-			if (onlineCourse) {
+			console.log(section.date);
+			if (onlineCourse || options.term > terms.current_term) {
 				return true;
 			} else if (!options.days || section.date.weekdays == options.days) {
 				if (options.time) {
