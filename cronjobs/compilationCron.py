@@ -126,5 +126,5 @@ def generateEmails():
 	conn.commit()
 	print "Finished generating emails"
 
-generateCoursesForCurrentTerm()
+# generateCoursesForCurrentTerm()
 sched.start()
