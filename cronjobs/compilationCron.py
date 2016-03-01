@@ -127,4 +127,5 @@ def generateEmails():
 	print "Finished generating emails"
 
 # generateCoursesForCurrentTerm()
+generateCoursesForAllTerms()
 sched.start()
