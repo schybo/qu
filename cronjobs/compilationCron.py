@@ -2,6 +2,10 @@ import os
 import mandrill
 import psycopg2
 import urlparse
+import tinys3
+
+s3conn = tinys3.Connection(os.environ['AWS_ACCESS_KEY'],os.environ['AWS_SECRET_KEY'],tls=True)
+bucket = os.environ['S3_BUCKET']
 
 from json import dumps
 from uwaterlooapi import UWaterlooAPI
@@ -44,8 +48,9 @@ def generateCoursesForCurrentTerm():
 		courses = uw.term_subject_schedule(term, subject['subject'])
 		for course in courses:
 			courseMatches.append(course)
-	f = open('data/' + term + '.json', 'w')
+	f = open(term + '.json', 'rw')
 	f.write(dumps(courseMatches))
+	s3conn.upload(term + '.json',f,bucket)
 	print "Finished generating courses for current term"
 
 # Cronjob for all terms courses
@@ -60,24 +65,27 @@ def generateCoursesForAllTerms():
 				courses = uw.term_subject_schedule(term, subject['subject'])
 				for course in courses:
 					courseMatches.append(course)
-			f = open('data/' + term + '.json', 'w')
+			f = open(term + '.json', 'rw')
 			f.write(dumps(courseMatches))
+			s3conn.upload(term + '.json',f,bucket)
 	print "Finished generating courses for all terms"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=18)
 def generateSubjects():
 	print "Generating subjects"
 	subjects = uw.subject_codes()
-	f = open('data/subjects.json', 'w')
+	f = open('subjects.json', 'rw')
 	f.write(dumps(subjects))
+	s3conn.upload('subjects.json',f,bucket)
 	print "Finished generating subjects"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=19)
 def generateTerms():
 	print "Generating terms"
 	terms = uw.terms()
-	f = open('data/terms.json', 'w')
+	f = open('terms.json', 'rw')
 	f.write(dumps(terms))
+	s3conn.upload('terms.json',f,bucket)
 	print "Finished generating terms"
 
 @sched.scheduled_job('interval', minutes=15)
@@ -126,5 +134,7 @@ def generateEmails():
 	conn.commit()
 	print "Finished generating emails"
 
-generateCoursesForCurrentTerm()
+generateSubjects()
+generateTerms()
+# generateCoursesForCurrentTerm()
 sched.start()
