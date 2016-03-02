@@ -19,7 +19,6 @@
     "mandrill-api": "^1.0.45",
     "morgan": "~1.0.0",
     "pg": "4.4.6",
-    "request": "^2.69.0",
     "static-favicon": "~1.0.0",
     "string": "^1.9.0",
     "uwapi": "^1.1.1"
