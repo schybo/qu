@@ -5,11 +5,12 @@ html
     link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     include ./partials/favicon
+    include ./partials/meta
   body
     include ./partials/subscriptionModal
     include ./partials/successModal
     include ./partials/failureModal
-    .ui.four.column.centered.grid
+    .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
       .sixteen.wide.column
         .ui.masthead.vertical.segment
           .ui.container
