@@ -50,6 +50,9 @@ def generateCoursesForCurrentTerm():
 			courseMatches.append(course)
 	f = open(term + '.json', 'w')
 	f.write(dumps(courseMatches))
+	f.close()
+
+	f = open(term + '.json', 'rb')
 	s3conn.upload(term + '.json',f,bucket)
 	print "Finished generating courses for current term"
 
@@ -65,9 +68,13 @@ def generateCoursesForAllTerms():
 				courses = uw.term_subject_schedule(term, subject['subject'])
 				for course in courses:
 					courseMatches.append(course)
+			# Write to the file
 			f = open(term + '.json', 'w')
 			f.write(dumps(courseMatches))
-			s3conn.upload(term + '.json',f,bucket)
+			f.close()
+
+			f = open(term + '.json', 'rb')
+			s3conn.upload(term + '.json',fr,bucket)
 	print "Finished generating courses for all terms"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=18)
@@ -76,6 +83,9 @@ def generateSubjects():
 	subjects = uw.subject_codes()
 	f = open('subjects.json', 'w')
 	f.write(dumps(subjects))
+	f.close()
+
+	f = open('subjects.json', 'rb')
 	s3conn.upload('subjects.json',f,bucket)
 	print "Finished generating subjects"
 
@@ -85,6 +95,9 @@ def generateTerms():
 	terms = uw.terms()
 	f = open('terms.json', 'w')
 	f.write(dumps(terms))
+	f.close()
+
+	f = open('terms.json', 'rb')
 	s3conn.upload('terms.json',f,bucket)
 	print "Finished generating terms"
 
