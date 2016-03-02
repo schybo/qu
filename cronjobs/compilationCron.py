@@ -54,6 +54,7 @@ def generateCoursesForCurrentTerm():
 
 	f = open(term + '.json', 'rb')
 	s3conn.upload(term + '.json',f,bucket)
+	s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
 	print "Finished generating courses for current term"
 
 # Cronjob for all terms courses
@@ -75,6 +76,7 @@ def generateCoursesForAllTerms():
 
 			f = open(term + '.json', 'rb')
 			s3conn.upload(term + '.json',fr,bucket)
+			s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
 	print "Finished generating courses for all terms"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=18)
@@ -87,6 +89,7 @@ def generateSubjects():
 
 	f = open('subjects.json', 'rb')
 	s3conn.upload('subjects.json',f,bucket)
+	s3conn.update_metadata('subjects.json',bucket=bucket,public=True)
 	print "Finished generating subjects"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=19)
@@ -99,6 +102,7 @@ def generateTerms():
 
 	f = open('terms.json', 'rb')
 	s3conn.upload('terms.json',f,bucket)
+	s3conn.update_metadata('terms.json',bucket=bucket,public=True)
 	print "Finished generating terms"
 
 @sched.scheduled_job('interval', minutes=15)
