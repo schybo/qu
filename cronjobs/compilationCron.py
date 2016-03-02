@@ -48,7 +48,7 @@ def generateCoursesForCurrentTerm():
 		courses = uw.term_subject_schedule(term, subject['subject'])
 		for course in courses:
 			courseMatches.append(course)
-	f = open(term + '.json', 'rw')
+	f = open(term + '.json', 'w')
 	f.write(dumps(courseMatches))
 	s3conn.upload(term + '.json',f,bucket)
 	print "Finished generating courses for current term"
@@ -65,7 +65,7 @@ def generateCoursesForAllTerms():
 				courses = uw.term_subject_schedule(term, subject['subject'])
 				for course in courses:
 					courseMatches.append(course)
-			f = open(term + '.json', 'rw')
+			f = open(term + '.json', 'w')
 			f.write(dumps(courseMatches))
 			s3conn.upload(term + '.json',f,bucket)
 	print "Finished generating courses for all terms"
@@ -74,7 +74,7 @@ def generateCoursesForAllTerms():
 def generateSubjects():
 	print "Generating subjects"
 	subjects = uw.subject_codes()
-	f = open('subjects.json', 'rw')
+	f = open('subjects.json', 'w')
 	f.write(dumps(subjects))
 	s3conn.upload('subjects.json',f,bucket)
 	print "Finished generating subjects"
@@ -83,7 +83,7 @@ def generateSubjects():
 def generateTerms():
 	print "Generating terms"
 	terms = uw.terms()
-	f = open('terms.json', 'rw')
+	f = open('terms.json', 'w')
 	f.write(dumps(terms))
 	s3conn.upload('terms.json',f,bucket)
 	print "Finished generating terms"
