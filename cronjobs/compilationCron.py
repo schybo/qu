@@ -39,71 +39,71 @@ allTermInfo = uw.terms()
 terms = allTermInfo['listings']
 
 # Cronjob for current term courses
-@sched.scheduled_job('cron', day_of_week='mon-sat', hour=17)
-def generateCoursesForCurrentTerm():
-	print "Generating courses for current term"
-	courseMatches = []
-	term = str(allTermInfo['current_term'])
-	for subject in subjects:
-		courses = uw.term_subject_schedule(term, subject['subject'])
-		for course in courses:
-			courseMatches.append(course)
-	f = open(term + '.json', 'w')
-	f.write(dumps(courseMatches))
-	f.close()
+# @sched.scheduled_job('cron', day_of_week='mon-sat', hour=17)
+# def generateCoursesForCurrentTerm():
+# 	print "Generating courses for current term"
+# 	courseMatches = []
+# 	term = str(allTermInfo['current_term'])
+# 	for subject in subjects:
+# 		courses = uw.term_subject_schedule(term, subject['subject'])
+# 		for course in courses:
+# 			courseMatches.append(course)
+# 	f = open(term + '.json', 'w')
+# 	f.write(dumps(courseMatches))
+# 	f.close()
 
-	f = open(term + '.json', 'rb')
-	s3conn.upload(term + '.json',f,bucket)
-	s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
-	print "Finished generating courses for current term"
+# 	f = open(term + '.json', 'rb')
+# 	s3conn.upload(term + '.json',f,bucket)
+# 	s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
+# 	print "Finished generating courses for current term"
 
-# Cronjob for all terms courses
-@sched.scheduled_job('cron', day_of_week='sun', hour=17)
-def generateCoursesForAllTerms():
-	print "Generating courses for all terms"
-	for year in terms:
-		for term in terms[year]:
-			term = str(term['id'])
-			courseMatches = []
-			for subject in subjects:
-				courses = uw.term_subject_schedule(term, subject['subject'])
-				for course in courses:
-					courseMatches.append(course)
-			# Write to the file
-			f = open(term + '.json', 'w')
-			f.write(dumps(courseMatches))
-			f.close()
+# # Cronjob for all terms courses
+# @sched.scheduled_job('cron', day_of_week='sun', hour=17)
+# def generateCoursesForAllTerms():
+# 	print "Generating courses for all terms"
+# 	for year in terms:
+# 		for term in terms[year]:
+# 			term = str(term['id'])
+# 			courseMatches = []
+# 			for subject in subjects:
+# 				courses = uw.term_subject_schedule(term, subject['subject'])
+# 				for course in courses:
+# 					courseMatches.append(course)
+# 			# Write to the file
+# 			f = open(term + '.json', 'w')
+# 			f.write(dumps(courseMatches))
+# 			f.close()
 
-			f = open(term + '.json', 'rb')
-			s3conn.upload(term + '.json',fr,bucket)
-			s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
-	print "Finished generating courses for all terms"
+# 			f = open(term + '.json', 'rb')
+# 			s3conn.upload(term + '.json',fr,bucket)
+# 			s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
+# 	print "Finished generating courses for all terms"
 
-@sched.scheduled_job('cron', day_of_week='sun', hour=18)
-def generateSubjects():
-	print "Generating subjects"
-	subjects = uw.subject_codes()
-	f = open('subjects.json', 'w')
-	f.write(dumps(subjects))
-	f.close()
+# @sched.scheduled_job('cron', day_of_week='sun', hour=18)
+# def generateSubjects():
+# 	print "Generating subjects"
+# 	subjects = uw.subject_codes()
+# 	f = open('subjects.json', 'w')
+# 	f.write(dumps(subjects))
+# 	f.close()
 
-	f = open('subjects.json', 'rb')
-	s3conn.upload('subjects.json',f,bucket)
-	s3conn.update_metadata('subjects.json',bucket=bucket,public=True)
-	print "Finished generating subjects"
+# 	f = open('subjects.json', 'rb')
+# 	s3conn.upload('subjects.json',f,bucket)
+# 	s3conn.update_metadata('subjects.json',bucket=bucket,public=True)
+# 	print "Finished generating subjects"
 
-@sched.scheduled_job('cron', day_of_week='sun', hour=19)
-def generateTerms():
-	print "Generating terms"
-	terms = uw.terms()
-	f = open('terms.json', 'w')
-	f.write(dumps(terms))
-	f.close()
+# @sched.scheduled_job('cron', day_of_week='sun', hour=19)
+# def generateTerms():
+# 	print "Generating terms"
+# 	terms = uw.terms()
+# 	f = open('terms.json', 'w')
+# 	f.write(dumps(terms))
+# 	f.close()
 
-	f = open('terms.json', 'rb')
-	s3conn.upload('terms.json',f,bucket)
-	s3conn.update_metadata('terms.json',bucket=bucket,public=True)
-	print "Finished generating terms"
+# 	f = open('terms.json', 'rb')
+# 	s3conn.upload('terms.json',f,bucket)
+# 	s3conn.update_metadata('terms.json',bucket=bucket,public=True)
+# 	print "Finished generating terms"
 
 @sched.scheduled_job('interval', minutes=15)
 def generateEmails():
@@ -151,7 +151,7 @@ def generateEmails():
 	conn.commit()
 	print "Finished generating emails"
 
-generateSubjects()
-generateTerms()
+# generateSubjects()
+# generateTerms()
 # generateCoursesForCurrentTerm()
 sched.start()

@@ -1,0 +1,36 @@
+doctype html
+html
+  head
+    title Advanced Quest Search
+    link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    include ./partials/favicon
+    include ./partials/meta
+  body
+    include ./partials/subscriptionModal
+    include ./partials/successModal
+    include ./partials/failureModal
+    .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
+      .sixteen.wide.column
+        include ./partials/header
+        .ui.main.container.medium-margin-top
+          h1 FAQ
+          h3 What are Likes?
+          p Currently this just saves to the database and doesn't do anything with the data yet. I may make some data visualizations with this, or add it as a filter. But do press it! It's getting saved.
+          h3 What are Subscriptions?
+          p Some courses are full at the start of the term, but when people move around their schedule they become open. I didn't want to have to constantly check back to see if they were open. This will allow you to subscribe to receive an email when the course opens up, it will then automatically unsubscribe you. No need for accounts. Just use the mail button next to a course.
+          h3 How often does it update courses?
+          p The current term updates everyday, all other terms update every week. Currently this is out of commission as Heroku only allows for ephemeral uploads. So I'll just have to hook it up to another server if people do enjoy this app.
+          h3 How often does it check if a course is open?
+          p Every 15 minutes.
+          h3 Why does searching the next term return no results?
+          p Because those courses do not have times set for them yet. If you want to see the courses that will be offered search with the options 'Any Day' and 'Any Time' to see all the courses offered in future terms.
+
+  script(src='/vendor/jquery/dist/jquery.min.js')
+  script(src='/vendor/knockout/dist/knockout.js')
+  //- script(src='/vendor/lodash/lodash.min.js')
+  script(src='/vendor/semantic/dist/semantic.min.js')
+  script(src='/js/home.js')
+  include ./partials/ga
+
+
