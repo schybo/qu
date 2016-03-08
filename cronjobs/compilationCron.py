@@ -38,7 +38,7 @@ subjects = uw.subject_codes()
 allTermInfo = uw.terms()
 terms = allTermInfo['listings']
 
-Cronjob for current term courses
+# Cronjob for current term courses
 @sched.scheduled_job('cron', day_of_week='mon-sat', hour=17)
 def generateCoursesForCurrentTerm():
 	print "Generating courses for current term"
