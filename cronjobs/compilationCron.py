@@ -49,7 +49,7 @@ def generateCoursesForCurrentTerm():
 		for course in courses:
 			courseMatches.append(course)
 	try:
-		f = open(term + '.json', 'r+')
+		f = open('data/' + term + '.json', 'r+')
 		f.write(dumps(courseMatches))
 		f.truncate()
 		f.close()
@@ -75,7 +75,7 @@ def generateCoursesForAllTerms():
 					courseMatches.append(course)
 			# Write to the file
 			try:
-				f = open(term + '.json', 'r+')
+				f = open('data/' + term + '.json', 'r+')
 				f.write(dumps(courseMatches))
 				f.truncate()
 				f.close()
@@ -91,7 +91,7 @@ def generateCoursesForAllTerms():
 def generateSubjects():
 	print "Generating subjects"
 	subjects = uw.subject_codes()
-	f = open('subjects.json', 'r+')
+	f = open('data/subjects.json', 'r+')
 	f.write(dumps(subjects))
 	f.truncate()
 	f.close()
@@ -105,7 +105,7 @@ def generateSubjects():
 def generateTerms():
 	print "Generating terms"
 	terms = uw.terms()
-	f = open('terms.json', 'r+')
+	f = open('data/terms.json', 'r+')
 	f.write(dumps(terms))
 	f.truncate()
 	f.close()
