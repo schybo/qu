@@ -62,7 +62,7 @@ exports = module.exports = function(req, res) {
 	_.each(returnData, function (course, index) {
 		returnData[index].filteredClasses = _.filter(returnData[index].classes, function (section) {
 			console.log(section.date);
-			if (onlineCourse || options.term > terms.current_term) {
+			if (onlineCourse) {
 				return true;
 			} else if (!options.days || section.date.weekdays == options.days) {
 				if (options.time) {
