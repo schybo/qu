@@ -9,6 +9,10 @@ router.post('/', questSearch);
 router.post('/sub', subscriptions);
 router.post('/like', like);
 
+router.get('/faq', function(req, res){ 
+	res.render('faq');
+});
+
 router.get('*', questLoad);
 
 module.exports = router;

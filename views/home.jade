@@ -12,14 +12,7 @@ html
     include ./partials/failureModal
     .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
       .sixteen.wide.column
-        .ui.masthead.vertical.segment
-          .ui.container
-            .introduction
-              img(src="/images/favicon.png" width="60px")
-              .space-left.inline
-                h1.ui.header Advanced Quest Search
-                span Created by Brent Scheibelhut | 
-                span Send features requests and bug reports to #[a(href="mailto:brent@scheibelhut.com") brent@scheibelhut.com]
+        include ./partials/header
         .ui.main.container.medium-margin-top
           form#questForm.ui.form(action="/", method="POST")
             input(type="hidden" name="range" data-bind="value: timeRange")

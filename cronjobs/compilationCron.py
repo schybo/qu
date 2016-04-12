@@ -2,6 +2,10 @@ import os
 import mandrill
 import psycopg2
 import urlparse
+import tinys3
+
+s3conn = tinys3.Connection(os.environ['AWS_ACCESS_KEY'],os.environ['AWS_SECRET_KEY'],tls=True)
+bucket = os.environ['S3_BUCKET']
 
 from json import dumps
 from uwaterlooapi import UWaterlooAPI
@@ -44,8 +48,17 @@ def generateCoursesForCurrentTerm():
 		courses = uw.term_subject_schedule(term, subject['subject'])
 		for course in courses:
 			courseMatches.append(course)
-	f = open('data/' + term + '.json', 'w')
-	f.write(dumps(courseMatches))
+	try:
+		f = open('data/' + term + '.json', 'r+')
+		f.write(dumps(courseMatches))
+		f.truncate()
+		f.close()
+	except Exception as e:
+		print e
+
+	# f = open(term + '.json', 'rb')
+	# s3conn.upload(term + '.json',f,bucket)
+	# s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
 	print "Finished generating courses for current term"
 
 # Cronjob for all terms courses
@@ -60,24 +73,46 @@ def generateCoursesForAllTerms():
 				courses = uw.term_subject_schedule(term, subject['subject'])
 				for course in courses:
 					courseMatches.append(course)
-			f = open('data/' + term + '.json', 'w')
-			f.write(dumps(courseMatches))
+			# Write to the file
+			try:
+				f = open('data/' + term + '.json', 'r+')
+				f.write(dumps(courseMatches))
+				f.truncate()
+				f.close()
+			except Exception as e:
+				print e
+
+			# f = open(term + '.json', 'rb')
+			# s3conn.upload(term + '.json',fr,bucket)
+			# s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
 	print "Finished generating courses for all terms"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=18)
 def generateSubjects():
 	print "Generating subjects"
 	subjects = uw.subject_codes()
-	f = open('data/subjects.json', 'w')
+	f = open('data/subjects.json', 'r+')
 	f.write(dumps(subjects))
+	f.truncate()
+	f.close()
+
+	# f = open('subjects.json', 'rb')
+	# s3conn.upload('subjects.json',f,bucket)
+	# s3conn.update_metadata('subjects.json',bucket=bucket,public=True)
 	print "Finished generating subjects"
 
 @sched.scheduled_job('cron', day_of_week='sun', hour=19)
 def generateTerms():
 	print "Generating terms"
 	terms = uw.terms()
-	f = open('data/terms.json', 'w')
+	f = open('data/terms.json', 'r+')
 	f.write(dumps(terms))
+	f.truncate()
+	f.close()
+
+	# f = open('terms.json', 'rb')
+	# s3conn.upload('terms.json',f,bucket)
+	# s3conn.update_metadata('terms.json',bucket=bucket,public=True)
 	print "Finished generating terms"
 
 @sched.scheduled_job('interval', minutes=15)
@@ -126,6 +161,8 @@ def generateEmails():
 	conn.commit()
 	print "Finished generating emails"
 
+# generateSubjects()
+# generateTerms()
 # generateCoursesForCurrentTerm()
 # generateCoursesForAllTerms()
 sched.start()
