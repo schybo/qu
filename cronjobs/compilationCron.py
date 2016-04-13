@@ -164,5 +164,5 @@ def generateEmails():
 # generateSubjects()
 # generateTerms()
 # generateCoursesForCurrentTerm()
-# generateCoursesForAllTerms()
+generateCoursesForAllTerms()
 sched.start()
