@@ -128,7 +128,7 @@ html
           .ui.container.medium-margin-top
             h4.ui.horizontal.divider.header(data-bind="if: courses().length")
               i.bullseye.icon
-              | Course Matches
+              span.align-icon-text(data-bind="text: matches")
             .ui.relaxed.divided.list(data-bind="foreach: courses")
               .item
                 i.large.cube.middle.aligned.icon
