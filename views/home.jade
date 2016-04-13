@@ -142,7 +142,7 @@ html
                     .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
                       data-content="Show some love for the courses you've enjoyed!")
                       i.heart.icon
-                  a.inline.header(data-bind="text: $data.titleText")
+                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
                   span &nbsp;-&nbsp;
                   span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
                   .description(data-bind="text: $data.profLocationText")

@@ -68,6 +68,10 @@ var ViewModel = function() {
         newCourse.classNumber = course.class_number;
         newCourse.subject = course.subject;
         newCourse.catalogNumber = course.catalog_number
+        newCourse.link = course.catalog_number > 500 ?
+                         "http://www.ucalendar.uwaterloo.ca/SA/GRAD/1516/GRDcourse-" + course.subject + ".html#" + course.subject + course.catalog_number:
+                         "http://www.ucalendar.uwaterloo.ca/1617/COURSE/course-" + course.subject + ".html#" + course.subject + course.catalog_number;
+
 
         return newCourse;
     }
