@@ -1,12 +1,13 @@
-import mandrill
 import os
 import psycopg2
 import urlparse
 
+from mailin import Mailin
 from uwaterlooapi import UWaterlooAPI
 
 # Setup Waterloo connection
 uw = UWaterlooAPI(api_key=os.environ['UW_API_TOKEN'])
+m = Mailin("https://api.sendinblue.com/v2.0", os.environ['SENDINBLUE_API_KEY'])
 
 # If you need to see all the methods
 # l = dir(uw)
@@ -35,26 +36,27 @@ rows = cur.fetchall()
 for row in rows:
 	# Id, Course, Email
 	# 0 , 1     , 2
-	course = uw.schedule_by_class_number(row[1])[0]
-	if course['enrollment_total'] < course['enrollment_capacity']:
+	course = uw.schedule_by_class_number(row[1])
+	course = course[0] if course else None
+	if course and (course['enrollment_total'] < course['enrollment_capacity']):
 		print "Course now open!"
 		#Send email
 		try:
-		    message = {
-		     'from_email': 'info@uwcourses.com',
-		     'from_name': 'UW Courses',
-		     'html': '<p>Hey!</p><p>You know that course you subscribed to: ' + str(row[2]) + '?</p><p>Well it has opened up!</p><p>Best of luck getting it!</p>',
-		     'metadata': {'website': 'www.uwcourses.com'},
-		     'to': [{'email': row[3],'type': 'to'}],
-		     'text': 'Hey! You know that course you subscribed to with course number ' + str(row[2]) + '? Well it has opened up! Best of luck getting it!',
-		     'subject': str(row[1]) + ' Course Opening'
-		    }
-		    result = mandrill_client.messages.send(message=message)
-		    print "Sent email!"
+			message = {
+				"from" : ['info@uwcourses.com' ,"UW Courses"],
+				'html': '<p>Hey!</p><p>You know that course you subscribed to: ' + str(row[2]) + '?</p><p>Well it has opened up!</p><p>Best of luck getting it!</p>',
+				'headers': {'website': 'www.uwcourses.com'},
+				'text': 'Hey! You know that course you subscribed to with course number ' + str(row[2]) + '? Well it has opened up! Best of luck getting it!',
+				"to" : { row[3] : row[3] },
+				'subject': str(row[1]) + ' Course Opening'
+			}
 
-		except mandrill.Error, e:
+			result = m.send_email(message)
+			print(result)
+
+		except Exception as e:
 		    # Mandrill errors are thrown as exceptions
-		    print 'A mandrill error occurred: %s - %s' % (e.__class__, e)
+		    print 'An error occurred: %s - %s' % (e.__class__, e)
 
 		#Remove from list
 		try:
