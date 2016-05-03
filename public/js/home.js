@@ -13,6 +13,7 @@ var ViewModel = function() {
     self.timeRange = ko.observable(false);
     self.startRange = ko.observable('');
     self.endRange = ko.observable('');
+    self.matches = ko.observable('Matches');
 
     self.currentSub = null;
 
@@ -45,29 +46,29 @@ var ViewModel = function() {
             newCourse.profLocationText = "Not Applicable | Abroad";
             newCourse.timeText = 'Abroad';
         } else {
+            //Calculate the professor and location string
+            section.instructors[0] = section.instructors[0] ? section.instructors[0] : 'TBD';
+            section.location.building = section.location.building ? section.location.building : 'TBD';
+            section.location.room = section.location.room ? section.location.room : '';
+
             newCourse.profLocationText = section.instructors[0] + " | " + section.location.building + " " + section.location.room;
 
-            if (section.date.start_time) {
-                section.date.start_time = section.date.start_time.replace(/^0+/, '');
-            } else {
-                section.date.start_time = 'Unknown';
-            }
+            //Calculate the time string
+            section.date.start_time = section.date.start_time ? section.date.start_time.replace(/^0+/, '') : '';
+            section.date.end_time = section.date.end_time ? section.date.end_time.replace(/^0+/, '') : 'TBD';
+            section.date.weekdays = section.date.weekdays ? section.date.weekdays : 'TBD';
 
-            if (section.date.end_time) {
-                section.date.end_time = section.date.end_time.replace(/^0+/, '');
-            } else {
-                section.date.end_time = 'Unknown';
-            }
-
-            newCourse.timeText = section.date.weekdays + " " +
-                   section.date.start_time + ' - ' +
-                   section.date.end_time;
+            newCourse.timeText = section.date.weekdays + " " + section.date.start_time + ' - ' + section.date.end_time;
         }
 
         newCourse.full = course.enrollment_total >= course.enrollment_capacity;
         newCourse.classNumber = course.class_number;
         newCourse.subject = course.subject;
         newCourse.catalogNumber = course.catalog_number
+        newCourse.link = course.catalog_number > 500 ?
+                         "http://www.ucalendar.uwaterloo.ca/SA/GRAD/1516/GRDcourse-" + course.subject + ".html#" + course.subject + course.catalog_number:
+                         "http://www.ucalendar.uwaterloo.ca/1617/COURSE/course-" + course.subject + ".html#" + course.subject + course.catalog_number;
+
 
         return newCourse;
     }
@@ -88,6 +89,7 @@ var ViewModel = function() {
             }
         })
         self.courses(tempCourseList);
+        self.matches(tempCourseList.length + ' Course Matches');
         $('.ui.icon.button.compact').popup({
             position: 'top right',
             delay: {
