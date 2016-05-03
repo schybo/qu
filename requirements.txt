@@ -3,4 +3,5 @@ python-dotenv==0.3.0
 uwaterlooapi==0.3.0
 mandrill==1.0.57
 psycopg2==2.6.1
+sendinblue==2.0.2
 tinys3==0.1.11
