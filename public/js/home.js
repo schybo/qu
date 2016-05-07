@@ -3,17 +3,30 @@ $(document).ready(function () {
 });
 
 var ViewModel = function() {
+    var LAB = "Lab";
+    var TUTORIAL = "Tutorial";
+    var TEST = "Test";
+
     //We can do this after the document.ready to get the term if necessary
     var self = this;
+
+    self.searched = ko.observable(false);
     self.campus = ko.observable('');
     self.days = ko.observable('');
     self.dayTime = ko.observable('');
     self.courses = ko.observableArray();
+    self.labs = ko.observableArray();
+    self.tutorials = ko.observableArray();
+    self.tests = ko.observableArray();
     self.level = ko.observable('');
     self.timeRange = ko.observable(false);
     self.startRange = ko.observable('');
     self.endRange = ko.observable('');
-    self.matches = ko.observable('Matches');
+
+    self.courseMatches = ko.observable('Matches');
+    self.labMatches = ko.observable('Matches');
+    self.tutorialMatches = ko.observable('Matches');
+    self.testMatches = ko.observable('Matches');
 
     self.currentSub = null;
 
@@ -32,7 +45,7 @@ var ViewModel = function() {
     }, this);
 
     self.superLongCourse = ko.pureComputed(function() {
-        return self.days() == "W" || self.days() == "T";
+        return self.days() == "M" || self.days() == "T" || self.days() == "W" || self.days() == "Th";
     }, this);
 
     var createCourse = function(course, section, online, abroad) {
@@ -61,6 +74,9 @@ var ViewModel = function() {
             newCourse.timeText = section.date.weekdays + " " + section.date.start_time + ' - ' + section.date.end_time;
         }
 
+        newCourse.type = course.section.indexOf("LAB") > -1 ? LAB :
+                         course.section.indexOf("TUT") > -1 ? TUTORIAL :
+                         course.section.indexOf("TST") > -1 ? TEST : null;
         newCourse.full = course.enrollment_total >= course.enrollment_capacity;
         newCourse.classNumber = course.class_number;
         newCourse.subject = course.subject;
@@ -75,6 +91,8 @@ var ViewModel = function() {
 
     var createCourseList = function (data) {
         var tempCourseList = [];
+        var testList = []; var tutorialList = []; var labList = []; var courseList = [];
+
         $.each(data, function (course) {
             course = data[course];
             if (course.campus == 'ONLN ONLINE') {
@@ -88,8 +106,30 @@ var ViewModel = function() {
                 });
             }
         })
-        self.courses(tempCourseList);
-        self.matches(tempCourseList.length + ' Course Matches');
+
+        $.each(tempCourseList, function (course) {
+            course = tempCourseList[course];
+            if (course.type == LAB) {
+                labList.push(course);
+            } else if (course.type == TUTORIAL) {
+                tutorialList.push(course);
+            } else if (course.type == TEST) {
+                testList.push(course)
+            } else {
+                courseList.push(course);
+            }
+        })
+
+        self.courses(courseList);
+        self.labs(labList);
+        self.tutorials(tutorialList);
+        self.tests(testList);
+
+        self.courseMatches(courseList.length + ' Course Matches');
+        self.labMatches(labList.length + ' Lab Matches');
+        self.tutorialMatches(tutorialList.length + ' Tutorial Matches');
+        self.testMatches(testList.length + ' Test Matches');
+
         $('.ui.icon.button.compact').popup({
             position: 'top right',
             delay: {
@@ -208,6 +248,7 @@ var ViewModel = function() {
         $.post(action, $(form).serialize())
         .done(function (data) {
             $("form").removeClass('loading');
+            self.searched(true);
             createCourseList(data);
         })
         .fail(function (data) {

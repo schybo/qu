@@ -17,3 +17,7 @@ Retrospectives
 =================
 
 Unexpected Token '<' Actually check if the js file is loading...
+
+Errors
+=======
+- Fix error when search via time range on Monday, then search via time range Tuesday etc.

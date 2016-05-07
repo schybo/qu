@@ -42,8 +42,10 @@ html
                     option(value="TTh") TTh
                     option(value="MW") MW
                     option(value="WF") WF
-                    option(value="W") W
+                    option(value="M") M
                     option(value="T") T
+                    option(value="W") W
+                    option(value="Th") Th
               <!-- ko if: !shortCourse() && !superLongCourse() && !timeRange() -->
               .column
                 .field
@@ -63,7 +65,7 @@ html
                 .field
                   i.clock.icon
                   label.inline(for="time") Time
-                  select.ui.fluid.dropdown(name="time", data-bind="if: shortCourse, value: dayTime, attr: { 'disabled': onlineAbroad }")
+                  select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                     option(value='') Any Time
                     option(value="08:30-09:20") 8:30am-9:20am
                     option(value="09:30-10:20") 9:30am-10:20am
@@ -82,6 +84,8 @@ html
                   label.inline(for="time") Time
                   select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                     option(value='') Any Time
+                    option(value="18:30-21:20") 6:30pm-9:20pm
+                    option(value="19:00-20:50") 7:00pm-8:50pm
                     option(value="19:00-21:50") 7:00pm-9:50pm
               <!-- /ko -->
               <!-- ko if: timeRange() -->
@@ -125,10 +129,16 @@ html
                     option(value="6") Graduate
               .two.wide.column.centered
                 .ui.button(data-bind="click: function () { submit() }") Search
-          .ui.container.medium-margin-top
+
+          .ui.container.medium-margin-top(data-bind="ifnot: searched()")
+            h4.ui.horizontal.divider.header
+              i.bullseye.icon
+              span.align-icon-text No Matches
+
+          .ui.container.medium-margin-top(data-bind="if: searched()")
             h4.ui.horizontal.divider.header(data-bind="if: courses().length")
               i.bullseye.icon
-              span.align-icon-text(data-bind="text: matches")
+              span.align-icon-text(data-bind="text: courseMatches")
             .ui.relaxed.divided.list(data-bind="foreach: courses")
               .item
                 i.large.cube.middle.aligned.icon
@@ -149,7 +159,85 @@ html
                   .descriptionMW(data-bind="text: $data.timeText")
             h4.ui.horizontal.divider.header(data-bind="ifnot: courses().length")
               i.bullseye.icon
-              | No Matches
+              | No Course Matches
+
+          .ui.container.small-margin-top(data-bind="if: searched()")
+            h4.ui.horizontal.divider.header(data-bind="if: labs().length")
+              i.bullseye.icon
+              span.align-icon-text(data-bind="text: labMatches")
+            .ui.relaxed.divided.list(data-bind="foreach: labs")
+              .item
+                i.large.cube.middle.aligned.icon
+                .content
+                  .right.floated.content.align-middle
+                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                    span.no-subscribe.red-text.space-right You've already liked this course
+                    span.no-subscribe.red-text.space-right Course is already open
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                      i.mail.icon
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                      data-content="Show some love for the courses you've enjoyed!")
+                      i.heart.icon
+                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                  span &nbsp;-&nbsp;
+                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                  .description(data-bind="text: $data.profLocationText")
+                  .descriptionMW(data-bind="text: $data.timeText")
+            h4.ui.horizontal.divider.header(data-bind="ifnot: labs().length")
+              i.bullseye.icon
+              | No Lab Matches
+
+          .ui.container.small-margin-top(data-bind="if: searched()")
+            h4.ui.horizontal.divider.header(data-bind="if: tutorials().length")
+              i.bullseye.icon
+              span.align-icon-text(data-bind="text: tutorialMatches")
+            .ui.relaxed.divided.list(data-bind="foreach: tutorials")
+              .item
+                i.large.cube.middle.aligned.icon
+                .content
+                  .right.floated.content.align-middle
+                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                    span.no-subscribe.red-text.space-right You've already liked this course
+                    span.no-subscribe.red-text.space-right Course is already open
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                      i.mail.icon
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                      data-content="Show some love for the courses you've enjoyed!")
+                      i.heart.icon
+                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                  span &nbsp;-&nbsp;
+                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                  .description(data-bind="text: $data.profLocationText")
+                  .descriptionMW(data-bind="text: $data.timeText")
+            h4.ui.horizontal.divider.header(data-bind="ifnot: tutorials().length")
+              i.bullseye.icon
+              | No Tutorial Matches
+
+          .ui.container.small-margin-top.medium-margin-bottom(data-bind="if: searched()")
+            h4.ui.horizontal.divider.header(data-bind="if: tests().length")
+              i.bullseye.icon
+              span.align-icon-text(data-bind="text: testMatches")
+            .ui.relaxed.divided.list(data-bind="foreach: tests")
+              .item
+                i.large.cube.middle.aligned.icon
+                .content
+                  .right.floated.content.align-middle
+                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                    span.no-subscribe.red-text.space-right You've already liked this course
+                    span.no-subscribe.red-text.space-right Course is already open
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                      i.mail.icon
+                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                      data-content="Show some love for the courses you've enjoyed!")
+                      i.heart.icon
+                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                  span &nbsp;-&nbsp;
+                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                  .description(data-bind="text: $data.profLocationText")
+                  .descriptionMW(data-bind="text: $data.timeText")
+            h4.ui.horizontal.divider.header(data-bind="ifnot: tests().length")
+              i.bullseye.icon
+              | No Test Matches
 
   script(src='/vendor/jquery/dist/jquery.min.js')
   script(src='/vendor/knockout/dist/knockout.js')
