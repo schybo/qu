@@ -1,5 +1,4 @@
-Contributing
-==============
+# Contributing
 
 Just ping brent@scheibelhut.com on email to ask about contributing.
 
