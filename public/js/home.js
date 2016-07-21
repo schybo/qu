@@ -2,6 +2,13 @@ $(document).ready(function () {
     $('.ui.search.dropdown').dropdown();
 });
 
+$(document).keypress(function(event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        $("#submit").click();
+    }
+});
+
 var ViewModel = function() {
     var LAB = "Lab";
     var TUTORIAL = "Tutorial";
