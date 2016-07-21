@@ -6,6 +6,29 @@ var terms = require('../data/terms.json');
 
 //We also want to let people make schedules
 
+var hasCorrectProfessor = function (searched, professors, searchName) {
+	if (searched) {
+		if (professors.length > 0) {
+			isCorrectProfessor = false;
+			_.each(professors, function(professor) {
+				_.each(searchName, function (namePart) {
+					if (professor.toLowerCase().includes(namePart.toLowerCase())) {
+						console.log(professor);
+						console.log(namePart);
+						isCorrectProfessor = true; return;
+					}
+				});
+				if (isCorrectProfessor) { return; }
+			});
+			return isCorrectProfessor;
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+}
+
 exports = module.exports = function(req, res) {
 	var options = req.body;
 	console.log(options);
@@ -16,6 +39,7 @@ exports = module.exports = function(req, res) {
 	var start_time = '';
 	var end_time = '';
 	var subjects = options.subjects.split(',');
+	var name = options.professor.split(" ");
 
 	if (options.campus == 'ONLN ONLINE') {
 		onlineCourse = true;
@@ -62,16 +86,16 @@ exports = module.exports = function(req, res) {
 	_.each(returnData, function (course, index) {
 		returnData[index].filteredClasses = _.filter(returnData[index].classes, function (section) {
 			if (onlineCourse) {
-				return true;
+				return hasCorrectProfessor(options.professor, section.instructors, name);
 			} else if (!options.days || section.date.weekdays == options.days) {
 				if (options.time) {
 					if (options.range == 'true' && section.date.start_time >= start_time && section.date.end_time <= end_time) {
-						return true;
+						return hasCorrectProfessor(options.professor, section.instructors, name);
 					} else if (options.range == 'false' && section.date.start_time == start_time && section.date.end_time == end_time) {
-						return true;
+						return hasCorrectProfessor(options.professor, section.instructors, name);
 					}
 				} else {
-					return true;
+					return hasCorrectProfessor(options.professor, section.instructors, name);
 				}
 			}
 			return false;

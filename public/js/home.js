@@ -19,6 +19,7 @@ var ViewModel = function() {
     self.tutorials = ko.observableArray();
     self.tests = ko.observableArray();
     self.level = ko.observable('');
+    self.professor = ko.observable('');
     self.timeRange = ko.observable(false);
     self.startRange = ko.observable('');
     self.endRange = ko.observable('');

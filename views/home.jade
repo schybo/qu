@@ -127,6 +127,11 @@ html
                     option(value="3") 300s
                     option(value="4") 400s
                     option(value="6") Graduate
+              .column
+                .field
+                  i.child.icon
+                  label.inline(for="professor") Professor (Contains)
+                  input(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
               .two.wide.column.centered
                 .ui.button(data-bind="click: function () { submit() }") Search
 
