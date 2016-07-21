@@ -39,25 +39,27 @@ terms = allTermInfo['listings']
 # Cronjob for current term courses
 @sched.scheduled_job('cron', day_of_week='mon-sat', hour=17)
 def generateCoursesForCurrentTerm():
-	print "Generating courses for current term"
-	courseMatches = []
-	term = str(allTermInfo['current_term'])
-	for subject in subjects:
-		courses = uw.term_subject_schedule(term, subject['subject'])
-		for course in courses:
-			courseMatches.append(course)
-	try:
-		f = open('data/' + term + '.json', 'r+')
-		f.write(dumps(courseMatches))
-		f.truncate()
-		f.close()
-	except Exception as e:
-		print e
+	print "Generating courses for current and next term"
+	terms = [str(allTermInfo['current_term']), str(allTermInfo['next_term'])]
+	for term in terms:
+		courseMatches = []
+		for subject in subjects:
+			courses = uw.term_subject_schedule(term, subject['subject'])
+			for course in courses:
+				courseMatches.append(course)
+		# Write to the file
+		try:
+			f = open('data/' + term + '.json', 'r+')
+			f.write(dumps(courseMatches))
+			f.truncate()
+			f.close()
+		except Exception as e:
+			print e
 
 	# f = open(term + '.json', 'rb')
 	# s3conn.upload(term + '.json',f,bucket)
 	# s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
-	print "Finished generating courses for current term"
+	print "Finished generating courses for current and next term"
 
 # Cronjob for all terms courses
 @sched.scheduled_job('cron', day_of_week='sun', hour=17)
