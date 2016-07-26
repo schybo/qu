@@ -6,6 +6,7 @@ $(document).ready(function () {
         weekends: false,
         defaultDate: '2016-09-11',
         displayEventEnd: true,
+        columnFormat: 'dddd',
     })
 });
 
@@ -240,7 +241,7 @@ var ViewModel = function() {
                     addEvent(eventStart, eventEnd, eventTitle, eventUrl);
                 }
             }
-        } else if (days == "T" || days == "TTH") {
+        } else if (days == "T" || days == "TTh") {
 
             eventStart = eventStart.add(1, 'days');
             eventEnd = eventEnd.add(1, 'days');
