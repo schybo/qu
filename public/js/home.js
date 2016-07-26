@@ -210,7 +210,9 @@ var ViewModel = function() {
         var res = data.timeText.split(" ");
         var days = res[0];
         var start = res[1];
+        start = start.length == 4 ? "0" + start : start;
         var end = res[3];
+        end = end.length == 4 ? "0" + end : end;
         console.log(days);
         console.log(start);
         console.log(end);
