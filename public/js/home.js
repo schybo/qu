@@ -1,5 +1,11 @@
 $(document).ready(function () {
     $('.ui.search.dropdown').dropdown();
+    $('#calendar').fullCalendar({
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        defaultView: 'basicWeek',
+        weekends: false,
+        defaultDate: '2014-02-01'
+    })
 });
 
 $(document).keypress(function(event) {
@@ -186,6 +192,9 @@ var ViewModel = function() {
         $('#courseCalendarHeader').toggleClass('active');
         $('#courseSearch').toggleClass('active');
         $('#courseCalendar').toggleClass('active');
+
+        //wastefull rendering, should be only on switch to calendar tab
+        $('#calendar').fullCalendar('render');
     }
 
     self.closeSuccessModal = function() {

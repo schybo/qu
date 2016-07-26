@@ -4,6 +4,8 @@ html
     title Advanced Quest Search
     link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
     link(rel="stylesheet", href="/mfb/mfb.min.css")
+    link(rel='stylesheet' href='/vendor/fullcalendar-scheduler/dist/scheduler.min.css')
+    link(rel='stylesheet' href='/vendor/fullcalendar/dist/fullcalendar.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
     include ./partials/favicon
     include ./partials/meta
@@ -252,12 +254,15 @@ html
                 i.bullseye.icon
                 | No Test Matches
           #courseCalendar.ui.bottom.attached.tab.segment
-            p Hello
+            #calendar
 
   script(src='/vendor/jquery/dist/jquery.min.js')
   script(src='/vendor/knockout/dist/knockout.js')
   //- script(src='/vendor/lodash/lodash.min.js')
   script(src='/vendor/semantic/dist/semantic.min.js')
+  script(src='/vendor/moment/min/moment.min.js')
+  script(src='/vendor/fullcalendar/dist/fullcalendar.min.js')
+  script(src='/vendor/fullcalendar-scheduler/dist/scheduler.min.js')
   script(src='/mfb/mfb.min.js')
   script(src='/js/home.js')
   include ./partials/ga

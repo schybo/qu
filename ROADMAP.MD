@@ -6,4 +6,5 @@ Just ping brent@scheibelhut.com on email to ask things you want to see here
 - Data visualizations for likes
 - Print number of courses beside course matches
 - Search by teacher
+- Local data storage of course on Calendar (don't need Scheduler currently)
 - Can't take with current classes (cart of classes?)(already taking some classes add here)(CONFLICT)
