@@ -6,15 +6,16 @@ $(document).ready(function () {
         weekends: false,
         defaultDate: '2016-09-11',
         displayEventEnd: true,
-        events: [
-            {
-                title  : 'CLAS 230',
-                start  : '2016-09-12 12:30:00',
-                end    : '2016-09-12 14:30:00'
-            }
-        ]
     })
 });
+
+// events: [
+//     {
+//         title  : 'CLAS 230',
+//         start  : '2016-09-12 12:30:00',
+//         end    : '2016-09-12 14:30:00'
+//     }
+// ]
 
 $(document).keypress(function(event) {
     if (event.which == 13) {
@@ -182,14 +183,28 @@ var ViewModel = function() {
         }
     }
 
+    var addEvent = function(start, end, title, url) {
+        var event = {
+                url    : url,
+                title  : title,
+                start  : start,
+                end    : end
+            }
+
+        $('#calendar').fullCalendar( 'renderEvent', event, true);
+    }
+
     self.add = function(data, event) {
         console.log(data);
+
+        //should only show one week of the calendar
 
         //Get start date of term
         var startDate = "2016-09-12"
 
         //Get the title
         var eventTitle = data.subject + data.catalogNumber;
+        var eventUrl = data.url;
 
         //Get the time
         var res = data.timeText.split(" ");
@@ -200,19 +215,63 @@ var ViewModel = function() {
         console.log(start);
         console.log(end);
 
-        var eventStart = $.fullCalendar.moment.utc(startDate + "T" + start + ":00");
-        // var eventStart = moment(startDate + " " + start + ":00 +0000", 'ddd, DD MMM YYYY H:mm:ss ZZ');
-        // var eventEnd = moment(startDate + " " + end + ":00 +0000", 'ddd, DD MMM YYYY H:mm:ss ZZ');
+        var eventStart = $.fullCalendar.moment.utc(startDate + " " + start + ":00");
+        var eventEnd = $.fullCalendar.moment.utc(startDate + " " + end + ":00");
 
-        var event = {
-            url: data.link,
-            start: eventStart,
-            color: 'yellow',   // an option!
-            textColor: 'black', // an option!
-            title: eventTitle
+        //can probably do an array with underscore and check if its in
+        if (days == "M" || days == "MW" || days == "MWF") {
+
+            //could probably make an object and set title and url as attr and make a method to add event
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+
+            if (days == "MW" || days == "MWF") {
+
+                eventStart = eventStart.add(2, 'days');
+                eventEnd = eventEnd.add(2, 'days');
+
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+
+                if (days == "MWF") {
+                    eventStart = eventStart.add(2, 'days');
+                    eventEnd = eventEnd.add(2, 'days');
+
+                    addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+                }
+            }
+        } else if (days == "T" || days == "TTH") {
+
+            eventStart = eventStart.add(1, 'days');
+            eventEnd = eventEnd.add(1, 'days');
+
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+
+            if (days == "TTh") {
+                eventStart = eventStart.add(2, 'days');
+                eventEnd = eventEnd.add(2, 'days');
+
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+            }
+
+        } else if (days == "W" || days == "WF") {
+
+            eventStart = eventStart.add(2, 'days');
+            eventEnd = eventEnd.add(2, 'days');
+
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+
+            if (days == "WF") {
+                eventStart = eventStart.add(2, 'days');
+                eventEnd = eventEnd.add(2, 'days');
+
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+            }
+
+        } else {
+            eventStart = eventStart.add(3, 'days');
+            eventEnd = eventEnd.add(3, 'days');
+
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
         }
-
-        $('#calendar').fullCalendar( 'renderEvent', event );
     }
 
     self.initTimeRange = function (data, event) {
