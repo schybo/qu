@@ -181,6 +181,13 @@ var ViewModel = function() {
         }
     }
 
+    self.toggleTab = function(data, event) {
+        $('#courseSearchHeader').toggleClass('active');
+        $('#courseCalendarHeader').toggleClass('active');
+        $('#courseSearch').toggleClass('active');
+        $('#courseCalendar').toggleClass('active');
+    }
+
     self.closeSuccessModal = function() {
         $('#successModal').modal('hide');
     }

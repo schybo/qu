@@ -12,239 +12,247 @@ html
     include ./partials/subscriptionModal
     include ./partials/successModal
     include ./partials/failureModal
+
+    
     .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
       .sixteen.wide.column
         include ./partials/header
         .ui.main.container.medium-margin-top
-          form#questForm.ui.form(action="/", method="POST")
-            input(type="hidden" name="range" data-bind="value: timeRange")
-            .ui.two.column.stackable.grid.container
-              .column
-                .field
-                  i.student.icon
-                  label.inline(for="term") Term
-                  select.ui.fluid.dropdown(name="term")
-                    for term in terms
-                      option(value=term.id, selected=nextTerm == term.id) #{term.name}
-              .column
-                .field
-                  i.location.arrow.icon
-                  label.inline(for="campus") Campus/Online
-                  select.ui.fluid.dropdown(name="campus", data-bind="value: campus")
-                    option(value="UW U" selected) Waterloo
-                    option(value="ONLN ONLINE") Online
-                    option(value="OFF ABROAD") Abroad
-              .column
-                .field
-                  i.calendar.icon
-                  label.inline(for="days") Days
-                  select.ui.fluid.dropdown(name="days", data-bind="value: days, attr: { 'disabled' : onlineAbroad }")
-                    option(value='') Any Day
-                    option(value="MWF") MWF
-                    option(value="TTh") TTh
-                    option(value="MW") MW
-                    option(value="WF") WF
-                    option(value="M") M
-                    option(value="T") T
-                    option(value="W") W
-                    option(value="Th") Th
-              <!-- ko if: !shortCourse() && !superLongCourse() && !timeRange() -->
-              .column
-                .field
-                  i.clock.icon
-                  label.inline(for="time") Time
-                  select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
-                    option(value='') Any Time
-                    option(value="08:30-09:50") 8:30am-9:50am
-                    option(value="10:00-11:20") 10:00am-11:20am
-                    option(value="11:30-12:50") 11:30am-12:50pm
-                    option(value="13:00-14:20") 1:00pm-2:20pm
-                    option(value="14:30-15:50") 2:30pm-3:50pm
-                    option(value="16:00-15:20") 4:00pm-5:20pm
-              <!-- /ko -->
-              <!-- ko if: shortCourse() && !timeRange() -->
-              .column
-                .field
-                  i.clock.icon
-                  label.inline(for="time") Time
-                  select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
-                    option(value='') Any Time
-                    option(value="08:30-09:20") 8:30am-9:20am
-                    option(value="09:30-10:20") 9:30am-10:20am
-                    option(value="10:30-11:20") 10:30am-11:20am
-                    option(value="11:30-12:20") 11:30am-12:20pm
-                    option(value="12:30-13:20") 12:30pm-1:20pm
-                    option(value="13:30-14:20") 1:30pm-2:20pm
-                    option(value="14:30-15:20") 2:30pm-3:20pm
-                    option(value="15:30-16:20") 3:30pm-4:20pm
-                    option(value="16:30-17:20") 4:30pm-5:20pm
-              <!-- /ko -->
-              <!-- ko if: superLongCourse() && !timeRange() -->
-              .column
-                .field
-                  i.clock.icon
-                  label.inline(for="time") Time
-                  select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
-                    option(value='') Any Time
-                    option(value="18:30-21:20") 6:30pm-9:20pm
-                    option(value="19:00-20:50") 7:00pm-8:50pm
-                    option(value="19:00-21:50") 7:00pm-9:50pm
-              <!-- /ko -->
-              <!-- ko if: timeRange() -->
-              .column
-                .two.fields
+          .ui.top.attached.tabular.menu
+            #courseSearchHeader.active.item(data-bind="click: toggleTab") Course Search
+            #courseCalendarHeader.item(data-bind="click: toggleTab") Course Calendar
+          #courseSearch.ui.bottom.attached.active.tab.segment
+            form#questForm.ui.form(action="/", method="POST")
+              input(type="hidden" name="range" data-bind="value: timeRange")
+              .ui.two.column.stackable.grid.container
+                .column
+                  .field
+                    i.student.icon
+                    label.inline(for="term") Term
+                    select.ui.fluid.dropdown(name="term")
+                      for term in terms
+                        option(value=term.id, selected=nextTerm == term.id) #{term.name}
+                .column
+                  .field
+                    i.location.arrow.icon
+                    label.inline(for="campus") Campus/Online
+                    select.ui.fluid.dropdown(name="campus", data-bind="value: campus")
+                      option(value="UW U" selected) Waterloo
+                      option(value="ONLN ONLINE") Online
+                      option(value="OFF ABROAD") Abroad
+                .column
+                  .field
+                    i.calendar.icon
+                    label.inline(for="days") Days
+                    select.ui.fluid.dropdown(name="days", data-bind="value: days, attr: { 'disabled' : onlineAbroad }")
+                      option(value='') Any Day
+                      option(value="MWF") MWF
+                      option(value="TTh") TTh
+                      option(value="MW") MW
+                      option(value="WF") WF
+                      option(value="M") M
+                      option(value="T") T
+                      option(value="W") W
+                      option(value="Th") Th
+                <!-- ko if: !shortCourse() && !superLongCourse() && !timeRange() -->
+                .column
                   .field
                     i.clock.icon
-                    label.inline(for="startRange") Start Range
-                    input(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange")
+                    label.inline(for="time") Time
+                    select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                      option(value='') Any Time
+                      option(value="08:30-09:50") 8:30am-9:50am
+                      option(value="10:00-11:20") 10:00am-11:20am
+                      option(value="11:30-12:50") 11:30am-12:50pm
+                      option(value="13:00-14:20") 1:00pm-2:20pm
+                      option(value="14:30-15:50") 2:30pm-3:50pm
+                      option(value="16:00-15:20") 4:00pm-5:20pm
+                <!-- /ko -->
+                <!-- ko if: shortCourse() && !timeRange() -->
+                .column
                   .field
                     i.clock.icon
-                    label.inline(for="endRange") End Range
-                    input(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange")
-              <!-- /ko -->
-              .range-button
-                button.circular.ui.icon.button.compact(type="button" data-bind="click: initTimeRange")
-                  i.icon.resize.horizontal
-              .column
-                .field
-                  i.book.icon
-                  label.inline Specific Subject:
-                  .ui.fluid.multiple.search.selection.dropdown
-                    input(type='hidden', name='subjects')
-                    i.dropdown.icon
-                    .default.text Select Subject
-                    .menu
-                      for subject in subjects
-                        .item(data-value=subject.subject, data-text=subject.subject)
-                          i.large.book.middle.aligned.icon
-                          span #{subject.subject} - #{subject.description}
-              .column
-                .field
-                  i.location.arrow.icon
-                  label.inline(for="level") Course Level
-                  select.ui.fluid.dropdown(name="level", data-bind="value: level")
-                    option(value='') Any Level
-                    option(value="1") 100s
-                    option(value="2") 200s
-                    option(value="3") 300s
-                    option(value="4") 400s
-                    option(value="6") Graduate
-              .column
-                .field
-                  i.child.icon
-                  label.inline(for="professor") Professor (Contains)
-                  input(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
-              .column.text-center
-                #submit.ui.button(style="margin-top: 22px;" data-bind="click: function () { submit() }") Search
+                    label.inline(for="time") Time
+                    select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                      option(value='') Any Time
+                      option(value="08:30-09:20") 8:30am-9:20am
+                      option(value="09:30-10:20") 9:30am-10:20am
+                      option(value="10:30-11:20") 10:30am-11:20am
+                      option(value="11:30-12:20") 11:30am-12:20pm
+                      option(value="12:30-13:20") 12:30pm-1:20pm
+                      option(value="13:30-14:20") 1:30pm-2:20pm
+                      option(value="14:30-15:20") 2:30pm-3:20pm
+                      option(value="15:30-16:20") 3:30pm-4:20pm
+                      option(value="16:30-17:20") 4:30pm-5:20pm
+                <!-- /ko -->
+                <!-- ko if: superLongCourse() && !timeRange() -->
+                .column
+                  .field
+                    i.clock.icon
+                    label.inline(for="time") Time
+                    select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                      option(value='') Any Time
+                      option(value="18:30-21:20") 6:30pm-9:20pm
+                      option(value="19:00-20:50") 7:00pm-8:50pm
+                      option(value="19:00-21:50") 7:00pm-9:50pm
+                <!-- /ko -->
+                <!-- ko if: timeRange() -->
+                .column
+                  .two.fields
+                    .field
+                      i.clock.icon
+                      label.inline(for="startRange") Start Range
+                      input(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange")
+                    .field
+                      i.clock.icon
+                      label.inline(for="endRange") End Range
+                      input(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange")
+                <!-- /ko -->
+                .range-button
+                  button.circular.ui.icon.button.compact(type="button" data-bind="click: initTimeRange")
+                    i.icon.resize.horizontal
+                .column
+                  .field
+                    i.book.icon
+                    label.inline Specific Subject:
+                    .ui.fluid.multiple.search.selection.dropdown
+                      input(type='hidden', name='subjects')
+                      i.dropdown.icon
+                      .default.text Select Subject
+                      .menu
+                        for subject in subjects
+                          .item(data-value=subject.subject, data-text=subject.subject)
+                            i.large.book.middle.aligned.icon
+                            span #{subject.subject} - #{subject.description}
+                .column
+                  .field
+                    i.location.arrow.icon
+                    label.inline(for="level") Course Level
+                    select.ui.fluid.dropdown(name="level", data-bind="value: level")
+                      option(value='') Any Level
+                      option(value="1") 100s
+                      option(value="2") 200s
+                      option(value="3") 300s
+                      option(value="4") 400s
+                      option(value="6") Graduate
+                .column
+                  .field
+                    i.child.icon
+                    label.inline(for="professor") Professor (Contains)
+                    input(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
+                .column.text-center
+                  #submit.ui.button(style="margin-top: 22px;" data-bind="click: function () { submit() }") Search
 
-          .ui.container.medium-margin-top(data-bind="ifnot: searched()")
-            h4.ui.horizontal.divider.header
-              i.bullseye.icon
-              span.align-icon-text No Matches
+            .ui.container.medium-margin-top(data-bind="ifnot: searched()")
+              h4.ui.horizontal.divider.header
+                i.bullseye.icon
+                span.align-icon-text No Matches
 
-          .ui.container.medium-margin-top(data-bind="if: searched()")
-            h4.ui.horizontal.divider.header(data-bind="if: courses().length")
-              i.bullseye.icon
-              span.align-icon-text(data-bind="text: courseMatches")
-            .ui.relaxed.divided.list(data-bind="foreach: courses")
-              .item
-                i.large.cube.middle.aligned.icon
-                .content
-                  .right.floated.content.align-middle
-                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                    span.no-subscribe.red-text.space-right You've already liked this course
-                    span.no-subscribe.red-text.space-right Course is already open
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                      i.mail.icon
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                      data-content="Show some love for the courses you've enjoyed!")
-                      i.heart.icon
-                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                  span &nbsp;-&nbsp;
-                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                  .description(data-bind="text: $data.profLocationText")
-                  .descriptionMW(data-bind="text: $data.timeText")
-            h4.ui.horizontal.divider.header(data-bind="ifnot: courses().length")
-              i.bullseye.icon
-              | No Course Matches
+            .ui.container.medium-margin-top(data-bind="if: searched()")
+              h4.ui.horizontal.divider.header(data-bind="if: courses().length")
+                i.bullseye.icon
+                span.align-icon-text(data-bind="text: courseMatches")
+              .ui.relaxed.divided.list(data-bind="foreach: courses")
+                .item
+                  i.large.cube.middle.aligned.icon
+                  .content
+                    .right.floated.content.align-middle
+                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                      span.no-subscribe.red-text.space-right You've already liked this course
+                      span.no-subscribe.red-text.space-right Course is already open
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                        i.mail.icon
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                        data-content="Show some love for the courses you've enjoyed!")
+                        i.heart.icon
+                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                    span &nbsp;-&nbsp;
+                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                    .description(data-bind="text: $data.profLocationText")
+                    .descriptionMW(data-bind="text: $data.timeText")
+              h4.ui.horizontal.divider.header(data-bind="ifnot: courses().length")
+                i.bullseye.icon
+                | No Course Matches
 
-          .ui.container.small-margin-top(data-bind="if: searched()")
-            h4.ui.horizontal.divider.header(data-bind="if: labs().length")
-              i.bullseye.icon
-              span.align-icon-text(data-bind="text: labMatches")
-            .ui.relaxed.divided.list(data-bind="foreach: labs")
-              .item
-                i.large.cube.middle.aligned.icon
-                .content
-                  .right.floated.content.align-middle
-                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                    span.no-subscribe.red-text.space-right You've already liked this course
-                    span.no-subscribe.red-text.space-right Course is already open
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                      i.mail.icon
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                      data-content="Show some love for the courses you've enjoyed!")
-                      i.heart.icon
-                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                  span &nbsp;-&nbsp;
-                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                  .description(data-bind="text: $data.profLocationText")
-                  .descriptionMW(data-bind="text: $data.timeText")
-            h4.ui.horizontal.divider.header(data-bind="ifnot: labs().length")
-              i.bullseye.icon
-              | No Lab Matches
+            .ui.container.small-margin-top(data-bind="if: searched()")
+              h4.ui.horizontal.divider.header(data-bind="if: labs().length")
+                i.bullseye.icon
+                span.align-icon-text(data-bind="text: labMatches")
+              .ui.relaxed.divided.list(data-bind="foreach: labs")
+                .item
+                  i.large.cube.middle.aligned.icon
+                  .content
+                    .right.floated.content.align-middle
+                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                      span.no-subscribe.red-text.space-right You've already liked this course
+                      span.no-subscribe.red-text.space-right Course is already open
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                        i.mail.icon
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                        data-content="Show some love for the courses you've enjoyed!")
+                        i.heart.icon
+                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                    span &nbsp;-&nbsp;
+                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                    .description(data-bind="text: $data.profLocationText")
+                    .descriptionMW(data-bind="text: $data.timeText")
+              h4.ui.horizontal.divider.header(data-bind="ifnot: labs().length")
+                i.bullseye.icon
+                | No Lab Matches
 
-          .ui.container.small-margin-top(data-bind="if: searched()")
-            h4.ui.horizontal.divider.header(data-bind="if: tutorials().length")
-              i.bullseye.icon
-              span.align-icon-text(data-bind="text: tutorialMatches")
-            .ui.relaxed.divided.list(data-bind="foreach: tutorials")
-              .item
-                i.large.cube.middle.aligned.icon
-                .content
-                  .right.floated.content.align-middle
-                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                    span.no-subscribe.red-text.space-right You've already liked this course
-                    span.no-subscribe.red-text.space-right Course is already open
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                      i.mail.icon
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                      data-content="Show some love for the courses you've enjoyed!")
-                      i.heart.icon
-                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                  span &nbsp;-&nbsp;
-                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                  .description(data-bind="text: $data.profLocationText")
-                  .descriptionMW(data-bind="text: $data.timeText")
-            h4.ui.horizontal.divider.header(data-bind="ifnot: tutorials().length")
-              i.bullseye.icon
-              | No Tutorial Matches
+            .ui.container.small-margin-top(data-bind="if: searched()")
+              h4.ui.horizontal.divider.header(data-bind="if: tutorials().length")
+                i.bullseye.icon
+                span.align-icon-text(data-bind="text: tutorialMatches")
+              .ui.relaxed.divided.list(data-bind="foreach: tutorials")
+                .item
+                  i.large.cube.middle.aligned.icon
+                  .content
+                    .right.floated.content.align-middle
+                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                      span.no-subscribe.red-text.space-right You've already liked this course
+                      span.no-subscribe.red-text.space-right Course is already open
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                        i.mail.icon
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                        data-content="Show some love for the courses you've enjoyed!")
+                        i.heart.icon
+                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                    span &nbsp;-&nbsp;
+                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                    .description(data-bind="text: $data.profLocationText")
+                    .descriptionMW(data-bind="text: $data.timeText")
+              h4.ui.horizontal.divider.header(data-bind="ifnot: tutorials().length")
+                i.bullseye.icon
+                | No Tutorial Matches
 
-          .ui.container.small-margin-top.medium-margin-bottom(data-bind="if: searched()")
-            h4.ui.horizontal.divider.header(data-bind="if: tests().length")
-              i.bullseye.icon
-              span.align-icon-text(data-bind="text: testMatches")
-            .ui.relaxed.divided.list(data-bind="foreach: tests")
-              .item
-                i.large.cube.middle.aligned.icon
-                .content
-                  .right.floated.content.align-middle
-                    span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                    span.no-subscribe.red-text.space-right You've already liked this course
-                    span.no-subscribe.red-text.space-right Course is already open
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                      i.mail.icon
-                    .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                      data-content="Show some love for the courses you've enjoyed!")
-                      i.heart.icon
-                  a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                  span &nbsp;-&nbsp;
-                  span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                  .description(data-bind="text: $data.profLocationText")
-                  .descriptionMW(data-bind="text: $data.timeText")
-            h4.ui.horizontal.divider.header(data-bind="ifnot: tests().length")
-              i.bullseye.icon
-              | No Test Matches
+            .ui.container.small-margin-top.medium-margin-bottom(data-bind="if: searched()")
+              h4.ui.horizontal.divider.header(data-bind="if: tests().length")
+                i.bullseye.icon
+                span.align-icon-text(data-bind="text: testMatches")
+              .ui.relaxed.divided.list(data-bind="foreach: tests")
+                .item
+                  i.large.cube.middle.aligned.icon
+                  .content
+                    .right.floated.content.align-middle
+                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
+                      span.no-subscribe.red-text.space-right You've already liked this course
+                      span.no-subscribe.red-text.space-right Course is already open
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+                        i.mail.icon
+                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+                        data-content="Show some love for the courses you've enjoyed!")
+                        i.heart.icon
+                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+                    span &nbsp;-&nbsp;
+                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+                    .description(data-bind="text: $data.profLocationText")
+                    .descriptionMW(data-bind="text: $data.timeText")
+              h4.ui.horizontal.divider.header(data-bind="ifnot: tests().length")
+                i.bullseye.icon
+                | No Test Matches
+          #courseCalendar.ui.bottom.attached.tab.segment
+            p Hello
 
   script(src='/vendor/jquery/dist/jquery.min.js')
   script(src='/vendor/knockout/dist/knockout.js')
