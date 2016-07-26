@@ -3,10 +3,12 @@ html
   head
     title Advanced Quest Search
     link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
+    link(rel="stylesheet", href="/mfb/mfb.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
     include ./partials/favicon
     include ./partials/meta
   body
+    include ./partials/floatingActionButton
     include ./partials/subscriptionModal
     include ./partials/successModal
     include ./partials/failureModal
@@ -248,6 +250,7 @@ html
   script(src='/vendor/knockout/dist/knockout.js')
   //- script(src='/vendor/lodash/lodash.min.js')
   script(src='/vendor/semantic/dist/semantic.min.js')
+  script(src='/mfb/mfb.min.js')
   script(src='/js/home.js')
   include ./partials/ga
 

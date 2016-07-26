@@ -30,6 +30,7 @@ app.use(cookieParser());
 app.use(limits(limits_config)); // limit size of uploads to lessen the impact of DoS attempts
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/mfb', express.static(__dirname + '/node_modules/mfb/src/'));
 
 app.use('/', routes);
 
