@@ -2,9 +2,17 @@ $(document).ready(function () {
     $('.ui.search.dropdown').dropdown();
     $('#calendar').fullCalendar({
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        defaultView: 'basicWeek',
+        defaultView: 'agendaWeek',
         weekends: false,
-        defaultDate: '2014-02-01'
+        defaultDate: '2016-09-11',
+        displayEventEnd: true,
+        events: [
+            {
+                title  : 'CLAS 230',
+                start  : '2016-09-12 12:30:00',
+                end    : '2016-09-12 14:30:00'
+            }
+        ]
     })
 });
 
@@ -172,6 +180,39 @@ var ViewModel = function() {
         } else {
             $(event.currentTarget).prev().prev().prev().fadeIn().delay( 3000 ).fadeOut( 500 );
         }
+    }
+
+    self.add = function(data, event) {
+        console.log(data);
+
+        //Get start date of term
+        var startDate = "2016-09-12"
+
+        //Get the title
+        var eventTitle = data.subject + data.catalogNumber;
+
+        //Get the time
+        var res = data.timeText.split(" ");
+        var days = res[0];
+        var start = res[1];
+        var end = res[3];
+        console.log(days);
+        console.log(start);
+        console.log(end);
+
+        var eventStart = $.fullCalendar.moment.utc(startDate + "T" + start + ":00");
+        // var eventStart = moment(startDate + " " + start + ":00 +0000", 'ddd, DD MMM YYYY H:mm:ss ZZ');
+        // var eventEnd = moment(startDate + " " + end + ":00 +0000", 'ddd, DD MMM YYYY H:mm:ss ZZ');
+
+        var event = {
+            url: data.link,
+            start: eventStart,
+            color: 'yellow',   // an option!
+            textColor: 'black', // an option!
+            title: eventTitle
+        }
+
+        $('#calendar').fullCalendar( 'renderEvent', event );
     }
 
     self.initTimeRange = function (data, event) {
