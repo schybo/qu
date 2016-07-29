@@ -8,6 +8,7 @@
 * added; Separated into classes, tutorials, labs, and test
 * added; Floating share button
 * fixed; Undefined data now TBD
+* fixed; [No search results](bscheibe/qu#1) returned after switching days bscheibe/qu#1
 
 ## v1.0.0 / 2016-05-29
 
