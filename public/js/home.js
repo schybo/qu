@@ -84,6 +84,7 @@ var ViewModel = function() {
         newCourse.titleText = course.subject + " " + course.catalog_number + ' - ' + course.title;
 
         if (online) {
+            section.instructors[0] = section.instructors[0] ? section.instructors[0] : 'TBD';
             newCourse.profLocationText = section.instructors[0] + " | Online";
             newCourse.timeText = 'Online';
         } else if (abroad) {
@@ -205,85 +206,87 @@ var ViewModel = function() {
     }
 
     self.add = function(data, event) {
-        console.log(data);
+        // console.log(data);
 
-        //should only show one week of the calendar
+        if (data.timeText != "Online") {
+            //Get start date of term
+            var startDate = "2016-09-12"
 
-        //Get start date of term
-        var startDate = "2016-09-12"
+            //Get the title
+            var eventTitle = data.subject + data.catalogNumber;
+            var eventUrl = data.url;
+            var classNumber = data.classNumber;
 
-        //Get the title
-        var eventTitle = data.subject + data.catalogNumber;
-        var eventUrl = data.url;
-        var classNumber = data.classNumber;
+            //Get the time
+            var res = data.timeText.split(" ");
+            var days = res[0];
+            var start = res[1];
+            start = start.length == 4 ? "0" + start : start;
+            var end = res[3];
+            end = end.length == 4 ? "0" + end : end;
+            console.log(days);
+            console.log(start);
+            console.log(end);
 
-        //Get the time
-        var res = data.timeText.split(" ");
-        var days = res[0];
-        var start = res[1];
-        start = start.length == 4 ? "0" + start : start;
-        var end = res[3];
-        end = end.length == 4 ? "0" + end : end;
-        console.log(days);
-        console.log(start);
-        console.log(end);
+            var eventStart = $.fullCalendar.moment.utc(startDate + " " + start + ":00");
+            var eventEnd = $.fullCalendar.moment.utc(startDate + " " + end + ":00");
 
-        var eventStart = $.fullCalendar.moment.utc(startDate + " " + start + ":00");
-        var eventEnd = $.fullCalendar.moment.utc(startDate + " " + end + ":00");
+            //can probably do an array with underscore and check if its in
+            if (days == "M" || days == "MW" || days == "MWF") {
 
-        //can probably do an array with underscore and check if its in
-        if (days == "M" || days == "MW" || days == "MWF") {
+                //could probably make an object and set title and url as attr and make a method to add event
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
-            //could probably make an object and set title and url as attr and make a method to add event
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                if (days == "MW" || days == "MWF") {
 
-            if (days == "MW" || days == "MWF") {
+                    eventStart = eventStart.add(2, 'days');
+                    eventEnd = eventEnd.add(2, 'days');
 
-                eventStart = eventStart.add(2, 'days');
-                eventEnd = eventEnd.add(2, 'days');
+                    addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+
+                    if (days == "MWF") {
+                        eventStart = eventStart.add(2, 'days');
+                        eventEnd = eventEnd.add(2, 'days');
+
+                        addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                    }
+                }
+            } else if (days == "T" || days == "TTh") {
+
+                eventStart = eventStart.add(1, 'days');
+                eventEnd = eventEnd.add(1, 'days');
 
                 addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
-                if (days == "MWF") {
+                if (days == "TTh") {
                     eventStart = eventStart.add(2, 'days');
                     eventEnd = eventEnd.add(2, 'days');
 
                     addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
                 }
-            }
-        } else if (days == "T" || days == "TTh") {
 
-            eventStart = eventStart.add(1, 'days');
-            eventEnd = eventEnd.add(1, 'days');
+            } else if (days == "W" || days == "WF") {
 
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
-
-            if (days == "TTh") {
                 eventStart = eventStart.add(2, 'days');
                 eventEnd = eventEnd.add(2, 'days');
 
                 addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
-            }
 
-        } else if (days == "W" || days == "WF") {
+                if (days == "WF") {
+                    eventStart = eventStart.add(2, 'days');
+                    eventEnd = eventEnd.add(2, 'days');
 
-            eventStart = eventStart.add(2, 'days');
-            eventEnd = eventEnd.add(2, 'days');
+                    addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                }
 
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
-
-            if (days == "WF") {
-                eventStart = eventStart.add(2, 'days');
-                eventEnd = eventEnd.add(2, 'days');
+            } else {
+                eventStart = eventStart.add(3, 'days');
+                eventEnd = eventEnd.add(3, 'days');
 
                 addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
             }
-
         } else {
-            eventStart = eventStart.add(3, 'days');
-            eventEnd = eventEnd.add(3, 'days');
-
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+            //Should add to the bottom of the calendar?
         }
     }
 

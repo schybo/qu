@@ -104,11 +104,11 @@ html
                     .field
                       i.clock.icon
                       label.inline(for="startRange") Start Range
-                      input(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange")
+                      input(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange, attr: { 'disabled': onlineAbroad }")
                     .field
                       i.clock.icon
                       label.inline(for="endRange") End Range
-                      input(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange")
+                      input(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange, attr: { 'disabled': onlineAbroad }")
                 <!-- /ko -->
                 .range-button
                   button.circular.ui.icon.button.compact(type="button" data-bind="click: initTimeRange")
