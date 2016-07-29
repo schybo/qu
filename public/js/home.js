@@ -380,6 +380,7 @@ var ViewModel = function() {
 
         //Get correct time depending
         if (self.timeRange()) {
+            $('input[name="time"]').remove();
             $('<input>').attr({'type': 'hidden', 'name': 'time'}).val(parseTime()).appendTo(form);
         } else {
             $('input[name="time"]').remove();
