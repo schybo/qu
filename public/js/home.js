@@ -3,10 +3,17 @@ $(document).ready(function () {
     $('#calendar').fullCalendar({
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         defaultView: 'agendaWeek',
+        eventLimit: true, // for all non-agenda views
         weekends: false,
         defaultDate: '2016-09-11',
         displayEventEnd: true,
         columnFormat: 'dddd',
+        eventRender: function(event, element) {
+            element.append( "<i class='remove circle icon close'></i>" );
+            element.find(".close").click(function() {
+               $('#calendar').fullCalendar('removeEvents',event._id);
+            });
+        }
     })
 });
 
@@ -184,15 +191,17 @@ var ViewModel = function() {
         }
     }
 
-    var addEvent = function(start, end, title, url) {
+    var addEvent = function(start, end, title, url, classNumber) {
         var event = {
-                url    : url,
-                title  : title,
-                start  : start,
-                end    : end
+                id       : classNumber,
+                url      : url,
+                title    : title,
+                start    : start,
+                end      : end,
+                // editable : true
             }
 
-        $('#calendar').fullCalendar( 'renderEvent', event, true);
+        $('#calendar').fullCalendar('renderEvent', event, true);
     }
 
     self.add = function(data, event) {
@@ -206,6 +215,7 @@ var ViewModel = function() {
         //Get the title
         var eventTitle = data.subject + data.catalogNumber;
         var eventUrl = data.url;
+        var classNumber = data.classNumber;
 
         //Get the time
         var res = data.timeText.split(" ");
@@ -225,20 +235,20 @@ var ViewModel = function() {
         if (days == "M" || days == "MW" || days == "MWF") {
 
             //could probably make an object and set title and url as attr and make a method to add event
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
             if (days == "MW" || days == "MWF") {
 
                 eventStart = eventStart.add(2, 'days');
                 eventEnd = eventEnd.add(2, 'days');
 
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
                 if (days == "MWF") {
                     eventStart = eventStart.add(2, 'days');
                     eventEnd = eventEnd.add(2, 'days');
 
-                    addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+                    addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
                 }
             }
         } else if (days == "T" || days == "TTh") {
@@ -246,13 +256,13 @@ var ViewModel = function() {
             eventStart = eventStart.add(1, 'days');
             eventEnd = eventEnd.add(1, 'days');
 
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
             if (days == "TTh") {
                 eventStart = eventStart.add(2, 'days');
                 eventEnd = eventEnd.add(2, 'days');
 
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
             }
 
         } else if (days == "W" || days == "WF") {
@@ -260,20 +270,20 @@ var ViewModel = function() {
             eventStart = eventStart.add(2, 'days');
             eventEnd = eventEnd.add(2, 'days');
 
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
             if (days == "WF") {
                 eventStart = eventStart.add(2, 'days');
                 eventEnd = eventEnd.add(2, 'days');
 
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
             }
 
         } else {
             eventStart = eventStart.add(3, 'days');
             eventEnd = eventEnd.add(3, 'days');
 
-            addEvent(eventStart, eventEnd, eventTitle, eventUrl);
+            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
         }
     }
 
@@ -298,6 +308,7 @@ var ViewModel = function() {
 
         //wastefull rendering, should be only on switch to calendar tab
         $('#calendar').fullCalendar('render');
+        $('#calendar').fullCalendar('refetchEvents');
     }
 
     self.closeSuccessModal = function() {
