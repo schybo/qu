@@ -16,7 +16,12 @@ exports = module.exports = function(req, res) {
 			  	if (err) {
 			  		res.json({"error" : err, "status" : 500})
 			  	} else {
-			  		console.log('row inserted with id: ' + result.rows[0].id);
+			  		console.log(result);
+			  		if (result.rows) {
+			  			console.log('row inserted with id: ' + result.rows[0].id);
+			  		} else {
+			  			res.json({"error" : "Could not get inserted row id", "status" : 500});
+			  		}
 			  	}
 			  });
 		});

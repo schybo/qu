@@ -196,11 +196,11 @@ var ViewModel = function() {
                 console.log(data);
             })
             .fail(function (err) {
-                $(event.currentTarget).prev().prev().prev().prev().fadeIn().delay( 3000 ).fadeOut( 500 );
+                errorMsg("Sorry, could not like course. Please try again");
                 console.log(err);
             })
         } else {
-            $(event.currentTarget).prev().prev().prev().fadeIn().delay( 3000 ).fadeOut( 500 );
+            errorMsg("You've already liked this course");
         }
     }
 
@@ -297,6 +297,7 @@ var ViewModel = function() {
 
                 addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
             }
+            successMsg("Course successfully added to calendar!");
         } else {
             //Should add to the bottom of the calendar?
         }
@@ -342,8 +343,16 @@ var ViewModel = function() {
             $('#classTitle').val(data.titleText);
             $('#subscriptionModal').modal('show');
         } else {
-            $(event.currentTarget).prev().fadeIn().delay( 3000 ).fadeOut( 500 );
+            errorMsg("Course is already open");
         }
+    }
+
+    function errorMsg(msg) {
+        $("#error").text(msg).fadeIn().delay(3000).fadeOut(500);
+    }
+
+    function successMsg(msg) {
+        $("#success").text(msg).fadeIn().delay(3000).fadeOut(500);
     }
 
     //Thank you SO: http://stackoverflow.com/questions/15083548/convert-12-hour-hhmm-am-pm-to-24-hour-hhmm

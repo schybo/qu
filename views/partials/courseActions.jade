@@ -2,14 +2,13 @@
   i.large.cube.middle.aligned.icon
   .content
     .right.floated.content.align-middle
-      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-      span.no-subscribe.red-text.space-right You've already liked this course
-      span.no-subscribe.red-text.space-right Course is already open
-      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.add(data, event) }", data-content="Add course to calendar")
+      span#success.green-text.space-right
+      span#error.red-text.space-right
+      .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].add(data, event) }", data-content="Add course to calendar")
         i.plus.icon
-      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
+      .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
         i.mail.icon
-      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
+      .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].like(data, event) }",
         data-content="Show some love for the courses you've enjoyed!")
         i.heart.icon
     a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
