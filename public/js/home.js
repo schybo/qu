@@ -53,6 +53,13 @@ var ViewModel = function() {
     self.tutorialMatches = ko.observable('Matches');
     self.testMatches = ko.observable('Matches');
 
+    self.noMatches = ko.observableArray([
+        'No Course Matches',
+        'No Lab Matches',
+        'No Tutorial Matches',
+        'No Test Matches'
+    ]);
+
     self.currentSub = null;
 
     self.onlineAbroad = ko.pureComputed(function() {

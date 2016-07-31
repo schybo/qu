@@ -164,7 +164,7 @@ html
                 include ./partials/courseActions.jade
               h4.ui.horizontal.divider.header(data-bind="ifnot: $data.length")
                 i.bullseye.icon
-                | No Course Matches
+                span.align-icon-text(data-bind="text: $parent.noMatches()[$index()]")
             <!-- /ko -->
 
           //- The Calendar
