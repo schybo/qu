@@ -68,7 +68,11 @@ html
                       option(value="11:30-12:50") 11:30am-12:50pm
                       option(value="13:00-14:20") 1:00pm-2:20pm
                       option(value="14:30-15:50") 2:30pm-3:50pm
-                      option(value="16:00-15:20") 4:00pm-5:20pm
+                      option(value="16:00-17:20") 4:00pm-5:20pm
+                      option(value="16:30-17:50") 4:30pm-5:50pm
+                      option(value="17:30-18:50") 5:30pm-6:50pm
+                      option(value="17:30-20:20") 5:30pm-8:20pm
+                      option(value="19:00-20:20") 7:00pm-8:20pm
                 <!-- /ko -->
                 <!-- ko if: shortCourse() && !timeRange() -->
                 .column
@@ -151,117 +155,19 @@ html
                 span.align-icon-text No Matches
 
             //- Wasteful you should be able to do this with one view, or at least reuse some of it
-            .ui.container.medium-margin-top(data-bind="if: searched()")
-              h4.ui.horizontal.divider.header(data-bind="if: courses().length")
+            <!-- ko if: searched() -->
+            .ui.container.medium-margin-top(data-bind="foreach: genres")
+              h4.ui.horizontal.divider.header(data-bind="if: $data.length")
                 i.bullseye.icon
-                span.align-icon-text(data-bind="text: courseMatches")
-              .ui.relaxed.divided.list(data-bind="foreach: courses")
-                .item
-                  i.large.cube.middle.aligned.icon
-                  .content
-                    .right.floated.content.align-middle
-                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                      span.no-subscribe.red-text.space-right You've already liked this course
-                      span.no-subscribe.red-text.space-right Course is already open
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.add(data, event) }", data-content="Add course to calendar")
-                        i.plus.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                        i.mail.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                        data-content="Show some love for the courses you've enjoyed!")
-                        i.heart.icon
-                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                    span &nbsp;-&nbsp;
-                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                    .description(data-bind="text: $data.profLocationText")
-                    .descriptionMW(data-bind="text: $data.timeText")
-              h4.ui.horizontal.divider.header(data-bind="ifnot: courses().length")
+                span.align-icon-text(data-bind="text: $parent.genreMatches()[$index()]")
+              .ui.relaxed.divided.list(data-bind="foreach: $data")
+                include ./partials/courseActions.jade
+              h4.ui.horizontal.divider.header(data-bind="ifnot: $data.length")
                 i.bullseye.icon
                 | No Course Matches
+            <!-- /ko -->
 
-            .ui.container.small-margin-top(data-bind="if: searched()")
-              h4.ui.horizontal.divider.header(data-bind="if: labs().length")
-                i.bullseye.icon
-                span.align-icon-text(data-bind="text: labMatches")
-              .ui.relaxed.divided.list(data-bind="foreach: labs")
-                .item
-                  i.large.cube.middle.aligned.icon
-                  .content
-                    .right.floated.content.align-middle
-                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                      span.no-subscribe.red-text.space-right You've already liked this course
-                      span.no-subscribe.red-text.space-right Course is already open
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.add(data, event) }", data-content="Add course to calendar")
-                        i.plus.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                        i.mail.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                        data-content="Show some love for the courses you've enjoyed!")
-                        i.heart.icon
-                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                    span &nbsp;-&nbsp;
-                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                    .description(data-bind="text: $data.profLocationText")
-                    .descriptionMW(data-bind="text: $data.timeText")
-              h4.ui.horizontal.divider.header(data-bind="ifnot: labs().length")
-                i.bullseye.icon
-                | No Lab Matches
-
-            .ui.container.small-margin-top(data-bind="if: searched()")
-              h4.ui.horizontal.divider.header(data-bind="if: tutorials().length")
-                i.bullseye.icon
-                span.align-icon-text(data-bind="text: tutorialMatches")
-              .ui.relaxed.divided.list(data-bind="foreach: tutorials")
-                .item
-                  i.large.cube.middle.aligned.icon
-                  .content
-                    .right.floated.content.align-middle
-                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                      span.no-subscribe.red-text.space-right You've already liked this course
-                      span.no-subscribe.red-text.space-right Course is already open
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.add(data, event) }", data-content="Add course to calendar")
-                        i.plus.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                        i.mail.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                        data-content="Show some love for the courses you've enjoyed!")
-                        i.heart.icon
-                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                    span &nbsp;-&nbsp;
-                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                    .description(data-bind="text: $data.profLocationText")
-                    .descriptionMW(data-bind="text: $data.timeText")
-              h4.ui.horizontal.divider.header(data-bind="ifnot: tutorials().length")
-                i.bullseye.icon
-                | No Tutorial Matches
-
-            .ui.container.small-margin-top.medium-margin-bottom(data-bind="if: searched()")
-              h4.ui.horizontal.divider.header(data-bind="if: tests().length")
-                i.bullseye.icon
-                span.align-icon-text(data-bind="text: testMatches")
-              .ui.relaxed.divided.list(data-bind="foreach: tests")
-                .item
-                  i.large.cube.middle.aligned.icon
-                  .content
-                    .right.floated.content.align-middle
-                      span.no-subscribe.red-text.space-right Sorry, could not like course. Please try again
-                      span.no-subscribe.red-text.space-right You've already liked this course
-                      span.no-subscribe.red-text.space-right Course is already open
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.add(data, event) }", data-content="Add course to calendar")
-                        i.plus.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
-                        i.mail.icon
-                      .ui.icon.button.compact(data-bind="click: function(data, event) { $parent.like(data, event) }",
-                        data-content="Show some love for the courses you've enjoyed!")
-                        i.heart.icon
-                    a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
-                    span &nbsp;-&nbsp;
-                    span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
-                    .description(data-bind="text: $data.profLocationText")
-                    .descriptionMW(data-bind="text: $data.timeText")
-              h4.ui.horizontal.divider.header(data-bind="ifnot: tests().length")
-                i.bullseye.icon
-                | No Test Matches
+          //- The Calendar
           #courseCalendar.ui.bottom.attached.tab.segment
             #calendar
 

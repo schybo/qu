@@ -17,14 +17,6 @@ $(document).ready(function () {
     })
 });
 
-// events: [
-//     {
-//         title  : 'CLAS 230',
-//         start  : '2016-09-12 12:30:00',
-//         end    : '2016-09-12 14:30:00'
-//     }
-// ]
-
 $(document).keypress(function(event) {
     if (event.which == 13) {
         event.preventDefault();
@@ -48,6 +40,8 @@ var ViewModel = function() {
     self.labs = ko.observableArray();
     self.tutorials = ko.observableArray();
     self.tests = ko.observableArray();
+    self.genres = ko.observableArray();
+    self.genreMatches = ko.observableArray();
     self.level = ko.observable('');
     self.professor = ko.observable('');
     self.timeRange = ko.observable(false);
@@ -157,10 +151,23 @@ var ViewModel = function() {
         self.tutorials(tutorialList);
         self.tests(testList);
 
+        //Add them to the genres
+        self.genres.push(self.courses);
+        self.genres.push(self.labs);
+        self.genres.push(self.tutorials);
+        self.genres.push(self.tests);
+
         self.courseMatches(courseList.length + ' Course Matches');
         self.labMatches(labList.length + ' Lab Matches');
         self.tutorialMatches(tutorialList.length + ' Tutorial Matches');
         self.testMatches(testList.length + ' Test Matches');
+
+        //Add the matches to the genre matches list
+        self.genreMatches.push(self.courseMatches);
+        self.genreMatches.push(self.labMatches);
+        self.genreMatches.push(self.tutorialMatches);
+        self.genreMatches.push(self.testMatches);
+
 
         $('.ui.icon.button.compact').popup({
             position: 'top right',
