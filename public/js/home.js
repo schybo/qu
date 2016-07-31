@@ -118,6 +118,7 @@ var ViewModel = function() {
     var createCourseList = function (data) {
         var tempCourseList = [];
         var testList = []; var tutorialList = []; var labList = []; var courseList = [];
+        var genreList = []; var genreMatchesList = [];
 
         $.each(data, function (course) {
             course = data[course];
@@ -152,10 +153,12 @@ var ViewModel = function() {
         self.tests(testList);
 
         //Add them to the genres
-        self.genres.push(self.courses);
-        self.genres.push(self.labs);
-        self.genres.push(self.tutorials);
-        self.genres.push(self.tests);
+        genreList.push(self.courses);
+        genreList.push(self.labs);
+        genreList.push(self.tutorials);
+        genreList.push(self.tests);
+
+        self.genres(genreList);
 
         self.courseMatches(courseList.length + ' Course Matches');
         self.labMatches(labList.length + ' Lab Matches');
@@ -163,10 +166,12 @@ var ViewModel = function() {
         self.testMatches(testList.length + ' Test Matches');
 
         //Add the matches to the genre matches list
-        self.genreMatches.push(self.courseMatches);
-        self.genreMatches.push(self.labMatches);
-        self.genreMatches.push(self.tutorialMatches);
-        self.genreMatches.push(self.testMatches);
+        genreMatchesList.push(self.courseMatches);
+        genreMatchesList.push(self.labMatches);
+        genreMatchesList.push(self.tutorialMatches);
+        genreMatchesList.push(self.testMatches);
+
+        self.genreMatches(genreMatchesList);
 
 
         $('.ui.icon.button.compact').popup({
