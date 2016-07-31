@@ -1,5 +1,12 @@
 # Advanced Quest Search Changelog
 
+## v1.1.1 / 2016-07-31
+
+* added; Not necesssary to specify either start or end in time range
+* refactor; Course list view
+* added; Success message upon course addition to calendar
+* refactor; Success/error message system
+
 ## v1.1.0 / 2016-07-29
 
 * added; Support for searching by teacher

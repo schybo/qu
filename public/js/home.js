@@ -370,8 +370,12 @@ var ViewModel = function() {
 
     var parseTime = function () {
         //Error if entered incorrectly?
+        self.startRange(self.startRange() ? self.startRange() : "12:00am");
+        self.endRange(self.endRange() ? self.endRange() : "11:59pm");
+
         var startTime = convertTo24Hour(self.startRange());
         var endTime = convertTo24Hour(self.endRange());
+        startTime = startTime.length == 4 ? "0" + startTime : startTime;
 
         console.log(startTime + '-' + endTime);
         return startTime + '-' + endTime;
