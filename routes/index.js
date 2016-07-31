@@ -9,6 +9,11 @@ router.post('/', questSearch);
 router.post('/sub', subscriptions);
 router.post('/like', like);
 
+//Sitemap for Google and Yahoo search engines
+router.get('/sitemap.xml', function(req, res) {
+    res.sendfile('./sitemap.xml');
+});
+
 router.get('/faq', function(req, res){ 
 	res.render('faq');
 });
