@@ -24,6 +24,15 @@ $(document).keypress(function(event) {
     }
 });
 
+var gaSend = function (eventCategory, eventAction, eventLabel) {
+    ga('send', {
+      hitType: 'event',
+      eventCategory: eventCategory,
+      eventAction: eventAction,
+      eventLabel: eventLabel
+    });
+}
+
 var ViewModel = function() {
     var LAB = "Lab";
     var TUTORIAL = "Tutorial";
@@ -199,15 +208,15 @@ var ViewModel = function() {
 
             $.post('/like', data)
             .done(function (data) {
+                gaSend('Like', 'like', 'Like a course');
                 $(event.currentTarget).addClass('red');
-                console.log(data);
             })
             .fail(function (err) {
-                errorMsg("Sorry, could not like course. Please try again");
-                console.log(err);
+                gaSend('Like', 'like', 'Like a course failed');
+                errorMsg(event.currentTarget, "Sorry, could not like course. Please try again");
             })
         } else {
-            errorMsg("You've already liked this course");
+            errorMsg(event.currentTarget, "You've already liked this course");
         }
     }
 
@@ -226,6 +235,8 @@ var ViewModel = function() {
 
     self.add = function(data, event) {
         // console.log(data);
+        // We should be sending the data that they search for to the console
+        gaSend('Calendar', 'add', 'Add course to calendar');
 
         if (data.timeText != "Online") {
             //Get start date of term
@@ -304,7 +315,7 @@ var ViewModel = function() {
 
                 addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
             }
-            successMsg("Course successfully added to calendar!");
+            successMsg(event.currentTarget, "Course successfully added to calendar!");
         } else {
             //Should add to the bottom of the calendar?
         }
@@ -332,6 +343,8 @@ var ViewModel = function() {
         //wastefull rendering, should be only on switch to calendar tab
         $('#calendar').fullCalendar('render');
         $('#calendar').fullCalendar('refetchEvents');
+
+        gaSend('View', 'toggle', 'Toggled view');
     }
 
     self.closeSuccessModal = function() {
@@ -350,16 +363,18 @@ var ViewModel = function() {
             $('#classTitle').val(data.titleText);
             $('#subscriptionModal').modal('show');
         } else {
-            errorMsg("Course is already open");
+            errorMsg(event.currentTarget, "Course is already open");
         }
     }
 
-    function errorMsg(msg) {
-        $("#error").text(msg).fadeIn().delay(3000).fadeOut(500);
+    function errorMsg(currentTarget, msg) {
+        console.log(currentTarget);
+        $(currentTarget).siblings(".error").text(msg).fadeIn().delay(3000).fadeOut(500);
     }
 
-    function successMsg(msg) {
-        $("#success").text(msg).fadeIn().delay(3000).fadeOut(500);
+    function successMsg(currentTarget, msg) {
+        console.log(currentTarget);
+        $(currentTarget).siblings(".success").text(msg).fadeIn().delay(3000).fadeOut(500);
     }
 
     //Thank you SO: http://stackoverflow.com/questions/15083548/convert-12-hour-hhmm-am-pm-to-24-hour-hhmm
@@ -394,12 +409,14 @@ var ViewModel = function() {
 
         $.post(action, $(form).serialize())
         .done(function (data) {
+            gaSend('Subscribe', 'subscribe', 'Subscribe course');
             $(self.currentSub).addClass('green');
             $('#subscriptionModal').modal('hide');
             $('#successModal').modal('show');
             console.log(data);
         })
         .fail(function (err) {
+            gaSend('Subscribe', 'subscribe', 'Subscribe course failed');
             $('#subscriptionModal').modal('hide');
             $('#failureModal').modal('show');
             console.log(err);
@@ -421,11 +438,13 @@ var ViewModel = function() {
         $("form").addClass('loading');
         $.post(action, $(form).serialize())
         .done(function (data) {
+            gaSend('Search', 'submit', 'Search Courses');
             $("form").removeClass('loading');
             self.searched(true);
             createCourseList(data);
         })
         .fail(function (data) {
+            gaSend('Search', 'submit', 'Search Courses Failed');
             $("form").removeClass('loading');
             //Should issue an error here
             createCourseList(data);

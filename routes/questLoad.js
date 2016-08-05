@@ -3,6 +3,9 @@ require('dotenv').load();
 var _ = require('lodash');
 var terms = require('../data/terms.json');
 var subjects = require('../data/subjects.json');
+var winston = require('winston');
+
+winston.level = process.env.LOG_LEVEL;
 
 exports = module.exports = function(req, res) {
 	termOptions = []
@@ -11,16 +14,7 @@ exports = module.exports = function(req, res) {
 			termOptions.push(term);
 		});
 	});
-	console.log(termOptions);
 
-	// subjectOptions = []
-	// _.each(subjects, function (subject) {
-	// 	subjectOptions.push(subject.subject);
-	// });
-	// console.log(subjectOptions);
-
-	// You should probably scrape the times too!
-
-	// console.log(termOptions);
-	res.render('home', {'terms': termOptions, 'subjects': subjects, 'nextTerm': terms.current_term});
+	winston.log('info', 'SITE LOAD', termOptions);
+	res.render('home', {'terms': termOptions, 'subjects': subjects, 'nextTerm': terms.next_term});
 };
