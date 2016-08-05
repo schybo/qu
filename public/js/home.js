@@ -368,12 +368,10 @@ var ViewModel = function() {
     }
 
     function errorMsg(currentTarget, msg) {
-        console.log(currentTarget);
         $(currentTarget).siblings(".error").text(msg).fadeIn().delay(3000).fadeOut(500);
     }
 
     function successMsg(currentTarget, msg) {
-        console.log(currentTarget);
         $(currentTarget).siblings(".success").text(msg).fadeIn().delay(3000).fadeOut(500);
     }
 
