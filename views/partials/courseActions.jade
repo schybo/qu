@@ -2,14 +2,13 @@
   i.large.cube.middle.aligned.icon
   .content
     .right.floated.content.align-middle
-      span#success.green-text.space-right
-      span#error.red-text.space-right
+      span.success.green-text.space-right
+      span.error.red-text.space-right
       .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].add(data, event) }", data-content="Add course to calendar")
         i.plus.icon
       .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].subscribe(data, event) }", data-content="Get notified via email when this course opens up.")
         i.mail.icon
-      .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].like(data, event) }",
-        data-content="Show some love for the courses you've enjoyed!")
+      .ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].like(data, event) }", data-content="Show some love for the courses you've enjoyed!")
         i.heart.icon
     a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
     span &nbsp;-&nbsp;

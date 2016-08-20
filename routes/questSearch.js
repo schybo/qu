@@ -3,6 +3,9 @@ require('dotenv').load();
 var _ = require('lodash');
 var pg = require('pg');
 var terms = require('../data/terms.json');
+var winston = require('winston');
+
+winston.level = process.env.LOG_LEVEL;
 
 //We also want to let people make schedules
 
@@ -31,7 +34,7 @@ var hasCorrectProfessor = function (searched, professors, searchName) {
 
 exports = module.exports = function(req, res) {
 	var options = req.body;
-	console.log(options);
+	winston.log('info', 'SEARCH OPTIONS', options);
 
 	var data = require('../data/' + options.term + '.json');
 	var returnData = data;
@@ -45,7 +48,6 @@ exports = module.exports = function(req, res) {
 		onlineCourse = true;
 	}
 
-	console.log(options.time);
 	if (options.time) {
 		time = options.time.split('-');
 		start_time = time[0];
@@ -58,7 +60,7 @@ exports = module.exports = function(req, res) {
 			return course.campus == options.campus;
 		});
 	}
-	// console.log(returnData);
+	winston.log('silly', 'AFTER CAMPUS FILTER', returnData);
 
 	//Filter by course code
 	if (options.subjects) {
@@ -66,7 +68,7 @@ exports = module.exports = function(req, res) {
 			return subjects.indexOf(course.subject) > -1;
 		});
 	}
-	// console.log(returnData);
+	winston.log('silly', 'AFTER SUBJECTS FILTER', returnData);
 
 	if (options.level) {
 		returnData = _.filter(returnData, function (course) {
@@ -77,7 +79,7 @@ exports = module.exports = function(req, res) {
 			}
 		});
 	}
-	// console.log(returnData);
+	winston.log('silly', 'AFTER ACADEMIC LEVEL FILTER', returnData);
 
 	//Filter by day
 	//We should be able to do this in one pass - just not sure how with lodash yet
@@ -101,12 +103,13 @@ exports = module.exports = function(req, res) {
 			return false;
 		});
 	});
+	winston.log('silly', 'AFTER TIME/PROFESSOR FILTER', returnData);
 
 	//Remove all courses that have no classes
 	returnData = _.filter(returnData, function (course) {
 		return course.filteredClasses.length != 0;
 	});
 
-	// console.log(returnData);
+	winston.log('debug', 'SEARCH RESULTS', options);
 	res.json(returnData);
 };

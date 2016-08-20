@@ -1,8 +1,8 @@
-// var mandrill = require('mandrill-api/mandrill');
-// var mandrill_client = new mandrill.Mandrill('hZ0uqN6TtFEI4v6v7J35iA');
 var pg = require('pg');
-// var terms = require('../data/terms.json');
 var _ = require('lodash');
+var winston = require('winston');
+
+winston.level = process.env.LOG_LEVEL;
 
 exports = module.exports = function(req, res) {
 	try {
@@ -14,14 +14,16 @@ exports = module.exports = function(req, res) {
 			  [req.body.classNumber, req.body.classTitle, req.body.email],
 			  function(err, result) {
 			  	if (err) {
-			  		res.json({"error" : err, "status" : 500})
+			  		res.json({"error" : err, "status" : 500});
+			  		winston.log('error', 'error inserting', err);
 			  	} else {
-			  		console.log('row inserted with id: ' + result.rows[0].id);
+			  		winston.log('info', 'row inserted with id: ' + result.rows[0].id);
 			  	}
 			  });
 		});
 	} catch (err) {
 		res.json({"error" : err, "status" : 500});
+		winston.log('error', 'error inserting part deux', err);
 	}
 	res.json({"success" : "Updated Successfully", "status" : 200});
 }
