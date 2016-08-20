@@ -14,11 +14,12 @@ var hasCorrectProfessor = function (searched, professors, searchName) {
 		if (professors.length > 0) {
 			isCorrectProfessor = false;
 			_.each(professors, function(professor) {
-				_.each(searchName, function (namePart) {
+				_.every(searchName, function (namePart) {
 					if (professor.toLowerCase().includes(namePart.toLowerCase())) {
-						console.log(professor);
-						console.log(namePart);
-						isCorrectProfessor = true; return;
+						// console.log(professor.toLowerCase() + " includes: " + namePart.toLowerCase());
+						isCorrectProfessor = true;
+					} else {
+						isCorrectProfessor = false; return;
 					}
 				});
 				if (isCorrectProfessor) { return; }
