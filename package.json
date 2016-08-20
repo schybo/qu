@@ -3,7 +3,8 @@
   "version": "1.1.1",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "dependencies": {
     "body-parser": "~1.0.0",
@@ -22,5 +23,9 @@
     "static-favicon": "~1.0.0",
     "string": "^1.9.0",
     "uwapi": "^1.1.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2",
+    "zombie": "^4.2.1"
   }
 }

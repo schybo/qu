@@ -1,7 +1,6 @@
 doctype html
 html
   head
-    title Advanced Quest Search
     link(rel='stylesheet', href='/vendor/semantic/dist/semantic.min.css')
     link(rel="stylesheet", href="/mfb/mfb.min.css")
     link(rel='stylesheet' href='/vendor/fullcalendar-scheduler/dist/scheduler.min.css')
@@ -147,7 +146,7 @@ html
                     label.inline(for="professor") Professor (Contains)
                     input(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
                 .column.text-center
-                  #submit.ui.button(style="margin-top: 22px;" data-bind="click: function () { submit() }") Search
+                  button#submit.ui.button(style="margin-top: 22px;" data-bind="click: function () { submit() }") Search
 
             .ui.container.medium-margin-top(data-bind="ifnot: searched()")
               h4.ui.horizontal.divider.header

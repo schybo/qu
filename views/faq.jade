@@ -7,10 +7,7 @@ html
     include ./partials/favicon
     include ./partials/meta
   body
-    include ./partials/subscriptionModal
-    include ./partials/successModal
-    include ./partials/failureModal
-    .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
+    .ui.four.column.centered.grid.faq
       .sixteen.wide.column
         include ./partials/header
         .ui.main.container.medium-margin-top
@@ -29,10 +26,8 @@ html
           p Because I don't like uwFlow's UI at all. This app does one/two things and that's it. It's not trying to be a one app to rule them all. uwFlow's UI is not clean and I felt unsure of what to do on their site most of the time because of all the jumble. Their goal also seems directionally different than what I was attempting with this project.
 
   script(src='/vendor/jquery/dist/jquery.min.js')
-  script(src='/vendor/knockout/dist/knockout.js')
-  //- script(src='/vendor/lodash/lodash.min.js')
   script(src='/vendor/semantic/dist/semantic.min.js')
-  script(src='/js/home.js')
+  //- script(src='/js/home.js')
   include ./partials/ga
 
 
