@@ -30,14 +30,14 @@ html
                   .field
                     i.student.icon
                     label.inline(for="term") Term
-                    select.ui.fluid.dropdown(name="term")
+                    select#term.ui.fluid.dropdown(name="term")
                       for term in terms
                         option(value=term.id, selected=nextTerm == term.id) #{term.name}
                 .column
                   .field
                     i.location.arrow.icon
                     label.inline(for="campus") Campus/Online
-                    select.ui.fluid.dropdown(name="campus", data-bind="value: campus")
+                    select#campus.ui.fluid.dropdown(name="campus", data-bind="value: campus")
                       option(value="UW U" selected) Waterloo
                       option(value="ONLN ONLINE") Online
                       option(value="OFF ABROAD") Abroad
@@ -45,7 +45,7 @@ html
                   .field
                     i.calendar.icon
                     label.inline(for="days") Days
-                    select.ui.fluid.dropdown(name="days", data-bind="value: days, attr: { 'disabled' : onlineAbroad }")
+                    select#days.ui.fluid.dropdown(name="days", data-bind="value: days, attr: { 'disabled' : onlineAbroad }")
                       option(value='') Any Day
                       option(value="MWF") MWF
                       option(value="TTh") TTh
@@ -60,7 +60,7 @@ html
                   .field
                     i.clock.icon
                     label.inline(for="time") Time
-                    select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                    select#time.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                       option(value='') Any Time
                       option(value="08:30-09:50") 8:30am-9:50am
                       option(value="10:00-11:20") 10:00am-11:20am
@@ -78,7 +78,7 @@ html
                   .field
                     i.clock.icon
                     label.inline(for="time") Time
-                    select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                    select#time.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                       option(value='') Any Time
                       option(value="08:30-09:20") 8:30am-9:20am
                       option(value="09:30-10:20") 9:30am-10:20am
@@ -95,7 +95,7 @@ html
                   .field
                     i.clock.icon
                     label.inline(for="time") Time
-                    select.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
+                    select#time.ui.fluid.dropdown(name="time", data-bind="value: dayTime, attr: { 'disabled': onlineAbroad }")
                       option(value='') Any Time
                       option(value="18:30-21:20") 6:30pm-9:20pm
                       option(value="19:00-20:50") 7:00pm-8:50pm
@@ -107,11 +107,11 @@ html
                     .field
                       i.clock.icon
                       label.inline(for="startRange") Start Range
-                      input(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange, attr: { 'disabled': onlineAbroad }")
+                      input#startRange(type="text" name="startRange" placeholder="eg. 12:30pm" data-bind="value: startRange, attr: { 'disabled': onlineAbroad }")
                     .field
                       i.clock.icon
                       label.inline(for="endRange") End Range
-                      input(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange, attr: { 'disabled': onlineAbroad }")
+                      input#endRange(type="text" name="endRange" placeholder="eg. 4:00pm" data-bind="value: endRange, attr: { 'disabled': onlineAbroad }")
                 <!-- /ko -->
                 .range-button
                   button.circular.ui.icon.button.compact(type="button" data-bind="click: initTimeRange")
@@ -121,7 +121,7 @@ html
                     i.book.icon
                     label.inline Specific Subject:
                     .ui.fluid.multiple.search.selection.dropdown
-                      input(type='hidden', name='subjects')
+                      input#subject(type='hidden', name='subjects')
                       i.dropdown.icon
                       .default.text Select Subject
                       .menu
@@ -133,7 +133,7 @@ html
                   .field
                     i.location.arrow.icon
                     label.inline(for="level") Course Level
-                    select.ui.fluid.dropdown(name="level", data-bind="value: level")
+                    select#courseLevel.ui.fluid.dropdown(name="level", data-bind="value: level")
                       option(value='') Any Level
                       option(value="1") 100s
                       option(value="2") 200s
@@ -144,7 +144,7 @@ html
                   .field
                     i.child.icon
                     label.inline(for="professor") Professor (Contains)
-                    input(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
+                    input#professor(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
                 .column.text-center
                   button#submit.ui.button(style="margin-top: 22px;" data-bind="click: function () { submit() }") Search
 
