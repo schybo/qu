@@ -1,4 +1,4 @@
-# Advanced Quest Search
+# Advanced Quest Search [![Build Status](https://travis-ci.org/bscheibe/qu.svg?branch=master)](https://travis-ci.org/bscheibe/qu) ![Heroku](https://heroku-badge.herokuapp.com/?app=quest-search&style=flat)
 
 ![](/public/images/screenshot.png?raw=true "Advanced Quest Search")
 
