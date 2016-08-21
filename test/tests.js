@@ -2,6 +2,9 @@ process.env.NODE_ENV = 'test';
 var server = require('../server');
 
 const Browser = require('zombie');
+const facebookLink = "http://www.facebook.com/share.php?u=https://uwcourses.com/&title=Better Quest Searching";
+const twitterLink= "http://twitter.com/share?text=Better Quest Searching!&url=https://uwcourses.com/&hashtags=waterloo,quest,classes";
+const githubLink = "https://github.com/bscheibe/qu/";
 
 // We're going to make requests to http://example.com/signup
 // Which will be routed to our test server localhost:3000
@@ -245,6 +248,70 @@ describe('User searches on home page', function() {
 
     it('should see 6 results', function() {
       browser.assert.elements('.courseMatch', 6);
+    });
+
+  });
+
+  describe('and has the following header basics: ', function() {
+    it('the faq link', function() {
+      browser.assert.link('a.header-link', 'FAQ', '/faq');
+    });
+
+    it('the correct header', function() {
+      browser.assert.text('h1', 'Advanced Quest Search');
+    });
+
+    it('the status element', function() {
+      browser.assert.element('.status');
+    });
+
+    it('the logo', function() {
+      browser.assert.element('img.logo');
+    });
+  });
+
+  describe('and floating action button works: ', function() {
+    before(function() {
+      return browser.assert.element('#menu');
+    });
+
+    it('and it has 3 children', function() {
+      browser.assert.elements('.mfb-component__list > li', { exactly: 3 });
+    });
+
+    it('and the facebook link is correct', function() {
+      browser.assert.link('#facebook', '', facebookLink);
+    });
+
+    it('and the twitter link is correct', function() {
+      browser.assert.link('#twitter', '', twitterLink);
+    });
+
+    it('and the github link is correct', function() {
+      browser.assert.link('#github', '', githubLink);
+    });
+  });
+
+  describe('and can see the calendar', function() {
+    before(function() {
+      return browser.pressButton('#courseCalendarHeader');
+    });
+
+    it('with correct interior', function() {
+      browser.assert.element('.fc-view-container');
+    });
+  });
+
+
+  // FAQ Testing code
+
+  describe('and the FAQ page loads', function() {
+    before(function() {
+      return browser.visit('/faq');
+    });
+
+    it('and has the correct header', function() {
+      browser.assert.text('h1#faq', 'FAQ');
     });
 
   });

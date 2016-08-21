@@ -20,8 +20,8 @@ html
         include ./partials/header
         .ui.main.container.medium-margin-top
           .ui.top.attached.tabular.menu
-            #courseSearchHeader.active.item(data-bind="click: toggleTab") Course Search
-            #courseCalendarHeader.item(data-bind="click: toggleTab") Course Calendar
+            button#courseSearchHeader.active.item(data-bind="click: toggleTab") Course Search
+            button#courseCalendarHeader.item(data-bind="click: toggleTab") Course Calendar
           #courseSearch.ui.bottom.attached.active.tab.segment
             form#questForm.ui.form(action="/", method="POST")
               input(type="hidden" name="range" data-bind="value: timeRange")
