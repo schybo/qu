@@ -32,28 +32,10 @@ describe('User searches on home page', function() {
         .select('time', '')
         .select('level', '')
         .fill('professor', '')
+        .fill('subjects', '')
   }
 
-  describe('and submits basic search', function() {
-    before(function() {
-      browser
-        .fill('professor', 'Ronald Kroeker')
-        .select('term', '1169')
-      return browser.pressButton('Search');
-    });
-
-    it('should be successful', function() {
-      browser.assert.success();
-    });
-
-    it('should see home page', function() {
-      browser.assert.text('title', "Q: Waterloo's Advanced Quest Search");
-    });
-
-    it('should see 6 results', function() {
-      browser.assert.elements('.courseMatch', 6);
-    });
-  });
+  //************* UI Tests **************//
 
   //Unfortunately not able to test search functionality with enter yet:
   //https://github.com/assaf/zombie/issues/275
@@ -67,7 +49,7 @@ describe('User searches on home page', function() {
     });
 
     it('should disable search by days', function() {
-	  	browser.assert.attribute('#days', 'disabled', 'true');
+      browser.assert.attribute('#days', 'disabled', 'true');
     });
 
     it('should disable search by time', function() {
@@ -84,7 +66,7 @@ describe('User searches on home page', function() {
     });
 
     it('should disable search by days', function() {
-	  	browser.assert.attribute('#days', 'disabled', 'true');
+      browser.assert.attribute('#days', 'disabled', 'true');
     });
 
     it('should disable search by time', function() {
@@ -102,7 +84,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 10 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 10 });
+      browser.assert.elements('#time > option', { exactly: 10 });
     });
 
   });
@@ -116,7 +98,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 11 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 11 });
+      browser.assert.elements('#time > option', { exactly: 11 });
     });
 
   });
@@ -130,7 +112,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 11 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 11 });
+      browser.assert.elements('#time > option', { exactly: 11 });
     });
 
   });
@@ -144,7 +126,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 11 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 11 });
+      browser.assert.elements('#time > option', { exactly: 11 });
     });
 
   });
@@ -158,7 +140,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 4 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 4 });
+      browser.assert.elements('#time > option', { exactly: 4 });
     });
 
   });
@@ -172,7 +154,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 4 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 4 });
+      browser.assert.elements('#time > option', { exactly: 4 });
     });
 
   });
@@ -186,7 +168,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 4 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 4 });
+      browser.assert.elements('#time > option', { exactly: 4 });
     });
 
   });
@@ -200,54 +182,7 @@ describe('User searches on home page', function() {
     });
 
     it('should offer 4 time choices', function() {
-	  	browser.assert.elements('#time > option', { exactly: 4 });
-    });
-
-  });
-
-  describe('and test search by time range', function() {
-    before(function() {
-      clearBrowser();
-      browser.pressButton('button.circular');
-      browser
-      	.fill('startRange', '12:00pm')
-      	.fill('endRange', '4:00pm')
-      	.fill('professor', 'Ronald Kroeker')
-      return browser.pressButton('Search');
-    });
-
-    it('should see 1 results', function() {
-      browser.assert.elements('.courseMatch', 1);
-    });
-
-  });
-
-  describe('and test search by only start time', function() {
-    before(function() {
-      browser
-      	.fill('startRange', '12:00pm')
-      	.fill('endRange', '')
-      	.fill('professor', 'Ronald Kroeker')
-      return browser.pressButton('Search');
-    });
-
-    it('should see 1 results', function() {
-      browser.assert.elements('.courseMatch', 1);
-    });
-
-  });
-
-  describe('and test search by only end time', function() {
-    before(function() {
-      browser
-      	.fill('startRange', '')
-      	.fill('endRange', '4:00pm')
-      	.fill('professor', 'Ronald Kroeker')
-      return browser.pressButton('Search');
-    });
-
-    it('should see 6 results', function() {
-      browser.assert.elements('.courseMatch', 6);
+      browser.assert.elements('#time > option', { exactly: 4 });
     });
 
   });
@@ -302,8 +237,198 @@ describe('User searches on home page', function() {
     });
   });
 
+  //************* Functionality Tests **************//
 
-  // FAQ Testing code
+  describe('and submits basic search', function() {
+    before(function() {
+      clearBrowser();
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .select('term', '1169')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see home page', function() {
+      browser.assert.text('title', "Q: Waterloo's Advanced Quest Search");
+    });
+
+    it('should see 6 results', function() {
+      browser.assert.elements('.courseMatch', 6);
+    });
+  });
+
+  describe('and submits search with previous and course level', function() {
+    before(function() {
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .select('term', '1169')
+        .select('level', '2')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see 4 results', function() {
+      browser.assert.elements('.courseMatch', 4);
+    });
+  });
+
+  describe('and submits search with previous and days', function() {
+    before(function() {
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .select('term', '1169')
+        .select('level', '2')
+        .select('days', 'MWF')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see 1 results', function() {
+      browser.assert.elements('.courseMatch', 1);
+    });
+  });
+
+  describe('and submits search with previous and time', function() {
+    before(function() {
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .select('term', '1169')
+        .select('level', '2')
+        .select('days', 'MWF')
+        .select('time', '11:30-12:20')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see 1 results', function() {
+      browser.assert.elements('.courseMatch', 1);
+    });
+  });
+
+  describe('and submits search with previous and subject', function() {
+    before(function() {
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .fill('subjects', 'LAT')
+        .select('term', '1169')
+        .select('level', '2')
+        .select('days', 'MWF')
+        .select('time', '11:30-12:20')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see 1 results', function() {
+      browser.assert.elements('.courseMatch', 1);
+    });
+  });
+
+  describe('and submits search with previous and two subjects', function() {
+    before(function() {
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .fill('subjects', 'LAT,CLAS')
+        .select('term', '1169')
+        .select('level', '2')
+        .select('days', 'MWF')
+        .select('time', '11:30-12:20')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see 1 results', function() {
+      browser.assert.elements('.courseMatch', 1);
+    });
+  });
+
+  describe('and submits search with previous and incorrect subject', function() {
+    before(function() {
+      browser
+        .fill('professor', 'Ronald Kroeker')
+        .fill('subjects', 'CLAS')
+        .select('term', '1169')
+        .select('level', '2')
+        .select('days', 'MWF')
+        .select('time', '11:30-12:20')
+      return browser.pressButton('Search');
+    });
+
+    it('should be successful', function() {
+      browser.assert.success();
+    });
+
+    it('should see 0 results', function() {
+      browser.assert.elements('.courseMatch', 0);
+    });
+  });
+
+  describe('and test search by time range', function() {
+    before(function() {
+      clearBrowser();
+      browser.pressButton('button.circular');
+      browser
+        .fill('startRange', '12:00pm')
+        .fill('endRange', '4:00pm')
+        .fill('professor', 'Ronald Kroeker')
+      return browser.pressButton('Search');
+    });
+
+    it('should see 1 results', function() {
+      browser.assert.elements('.courseMatch', 1);
+    });
+
+  });
+
+  describe('and test search by only start time', function() {
+    before(function() {
+      browser
+        .fill('startRange', '12:00pm')
+        .fill('endRange', '')
+        .fill('professor', 'Ronald Kroeker')
+      return browser.pressButton('Search');
+    });
+
+    it('should see 1 results', function() {
+      browser.assert.elements('.courseMatch', 1);
+    });
+
+  });
+
+  describe('and test search by only end time', function() {
+    before(function() {
+      browser
+        .fill('startRange', '')
+        .fill('endRange', '4:00pm')
+        .fill('professor', 'Ronald Kroeker')
+      return browser.pressButton('Search');
+    });
+
+    it('should see 6 results', function() {
+      browser.assert.elements('.courseMatch', 6);
+    });
+
+  });
+
+  //****************** FAQ Tests ********************//
 
   describe('and the FAQ page loads', function() {
     before(function() {
