@@ -237,6 +237,12 @@ describe('User searches on home page', function() {
     });
   });
 
+  describe('and currently sees no matches', function() {
+    it('with correct header', function() {
+      browser.assert.text('#resultsHeaderForNoMatches', 'No Matches');
+    });
+  });
+
   //************* Functionality Tests **************//
 
   describe('and submits basic search', function() {
@@ -258,6 +264,13 @@ describe('User searches on home page', function() {
 
     it('should see 6 results', function() {
       browser.assert.elements('.courseMatch', 6);
+    });
+
+    it('should see correct search result headers', function() {
+      browser.assert.text('#resultsHeaderForCourse', "6 Course Matches");
+      browser.assert.text('#resultsHeaderForLab', "No Lab Matches");
+      browser.assert.text('#resultsHeaderForTutorial', "No Tutorial Matches");
+      browser.assert.text('#resultsHeaderForTest', "No Test Matches");
     });
   });
 

@@ -51,6 +51,7 @@ var ViewModel = function() {
     self.tests = ko.observableArray();
     self.genres = ko.observableArray();
     self.genreMatches = ko.observableArray();
+    self.genreNames = ko.observableArray();
     self.level = ko.observable('');
     self.professor = ko.observable('');
     self.timeRange = ko.observable(false);
@@ -67,6 +68,13 @@ var ViewModel = function() {
         'No Lab Matches',
         'No Tutorial Matches',
         'No Test Matches'
+    ]);
+
+    self.genreNames = ko.observableArray([
+        'Course',
+        'Lab',
+        'Tutorial',
+        'Test'
     ]);
 
     self.currentSub = null;

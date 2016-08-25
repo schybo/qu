@@ -151,19 +151,19 @@ html
             .ui.container.medium-margin-top(data-bind="ifnot: searched()")
               h4.ui.horizontal.divider.header
                 i.bullseye.icon
-                span.align-icon-text No Matches
+                span#resultsHeaderForNoMatches.align-icon-text No Matches
 
             //- Wasteful you should be able to do this with one view, or at least reuse some of it
             <!-- ko if: searched() -->
             .ui.container.medium-margin-top(data-bind="foreach: genres")
               h4.ui.horizontal.divider.header(data-bind="if: $data.length")
                 i.bullseye.icon
-                span.align-icon-text(data-bind="text: $parent.genreMatches()[$index()]")
+                span.align-icon-text(data-bind="text: $parent.genreMatches()[$index()], attr: { id: 'resultsHeaderFor' + $parent.genreNames()[$index()] }")
               .ui.relaxed.divided.list(data-bind="foreach: $data")
                 include ./partials/courseActions.jade
               h4.ui.horizontal.divider.header(data-bind="ifnot: $data.length")
                 i.bullseye.icon
-                span.align-icon-text(data-bind="text: $parent.noMatches()[$index()]")
+                span.align-icon-text(data-bind="text: $parent.noMatches()[$index()], attr: { id: 'resultsHeaderFor' + $parent.genreNames()[$index()] }")
             <!-- /ko -->
 
           //- The Calendar
