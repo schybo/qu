@@ -1,2 +1,2 @@
-.ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1].add(data, event) }", data-content="Add course to calendar")
+.ui.icon.button.compact(data-bind="click: function(data, event) { $parents[1] ? $parents[1].add(data, event) : $parent.add(data, event) }", data-content="Add course to calendar")
 	i.plus.icon

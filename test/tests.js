@@ -441,6 +441,8 @@ describe('User searches on home page', function() {
 
   });
 
+  //Should add tests here to make sure button functionality works
+
   //****************** FAQ Tests ********************//
 
   describe('and the FAQ page loads', function() {

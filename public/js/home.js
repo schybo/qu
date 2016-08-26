@@ -242,8 +242,13 @@ var ViewModel = function() {
         $('#calendar').fullCalendar('renderEvent', event, true);
     }
 
+    self.remove = function(index, data, event) {
+        gaSend('Calendar', 'remove', 'Remove course to calendar');
+        self.onlineCourseCalendar.splice(index, 1);
+    }
+
     self.add = function(data, event) {
-        console.log(data);
+        // console.log(data);
         // We should be sending the data that they search for to the console
         gaSend('Calendar', 'add', 'Add course to calendar');
 
