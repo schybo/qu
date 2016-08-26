@@ -52,6 +52,7 @@ var ViewModel = function() {
     self.genres = ko.observableArray();
     self.genreMatches = ko.observableArray();
     self.genreNames = ko.observableArray();
+    self.onlineCourseCalendar = ko.observableArray();
     self.level = ko.observable('');
     self.professor = ko.observable('');
     self.timeRange = ko.observable(false);
@@ -241,91 +242,101 @@ var ViewModel = function() {
         $('#calendar').fullCalendar('renderEvent', event, true);
     }
 
+    self.remove = function(index, data, event) {
+        gaSend('Calendar', 'remove', 'Remove course to calendar');
+        self.onlineCourseCalendar.splice(index, 1);
+    }
+
     self.add = function(data, event) {
         // console.log(data);
         // We should be sending the data that they search for to the console
         gaSend('Calendar', 'add', 'Add course to calendar');
 
-        if (data.timeText != "Online") {
-            //Get start date of term
-            var startDate = "2016-09-12"
+        try {
+            if (data.timeText != "Online") {
+                //Get start date of term
+                var startDate = "2016-09-12"
 
-            //Get the title
-            var eventTitle = data.subject + data.catalogNumber;
-            var eventUrl = data.url;
-            var classNumber = data.classNumber;
+                //Get the title
+                var eventTitle = data.subject + data.catalogNumber;
+                var eventUrl = data.url;
+                var classNumber = data.classNumber;
 
-            //Get the time
-            var res = data.timeText.split(" ");
-            var days = res[0];
-            var start = res[1];
-            start = start.length == 4 ? "0" + start : start;
-            var end = res[3];
-            end = end.length == 4 ? "0" + end : end;
-            console.log(days);
-            console.log(start);
-            console.log(end);
+                //Get the time
+                var res = data.timeText.split(" ");
+                var days = res[0];
+                var start = res[1];
+                start = start.length == 4 ? "0" + start : start;
+                var end = res[3];
+                end = end.length == 4 ? "0" + end : end;
+                console.log(days);
+                console.log(start);
+                console.log(end);
 
-            var eventStart = $.fullCalendar.moment.utc(startDate + " " + start + ":00");
-            var eventEnd = $.fullCalendar.moment.utc(startDate + " " + end + ":00");
+                var eventStart = $.fullCalendar.moment.utc(startDate + " " + start + ":00");
+                var eventEnd = $.fullCalendar.moment.utc(startDate + " " + end + ":00");
 
-            //can probably do an array with underscore and check if its in
-            if (days == "M" || days == "MW" || days == "MWF") {
+                //can probably do an array with underscore and check if its in
+                if (days == "M" || days == "MW" || days == "MWF") {
 
-                //could probably make an object and set title and url as attr and make a method to add event
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                    //could probably make an object and set title and url as attr and make a method to add event
+                    addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
-                if (days == "MW" || days == "MWF") {
+                    if (days == "MW" || days == "MWF") {
 
-                    eventStart = eventStart.add(2, 'days');
-                    eventEnd = eventEnd.add(2, 'days');
+                        eventStart = eventStart.add(2, 'days');
+                        eventEnd = eventEnd.add(2, 'days');
+
+                        addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+
+                        if (days == "MWF") {
+                            eventStart = eventStart.add(2, 'days');
+                            eventEnd = eventEnd.add(2, 'days');
+
+                            addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                        }
+                    }
+                } else if (days == "T" || days == "TTh") {
+
+                    eventStart = eventStart.add(1, 'days');
+                    eventEnd = eventEnd.add(1, 'days');
 
                     addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
 
-                    if (days == "MWF") {
+                    if (days == "TTh") {
                         eventStart = eventStart.add(2, 'days');
                         eventEnd = eventEnd.add(2, 'days');
 
                         addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
                     }
-                }
-            } else if (days == "T" || days == "TTh") {
 
-                eventStart = eventStart.add(1, 'days');
-                eventEnd = eventEnd.add(1, 'days');
+                } else if (days == "W" || days == "WF") {
 
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
-
-                if (days == "TTh") {
                     eventStart = eventStart.add(2, 'days');
                     eventEnd = eventEnd.add(2, 'days');
 
                     addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
-                }
 
-            } else if (days == "W" || days == "WF") {
+                    if (days == "WF") {
+                        eventStart = eventStart.add(2, 'days');
+                        eventEnd = eventEnd.add(2, 'days');
 
-                eventStart = eventStart.add(2, 'days');
-                eventEnd = eventEnd.add(2, 'days');
+                        addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                    }
 
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
-
-                if (days == "WF") {
-                    eventStart = eventStart.add(2, 'days');
-                    eventEnd = eventEnd.add(2, 'days');
+                } else {
+                    eventStart = eventStart.add(3, 'days');
+                    eventEnd = eventEnd.add(3, 'days');
 
                     addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
                 }
-
             } else {
-                eventStart = eventStart.add(3, 'days');
-                eventEnd = eventEnd.add(3, 'days');
-
-                addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
+                //Should add to the bottom of the calendar?
+                self.onlineCourseCalendar.push(data);
             }
             successMsg(event.currentTarget, "Course successfully added to calendar!");
-        } else {
-            //Should add to the bottom of the calendar?
+        } catch (err) {
+            errorMsg(event.currentTarget, "Course could not be added :(");
         }
     }
 

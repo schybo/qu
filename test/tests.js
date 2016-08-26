@@ -233,7 +233,7 @@ describe('User searches on home page', function() {
     });
 
     it('with correct interior', function() {
-      browser.assert.element('.fc-view-container');
+      browser.assert.element('.fc-view-container')
     });
   });
 
@@ -440,6 +440,8 @@ describe('User searches on home page', function() {
     });
 
   });
+
+  //Should add tests here to make sure button functionality works
 
   //****************** FAQ Tests ********************//
 

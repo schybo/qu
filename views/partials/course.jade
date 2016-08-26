@@ -1,0 +1,16 @@
+mixin course(system)
+	.item.courseMatch
+		i.large.cube.middle.aligned.icon
+		.content
+			.right.floated.content.align-middle
+				span.success.green-text.space-right
+				span.error.red-text.space-right
+				if (system == 'calendar')
+					include ./courseActionsCalendar
+				else 
+					include ./courseActionsMain
+			a.inline.header(data-bind="attr: { href: $data.link, title: $data.titleText }, text: $data.titleText" target="_blank")
+			span &nbsp;-&nbsp;
+			span(data-bind="text: $data.full ? 'Full' : 'Open', css: { 'red-text': $data.full, 'green-text': !$data.full }")
+			.description(data-bind="text: $data.profLocationText")
+			.descriptionMW(data-bind="text: $data.timeText")

@@ -13,6 +13,7 @@ html
     include ./partials/subscriptionModal
     include ./partials/successModal
     include ./partials/failureModal
+    include ./partials/course
 
     
     .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
@@ -160,7 +161,7 @@ html
                 i.bullseye.icon
                 span.align-icon-text(data-bind="text: $parent.genreMatches()[$index()], attr: { id: 'resultsHeaderFor' + $parent.genreNames()[$index()] }")
               .ui.relaxed.divided.list(data-bind="foreach: $data")
-                include ./partials/courseActions.jade
+                +course("home")
               h4.ui.horizontal.divider.header(data-bind="ifnot: $data.length")
                 i.bullseye.icon
                 span.align-icon-text(data-bind="text: $parent.noMatches()[$index()], attr: { id: 'resultsHeaderFor' + $parent.genreNames()[$index()] }")
@@ -168,7 +169,11 @@ html
 
           //- The Calendar
           #courseCalendar.ui.bottom.attached.tab.segment
-            #calendar
+            #calendar  
+            #onlineCourseList
+              h3#onlineCourseHeader(data-bind="if: onlineCourseCalendar().length") Online Courses:
+              .ui.relaxed.divided.list(data-bind="foreach: onlineCourseCalendar")
+                +course("calendar")
 
   script(src='/vendor/jquery/dist/jquery.min.js')
   script(src='/vendor/knockout/dist/knockout.js')
