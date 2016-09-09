@@ -16,7 +16,7 @@ html
     include ./partials/course
 
     
-    .ui.four.column.centered.grid(style="display:none", data-bind="visible: true")
+    .ui.four.column.centered.grid.home(style="display:none", data-bind="visible: true")
       .sixteen.wide.column
         include ./partials/header
         .ui.main.container.medium-margin-top
@@ -173,6 +173,10 @@ html
             #onlineCourseList
               h3#onlineCourseHeader(data-bind="if: onlineCourseCalendar().length") Online Courses:
               .ui.relaxed.divided.list(data-bind="foreach: onlineCourseCalendar")
+                +course("calendar")
+            #abroadCourseList
+              h3#onlineCourseHeader(data-bind="if: abroadCourseCalendar().length") Abroad Courses:
+              .ui.relaxed.divided.list(data-bind="foreach: abroadCourseCalendar")
                 +course("calendar")
 
   script(src='/vendor/jquery/dist/jquery.min.js')

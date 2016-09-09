@@ -53,6 +53,7 @@ var ViewModel = function() {
     self.genreMatches = ko.observableArray();
     self.genreNames = ko.observableArray();
     self.onlineCourseCalendar = ko.observableArray();
+    self.abroadCourseCalendar = ko.observableArray();
     self.level = ko.observable('');
     self.professor = ko.observable('');
     self.timeRange = ko.observable(false);
@@ -244,7 +245,11 @@ var ViewModel = function() {
 
     self.remove = function(index, data, event) {
         gaSend('Calendar', 'remove', 'Remove course to calendar');
-        self.onlineCourseCalendar.splice(index, 1);
+        if (data.timeText == "Online") {
+            self.onlineCourseCalendar.splice(index, 1);
+        } else {
+            self.abroadCourseCalendar.splice(index, 1);
+        }
     }
 
     self.add = function(data, event) {
@@ -253,7 +258,7 @@ var ViewModel = function() {
         gaSend('Calendar', 'add', 'Add course to calendar');
 
         try {
-            if (data.timeText != "Online") {
+            if (data.timeText != "Online" && data.timeText != "Abroad") {
                 //Get start date of term
                 var startDate = "2016-09-12"
 
@@ -330,9 +335,11 @@ var ViewModel = function() {
 
                     addEvent(eventStart, eventEnd, eventTitle, eventUrl, classNumber);
                 }
-            } else {
+            } else if (data.timeText == "Online") {
                 //Should add to the bottom of the calendar?
                 self.onlineCourseCalendar.push(data);
+            } else {
+                self.abroadCourseCalendar.push(data);
             }
             successMsg(event.currentTarget, "Course successfully added to calendar!");
         } catch (err) {
