@@ -448,31 +448,34 @@ var ViewModel = function() {
     }
 
     self.submit = function () {
-        var form = $("#questForm");
-        var action = form.attr('action');
+        try {
+            var form = $("#questForm");
+            var action = form.attr('action');
 
-        //Get correct time depending
-        if (self.timeRange()) {
-            $('input[name="time"]').remove();
-            $('<input>').attr({'type': 'hidden', 'name': 'time'}).val(parseTime()).appendTo(form);
-        } else {
-            $('input[name="time"]').remove();
+            //Get correct time depending
+            if (self.timeRange()) {
+                $('input[name="time"]').remove();
+                $('<input>').attr({'type': 'hidden', 'name': 'time'}).val(parseTime()).appendTo(form);
+            } else {
+                $('input[name="time"]').remove();
+            }
+
+            $("form").addClass('loading');
+            $.post(action, $(form).serialize())
+            .done(function (data) {
+                gaSend('Search', 'submit', 'Search Courses');
+                $("form").removeClass('loading');
+                self.searched(true);
+                createCourseList(data);
+            })
+            .fail(function (data) {
+                gaSend('Search', 'submit', 'Search Courses Failed');
+                $("form").removeClass('loading');
+                errorMsg("#searchErrorMsg", "Search failed on the server. Please try again :(");
+            })
+        } catch (err) {
+            errorMsg("#searchErrorMsg", "Could not compute search. Please try again :(");
         }
-
-        $("form").addClass('loading');
-        $.post(action, $(form).serialize())
-        .done(function (data) {
-            gaSend('Search', 'submit', 'Search Courses');
-            $("form").removeClass('loading');
-            self.searched(true);
-            createCourseList(data);
-        })
-        .fail(function (data) {
-            gaSend('Search', 'submit', 'Search Courses Failed');
-            $("form").removeClass('loading');
-            //Should issue an error here
-            createCourseList(data);
-        })
     }
 };
 
