@@ -145,3 +145,51 @@ html, body {
     margin-top: 25px;
 }
 
+@media (max-width:767px) {
+	.introduction {
+		text-align: center;
+
+		.right {
+			position: static;
+		    width: 100%;
+		    margin-top: 35px;
+
+		    .status {
+		    	position: static;
+    			float: left;
+    			margin-left: 10px;
+		    }
+
+		    .header-link {
+		    	position: static;
+    			float: right;
+    			margin-right: 10px;
+		    }
+		}
+
+		a.image {
+			display: block;
+		    width: 100%;
+		    text-align: center;
+		    margin-bottom: 20px;
+		}
+	}
+
+	#courseSearch {
+		padding: 20px;
+
+		.right {
+			display: none;
+		}
+		.ui.relaxed.list:not(.horizontal)>.item {
+			padding-top: 1em;
+			padding-bottom: 1em;
+		}
+	}
+
+	.ui.main.container.medium-margin-top {
+		margin-top: 65px;
+	}
+
+}
+
