@@ -7,4 +7,6 @@ Just ping brent@scheibelhut.com on email to ask things you want to see here
 - Can't take with current classes that are on calendar? (mark as CONFLICT)
 - Moar Testssss
 - Add buttons to mobile experience
+- Check to show open courses only
+- Check to show only labs, tests, tutorials, etc.
 - Make immortal by putting all data in one file
