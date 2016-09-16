@@ -9,4 +9,5 @@ Just ping brent@scheibelhut.com on email to ask things you want to see here
 - Add buttons to mobile experience
 - Check to show open courses only
 - Check to show only labs, tests, tutorials, etc.
+- Remove title if no matches
 - Make immortal by putting all data in one file
