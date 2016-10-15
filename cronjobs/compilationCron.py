@@ -6,7 +6,7 @@ import tinys3
 s3conn = tinys3.Connection(os.environ['AWS_ACCESS_KEY'],os.environ['AWS_SECRET_KEY'],tls=True)
 bucket = os.environ['S3_BUCKET']
 
-from json import dumps
+from json import dumps, load
 from mailin import Mailin
 from uwaterlooapi import UWaterlooAPI
 # from dotenv import load_dotenv
@@ -36,6 +36,8 @@ subjects = uw.subject_codes()
 allTermInfo = uw.terms()
 terms = allTermInfo['listings']
 
+###### NOTE: ALL PATHS ARE FROM THE TOP LEVEL DIRECTORY AS THESE RUN ON HEROKU ########
+
 # Cronjob for current term courses
 @sched.scheduled_job('interval', hours=6)
 def generateCoursesForCurrentTerm():
@@ -49,10 +51,16 @@ def generateCoursesForCurrentTerm():
 				courseMatches.append(course)
 		# Write to the file
 		try:
-			f = open('data/' + term + '.json', 'r+')
-			f.write(dumps(courseMatches))
-			f.truncate()
-			f.close()
+			jsonFile = open('data/courses.json', 'r');
+			data = load(jsonFile);
+			jsonFile.close();
+
+			data[term] = courseMatches;
+
+			jsonFile = open('data/courses.json', 'w+');
+			jsonFile.write(dumps(data));
+			jsonFile.truncate();
+			jsonFile.close();
 		except Exception as e:
 			print e
 
@@ -75,10 +83,16 @@ def generateCoursesForAllTerms():
 					courseMatches.append(course)
 			# Write to the file
 			try:
-				f = open('data/' + term + '.json', 'r+')
-				f.write(dumps(courseMatches))
-				f.truncate()
-				f.close()
+				jsonFile = open('data/courses.json', 'r');
+				data = load(jsonFile);
+				jsonFile.close();
+
+				data[term] = courseMatches;
+
+				jsonFile = open('data/courses.json', 'w+');
+				jsonFile.write(dumps(data));
+				jsonFile.truncate();
+				jsonFile.close();
 			except Exception as e:
 				print e
 
