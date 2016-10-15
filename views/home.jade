@@ -149,6 +149,23 @@ html
                     input#professor(type="text" name="professor" placeholder="Ronald Kroeker" data-bind="value: professor")
                 .column.text-center
                   button#submit.ui.button(style="margin-top: 22px;" data-bind="click: function () { submit() }") Search
+                .column.text-center
+                  .field.toggle
+                    .ui.toggle.checkbox
+                      input(type="checkbox" name="courses" value="courses" checked)
+                      label Courses
+                  .field.toggle
+                    .ui.toggle.checkbox
+                      input(type="checkbox" name="labs" value="labs" checked)
+                      label Labs
+                  .field.toggle
+                    .ui.toggle.checkbox
+                      input(type="checkbox" name="tutorials" value="tutorials" checked)
+                      label Tutorials
+                  .field.toggle
+                    .ui.toggle.checkbox
+                      input(type="checkbox" name="tests" value="tests" checked)
+                      label Tests
 
             .ui.container.medium-margin-top(data-bind="ifnot: searched()")
               h4.ui.horizontal.divider.header
