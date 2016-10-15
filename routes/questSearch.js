@@ -37,7 +37,9 @@ exports = module.exports = function(req, res) {
 	var options = req.body;
 	winston.log('info', 'SEARCH OPTIONS', options);
 
-	var data = require('../data/' + options.term + '.json');
+	// var data = require('../data/' + options.term + '.json');
+	var data = require('../data/courses.json');
+	data = data[options.term];
 	var returnData = data;
 	var onlineCourse = false;
 	var start_time = '';

@@ -1,5 +1,5 @@
 import os
-from json import dumps
+from json import dumps, load
 from uwaterlooapi import UWaterlooAPI
 from dotenv import load_dotenv
 
@@ -20,12 +20,22 @@ terms = allTermInfo['listings']
 print terms
 for year in terms:
 	for term in terms[year]:
-		term = str(term['id'])
-		print term
-		courseMatches = []
-		for subject in subjects:
-			courses = uw.term_subject_schedule(term, subject['subject'])
-			for course in courses:
-				courseMatches.append(course)
-		f = open('../data/' + term + '.json', 'w')
-		f.write(dumps(courseMatches))
+		if (term['id'] == allTermInfo['next_term']):
+			term = str(term['id'])
+			print term
+			courseMatches = []
+			for subject in subjects:
+				courses = uw.term_subject_schedule(term, subject['subject'])
+				for course in courses:
+					courseMatches.append(course)
+			
+			jsonFile = open('../data/courses.json', 'r');
+			data = load(jsonFile);
+			jsonFile.close();
+
+			data[term] = courseMatches;
+
+			jsonFile = open('../data/courses.json', 'w+');
+			jsonFile.write(dumps(data));
+			jsonFile.truncate();
+			jsonFile.close();
