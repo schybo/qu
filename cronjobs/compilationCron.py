@@ -39,7 +39,7 @@ terms = allTermInfo['listings']
 ###### NOTE: ALL PATHS ARE FROM THE TOP LEVEL DIRECTORY AS THESE RUN ON HEROKU ########
 
 # Cronjob for current term courses
-@sched.scheduled_job('interval', hours=6)
+@sched.scheduled_job('interval', hour=6)
 def generateCoursesForCurrentTerm():
 	print "Generating courses for current and next term"
 	terms = [str(allTermInfo['current_term']), str(allTermInfo['next_term'])]
