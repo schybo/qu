@@ -42,6 +42,8 @@ exports = module.exports = function(req, res) {
 	data = data[options.term];
 	var returnData = data;
 	var onlineCourse = false;
+	var waterlooCampus = 'UW U';
+	var collegeCampuses = ['STJ J', 'CGC G', 'STP P', 'REN R'];
 	var start_time = '';
 	var end_time = '';
 	var subjects = options.subjects.split(',');
@@ -60,7 +62,11 @@ exports = module.exports = function(req, res) {
 	//Filter by campus
 	if (options.campus) {
 		returnData = _.filter(data, function (course) {
-			return course.campus == options.campus;
+			if (options.campus == waterlooCampus) {
+				return (course.campus == waterlooCampus) ? true : _.includes(collegeCampuses, course.campus);
+			} else {
+				return course.campus == options.campus;
+			}
 		});
 	}
 	winston.log('silly', 'AFTER CAMPUS FILTER', returnData);
