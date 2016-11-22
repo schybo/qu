@@ -39,10 +39,10 @@ terms = allTermInfo['listings']
 ###### NOTE: ALL PATHS ARE FROM THE TOP LEVEL DIRECTORY AS THESE RUN ON HEROKU ########
 
 # Cronjob for current term courses
-@sched.scheduled_job('interval', minutes=4)
+@sched.scheduled_job('interval', minutes=290)
 def generateCoursesForCurrentTerm():
-	print "Generating courses for current and next term"
-	terms = [str(allTermInfo['current_term']), str(allTermInfo['next_term'])]
+	print "Generating courses for current term"
+	terms = [str(allTermInfo['current_term'])]
 	for term in terms:
 		courseMatches = []
 		for subject in subjects:
@@ -67,7 +67,38 @@ def generateCoursesForCurrentTerm():
 	# f = open(term + '.json', 'rb')
 	# s3conn.upload(term + '.json',f,bucket)
 	# s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
-	print "Finished generating courses for current and next term"
+	print "Finished generating courses for current term"
+
+# Cronjob for current term courses
+@sched.scheduled_job('interval', minutes=300)
+def generateCoursesForNextTerm():
+	print "Generating courses for next term"
+	terms = [str(allTermInfo['next_term'])]
+	for term in terms:
+		courseMatches = []
+		for subject in subjects:
+			courses = uw.term_subject_schedule(term, subject['subject'])
+			for course in courses:
+				courseMatches.append(course)
+		# Write to the file
+		try:
+			jsonFile = open('data/courses.json', 'r');
+			data = load(jsonFile);
+			jsonFile.close();
+
+			data[term] = courseMatches;
+
+			jsonFile = open('data/courses.json', 'w+');
+			jsonFile.write(dumps(data));
+			jsonFile.truncate();
+			jsonFile.close();
+		except Exception as e:
+			print e
+
+	# f = open(term + '.json', 'rb')
+	# s3conn.upload(term + '.json',f,bucket)
+	# s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
+	print "Finished generating courses for next term"
 
 # Cronjob for all terms courses
 @sched.scheduled_job('cron', day_of_week='sun', hour=17)
@@ -179,5 +210,6 @@ def generateEmails():
 # generateSubjects()
 # generateTerms()
 # generateCoursesForCurrentTerm()
+# generateCoursesForNextTerm()
 # generateCoursesForAllTerms()
 sched.start()
