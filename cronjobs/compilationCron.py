@@ -1,4 +1,5 @@
 import os
+import gc
 import psycopg2
 import urlparse
 import tinys3
@@ -68,6 +69,7 @@ def generateCoursesForCurrentTerm():
 	# s3conn.upload(term + '.json',f,bucket)
 	# s3conn.update_metadata(term + '.json',bucket=bucket,public=True)
 	print "Finished generating courses for current term"
+	gc.collect()
 
 # Cronjob for current term courses
 @sched.scheduled_job('interval', minutes=300)
